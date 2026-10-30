@@ -1,0 +1,1 @@
+document.querySelectorAll('.wa').forEach(a=>{a.href='https://wa.me/6285117557133?text='+encodeURIComponent(a.dataset.msg||'Halo Seiton.id, saya ingin konsultasi.');a.target='_blank'});
