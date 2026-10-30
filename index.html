@@ -135,12 +135,160 @@
  .values{flex-wrap:wrap}
 }
 
+
+/* SIGNATURE REDESIGN — Seiton */
+:root{--ink:#202a38;--orange:#ff6b35;--bone:#f5f3ee;--muted:#6d7580;--line:#e6e5e1}
+body{background:#fff;color:var(--ink);font-feature-settings:"ss01" on}
+.header{height:82px;background:#fbfaf7ed;border-bottom:1px solid #e9e6df}
+.header .logo img{width:205px}
+.links{gap:30px;font-size:11px}
+.links a:not(.btn){position:relative}
+.links a:not(.btn):after{content:"";position:absolute;left:0;right:100%;bottom:-7px;height:2px;background:var(--orange);transition:right .2s}
+.links a:not(.btn):hover:after{right:0}
+.btn{border-radius:6px;padding:14px 20px;letter-spacing:.1px;box-shadow:0 8px 22px #ff6b3526}
+.hero-premium{background:var(--bone);color:var(--ink);padding:76px 0 72px;overflow:hidden;position:relative;isolation:isolate}
+.hero-premium:before{content:"";position:absolute;z-index:-1;width:700px;height:700px;right:-270px;top:-270px;background:radial-gradient(circle,#ffb08e50 0%,#ffb08e00 68%);border-radius:50%}
+.hero-premium:after{display:none}
+.hero-premium .hero-grid{grid-template-columns:1fr 1.02fr;gap:34px;min-height:560px}
+.hero-premium .eyebrow{display:flex;align-items:center;gap:10px;color:#d65c32;font-size:9px;letter-spacing:2.2px}
+.eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 5px #ff6b351c}
+.hero-premium h1{font-size:clamp(48px,5.4vw,70px);letter-spacing:-3.8px;line-height:1.08;color:var(--ink);max-width:620px;margin:0 0 24px}
+.hero-premium h1 span{color:var(--orange)}
+.hero-premium .lead{color:#626c79;font-size:13px;line-height:2;max-width:500px}
+.hero-premium .under{color:var(--ink);border:0;font-size:11px}
+.hero-premium .under span{color:var(--orange);margin-left:5px}
+.hero-premium .actions{gap:25px;margin-top:30px}
+.hero-proof{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:32px;color:#727b86;font-size:9px;font-weight:500}
+.proof-mark{display:grid;place-items:center;width:18px;height:18px;background:#e2eee4;color:#34724b;border-radius:50%;font-size:10px}
+.hero-proof i{height:3px;width:3px;background:#c1c2c0;border-radius:50%;margin:0 4px}
+.hero-art{position:relative;min-height:500px;display:grid;place-items:center}
+.art-orbit{position:absolute;border:1px solid #e8d9cc;border-radius:50%;transform:rotate(-24deg)}
+.orbit-one{width:480px;height:340px}.orbit-two{width:390px;height:470px;transform:rotate(28deg);border-color:#eadfd5}
+.hero-device{z-index:1;position:relative;width:min(350px,82%);background:#fff;border:7px solid #263140;border-radius:24px;padding:13px;box-shadow:0 30px 70px #26314030;transform:rotate(3deg)}
+.device-head{display:flex;justify-content:space-between;align-items:center;padding:4px 4px 12px;font-size:9px;color:#7a8490}
+.device-brand{font-weight:800;color:var(--ink);letter-spacing:-.4px}.device-brand i{display:inline-block;width:8px;height:8px;background:var(--orange);border-radius:2px;margin-right:5px}.device-brand span{color:var(--orange)}
+.device-dots{letter-spacing:2px}
+.device-cover{min-height:150px;padding:18px;border-radius:12px;background:linear-gradient(130deg,#263140 0%,#34465a 100%);color:#fff;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.device-cover:after{content:"";position:absolute;width:160px;height:160px;right:-45px;bottom:-75px;border:1px solid #ffffff25;border-radius:50%;box-shadow:0 0 0 20px #ffffff08,0 0 0 40px #ffffff05}
+.cover-kicker{font-size:7px;letter-spacing:1.5px;color:#ffb08e;margin-bottom:10px}
+.device-cover>b{font-size:21px;line-height:1.18;letter-spacing:-.7px}
+.device-cover>span{font-size:8px;color:#d3d9df;margin-top:8px}
+.device-content{padding:15px 3px 3px}
+.device-section{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.device-section b{font-size:11px}.device-section span{font-size:7px;color:var(--orange)}
+.device-product{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0efec}
+.product-thumb{width:49px;height:45px;border-radius:8px;display:grid;place-items:center;font-size:23px}
+.thumb-one{background:#f3e4d5}.thumb-two{background:#e5eee8}
+.device-product>div:nth-child(2){flex:1}.device-product b,.device-product small,.device-product strong{display:block}.device-product b{font-size:9px}.device-product small{font-size:7px;color:#8c949d}.device-product strong{font-size:8px;margin-top:3px}.device-product em{font-style:normal;color:var(--orange);font-weight:700;background:#fff0e9;border-radius:6px;padding:3px 7px}
+.device-order{margin-top:12px;background:var(--orange);border-radius:7px;padding:11px;color:white;text-align:center;font-size:8px;font-weight:700}.device-order b{margin-left:8px}
+.art-note{position:absolute;z-index:2;display:flex;align-items:center;gap:10px;background:#fff;padding:12px 15px;border:1px solid #ebe8e2;border-radius:9px;box-shadow:0 13px 35px #202a3814}
+.art-note b,.art-note small{display:block}.art-note b{font-size:9px}.art-note small{font-size:7px;color:#8a929c;margin-top:2px}
+.note-icon,.note-check{display:grid;place-items:center;width:29px;height:29px;border-radius:8px;background:#fff0e9;color:var(--orange);font-size:15px}
+.note-top{top:65px;right:-5px}.note-bottom{bottom:52px;left:-10px}.note-check{background:#e8f2e9;color:#39764d}
+.art-caption{position:absolute;right:0;bottom:4px;color:#9a9b96;font-size:7px;letter-spacing:1.5px}
+.hero-bottomline{position:absolute;bottom:0;left:0;right:0;border-top:1px solid #e4ded5}
+.hero-bottomline .wrap{display:flex;justify-content:space-between;padding:13px 0;color:#9a958e;font-size:7px;letter-spacing:1.6px;font-weight:700}
+.strip{padding:25px 0;background:#fff;border-bottom:1px solid var(--line)}
+.strip-in{justify-content:space-between}
+.strip span{flex-basis:auto;color:var(--orange);font-size:8px}
+.strip b{font-size:10px;color:#596271}
+.section{padding:105px 0}
+.section h2{font-size:clamp(31px,3.4vw,45px);line-height:1.18;letter-spacing:-2px}
+.section .eyebrow{color:#d65c32}
+.cards{gap:14px}
+.card{border-radius:10px;border-color:#eae8e3;padding:25px;background:#fff}
+.card:hover,.service:hover,.portfolio:hover{transform:translateY(-4px);box-shadow:0 18px 38px #202a3812;border-color:#ffc3aa}
+.card h3{font-size:13px}
+.services{background:#f5f3ee}
+.service{border-radius:10px;padding:28px;min-height:340px}
+.service.feature{background:#263140;color:#fff;border-color:#263140}
+.service.feature p,.service.feature li{color:#d0d5db}
+.service.feature a{color:#ff956f}
+.service.feature .number{color:#ff956f}
+.service h3{font-size:20px;letter-spacing:-.5px}
+.portfolio{border-radius:10px}
+.preview{height:250px}
+.portfolio-grid{gap:18px}
+.portfolio h3{font-size:15px}
+.portfolio>p{font-size:10px;line-height:1.8}
+.process{background:#202a38}
+.process .heading h2{color:#fff}
+.step{padding-top:23px}
+.step h3{font-size:14px}
+.step p{font-size:10px;max-width:210px}
+.step span{background:#ff6b3520}
+.aboutmark{background:var(--bone);border:0;border-radius:12px}
+.faq{background:#f5f3ee}
+.faq details{padding:20px 0}
+.faq summary{font-size:12px}
+.cta{background:#202a38;padding:88px 0}
+.cta:before,.cta:after{border-color:#ffffff18}
+.cta h2{font-size:clamp(32px,4vw,48px);letter-spacing:-1.8px}
+.cta p{color:#c7cdd4;font-size:12px}
+.cta .eyebrow{color:#ff956f}
+.cta .light{background:var(--orange);color:#fff;border:0}
+.footer{background:#151d28}
+@media(max-width:900px){.hero-premium .hero-grid{gap:15px}.hero-premium h1{font-size:clamp(43px,6vw,58px)}.note-top{right:0}.note-bottom{left:0}.art-orbit{width:90%}}
+@media(max-width:700px){
+ .header{height:70px}.header .logo img{width:156px}
+ .hero-premium{padding:53px 0 65px}
+ .hero-premium .hero-grid{grid-template-columns:1fr;gap:25px;min-height:0}
+ .hero-premium h1{font-size:clamp(43px,11vw,57px);letter-spacing:-2.8px}
+ .hero-premium .lead{font-size:12px}
+ .hero-proof{margin-top:22px;gap:7px;font-size:8px}
+ .hero-art{min-height:440px;margin:0 -5px}
+ .hero-device{width:min(330px,78%);transform:rotate(2deg)}
+ .note-top{top:28px;right:-1px}.note-bottom{bottom:30px;left:-2px}
+ .art-caption{bottom:0;right:8px}
+ .hero-bottomline .wrap{font-size:6px;letter-spacing:1px}
+ .strip-in{gap:12px 18px}.strip span{flex-basis:100%}
+ .section{padding:70px 0}
+ .service.feature{order:-1}
+ .preview{height:225px}
+ .cta{padding:65px 0}
+}
+@media(max-width:390px){
+ .hero-premium h1{font-size:42px}
+ .hero-art{min-height:410px}
+ .hero-device{width:78%;padding:10px;border-width:6px}
+ .note-top{right:-4px}.note-bottom{left:-4px}
+ .art-note{padding:9px 10px}
+ .hero-proof i{display:none}
+ .hero-bottomline .wrap span:nth-child(2){display:none}
+}
+@media(prefers-reduced-motion:reduce){.art-note,.hero-device{transition:none}}
+
 </style>
 </head>
 <body>
 <header class="header"><div class="wrap nav"><a class="logo" href="#home" aria-label="Seiton.id — Beranda"><img src="/logo-horizontal.png" alt="Seiton.id"></a><button class="menu" aria-label="Buka menu" aria-expanded="false">☰</button><nav class="links"><a href="#layanan">Layanan</a><a href="#portofolio">Portofolio</a><a href="#alur">Cara kerja</a><a href="#tentang">Tentang</a><a class="btn wa" data-msg="Halo Seiton.id, saya ingin konsultasi tentang usaha saya.">Konsultasi gratis ↗</a></nav></div></header>
 <main>
-<section class="hero" id="home"><div class="wrap hero-grid"><div><p class="eyebrow">PENATAAN DIGITAL UNTUK USAHA KECIL</p><h1>Tata usahamu,<br><span>mudahkan pelanggan.</span></h1><p class="lead">Kami membantu warung, toko kecil, dan usaha rumahan menata informasi produk agar lebih jelas, mudah dilihat, dan praktis dipesan.</p><div class="actions"><a class="btn wa" data-msg="Halo Seiton.id, saya ingin konsultasi gratis tentang usaha saya.">Mulai konsultasi ↗</a><a class="under" href="#layanan">Lihat layanan ↓</a></div><p class="hint">Konsultasi awal gratis dan tanpa kewajiban membeli.</p></div><div><div class="mock"><div class="mock-top"><span>● ● ●</span><span>etalase-usaha</span><span>•••</span></div><div class="shop"><div class="avatar">S</div><div><b>Etalase Usaha</b><small>Menu dan produk</small></div><span class="available">● Tersedia</span></div><div class="search">⌕ &nbsp; Cari produk...</div><div class="item"><span class="food">☕</span><span><b>Kopi Susu</b><small>Minuman favorit</small><strong>Rp18.000</strong></span><span class="plus">+</span></div><div class="item"><span class="food">🍞</span><span><b>Roti Panggang</b><small>Hangat dan praktis</small><strong>Rp15.000</strong></span><span class="plus">+</span></div><div class="item"><span class="food">🍰</span><span><b>Slice Cake</b><small>Manis untuk jeda</small><strong>Rp22.000</strong></span><span class="plus">+</span></div><div class="mock-cta">Pesan melalui WhatsApp ↗</div></div><div class="mock-caption">Ilustrasi tampilan, bukan proyek klien.</div></div></div></section>
+<section class="hero hero-premium" id="home">
+ <div class="wrap hero-grid">
+  <div class="hero-copy">
+   <p class="eyebrow"><span class="eyebrow-dot"></span> DIGITAL ORDER, MADE CLEAR</p>
+   <h1>Usahamu punya cerita. <span>Biar pelanggan mudah menemukannya.</span></h1>
+   <p class="lead">Seiton membantu usaha lokal menata katalog, menu, dan informasi usaha menjadi pengalaman digital yang lebih jelas—supaya pelanggan tahu apa yang kamu tawarkan dan bagaimana cara memesannya.</p>
+   <div class="actions"><a class="btn wa" data-msg="Halo Seiton.id, saya ingin konsultasi gratis tentang usaha saya.">Konsultasi gratis <b>↗</b></a><a class="under" href="#portofolio">Jelajahi contoh hasil <span>↓</span></a></div>
+   <div class="hero-proof"><span class="proof-mark">✓</span><span>Dimulai dari kebutuhan usahamu</span><i></i><span>Tanpa harus langsung punya website</span></div>
+  </div>
+  <div class="hero-art">
+   <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+   <div class="art-note note-top"><span class="note-icon">✳</span><span><b>Lebih tertata</b><small>Informasi mudah ditemukan</small></span></div>
+   <div class="hero-device">
+    <div class="device-head"><span class="device-brand"><i></i> etalase<span>.usaha</span></span><span class="device-dots">•••</span></div>
+    <div class="device-cover"><div class="cover-kicker">HOMEMADE · FRESH DAILY</div><b>Rasa rumahan,<br>selalu dirindukan.</b><span>Kenali menu favorit kami</span></div>
+    <div class="device-content"><div class="device-section"><b>Menu pilihan</b><span>Lihat semua ↗</span></div>
+     <div class="device-product"><div class="product-thumb thumb-one">🍱</div><div><b>Nasi Ayam Bakar</b><small>Menu favorit · siap santap</small><strong>Rp20.000</strong></div><em>+</em></div>
+     <div class="device-product"><div class="product-thumb thumb-two">🥤</div><div><b>Es Teh Lemon</b><small>Segar setiap hari</small><strong>Rp8.000</strong></div><em>+</em></div>
+     <div class="device-order">Pesan lewat WhatsApp <b>↗</b></div>
+    </div>
+   </div>
+   <div class="art-note note-bottom"><span class="note-check">✓</span><span><b>Pesan lebih praktis</b><small>Satu tombol menuju WhatsApp</small></span></div>
+   <div class="art-caption">CONTOH TAMPILAN KATALOG DIGITAL</div>
+  </div>
+ </div>
+ <div class="hero-bottomline"><div class="wrap"><span>SEITON.ID</span><span>MENATA INFORMASI · MEMUDAHKAN PEMESANAN</span><span>01 / 04</span></div></div>
+</section>
 <div class="strip"><div class="wrap strip-in"><span>DIRANCANG UNTUK USAHA LOKAL</span><b>Warung makan</b><b>Toko kecil</b><b>Usaha rumahan</b><b>Jasa lokal</b></div></div>
 <section class="section"><div class="wrap"><div class="two"><div><p class="eyebrow">KENAPA PERLU DITATA?</p><h2>Informasi usaha yang jelas membuat pelanggan lebih mudah memilih.</h2></div><div class="copy"><p>Menu dikirim berulang kali. Harga sulit ditemukan. Foto produk tercecer di chat. Hal-hal kecil ini bisa membuat pelanggan perlu bertanya lebih banyak sebelum memesan.</p><p>Seiton.id membantu menyusun informasi usaha ke tempat yang lebih mudah diakses—mulai dari katalog WhatsApp sampai website katalog sederhana.</p></div></div><div class="cards"><article class="card"><span class="ico">↻</span><h3>Pertanyaan berulang</h3><p>Menu, harga, dan jam operasional sering ditanyakan lewat chat.</p></article><article class="card"><span class="ico">▦</span><h3>Informasi terpencar</h3><p>Foto, daftar produk, dan detail usaha belum tersusun di satu tempat.</p></article><article class="card"><span class="ico">⌕</span><h3>Sulit dibagikan</h3><p>Pelanggan belum punya satu tautan praktis untuk melihat pilihan produk.</p></article></div></div></section>
 <section class="section services" id="layanan"><div class="wrap"><div class="heading"><div><p class="eyebrow">LAYANAN SEITON.ID</p><h2>Mulai dari kebutuhan yang paling penting.</h2></div><p>Tidak harus langsung punya semuanya. Kita pilih penataan yang sesuai dengan kondisi usahamu.</p></div><div class="cards"><article class="service feature"><span class="number">01 · PAKET UTAMA</span><h3>Paket Etalase</h3><p>Penataan dasar agar pelanggan lebih mudah melihat informasi usaha.</p><ul><li>Katalog WhatsApp Business</li><li>Menu atau katalog QR</li><li>Google Business Profile</li></ul><a class="wa" data-msg="Halo Seiton.id, saya ingin tahu tentang Paket Etalase.">Tanyakan Paket Etalase ↗</a></article><article class="service"><span class="number">02 · KATALOG ONLINE</span><h3>Website Katalog</h3><p>Halaman katalog sederhana yang bisa dibagikan melalui satu tautan.</p><ul><li>Informasi dan daftar produk</li><li>Tampilan nyaman di HP</li><li>Tombol pesan ke WhatsApp</li></ul><a class="wa" data-msg="Halo Seiton.id, saya ingin konsultasi Website Katalog.">Tanyakan Website Katalog ↗</a></article><article class="service"><span class="number">03 · PERANGKAT KERJA</span><h3>Paket Template</h3><p>Template sederhana untuk membantu aktivitas administrasi harian.</p><ul><li>Template balasan cepat</li><li>Template pencatatan di Sheets</li><li>Panduan penggunaan</li></ul><a class="wa" data-msg="Halo Seiton.id, saya ingin tahu tentang Paket Template.">Tanyakan Paket Template ↗</a></article></div><p class="footnote">Ruang lingkup, biaya, dan waktu pengerjaan disepakati setelah kebutuhan usaha dipahami. Tidak ada janji kenaikan omzet atau peringkat pencarian.</p></div></section>
