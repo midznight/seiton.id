@@ -61,6 +61,80 @@
 }
 @media(prefers-reduced-motion:reduce){.card,.service,.portfolio{transition:none}}
 
+
+/* Mobile polish + portfolio detail */
+.portfolio{display:flex;flex-direction:column;min-width:0}
+.portfolio>p{min-height:54px}
+.portfolio-tags{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 18px;margin-top:auto}
+.portfolio-tags span{font-size:8px;font-weight:600;color:#667080;background:#f3f4f6;border:1px solid #e8e9ec;border-radius:30px;padding:5px 9px}
+.preview{position:relative;overflow:hidden}
+.preview:after{content:"";position:absolute;inset:12px;border:1px solid #ffffff70;border-radius:12px;pointer-events:none}
+.phone,.catalogbox,.profilebox{position:relative;z-index:1}
+.phone{width:145px;padding:13px;border:1px solid #f0f0f0}
+.phone .plate{height:68px}
+.catalogbox{max-width:300px;border:1px solid #edf0f2}
+.profilebox{width:190px;border:1px solid #edf0f2}
+.profilebox p{font-size:7px;color:#687282;margin:8px 0 0}
+@media(max-width:700px){
+ .header{height:70px}
+ .header .logo img{width:156px}
+ .nav{gap:8px}
+ .menu{width:40px;height:40px;display:grid;place-items:center;border-radius:9px;color:var(--ink);background:#f4f5f6;cursor:pointer}
+ .links{top:69px;left:17px;right:17px;border:1px solid #eceef0;border-radius:12px;padding:18px;gap:17px}
+ .links .btn{width:100%;justify-content:center}
+ .hero{padding:58px 0 52px}
+ .hero-grid{gap:34px}
+ .hero h1{font-size:clamp(40px,10.5vw,52px);line-height:1.1;letter-spacing:-2.3px}
+ .actions{gap:15px;flex-wrap:wrap}
+ .actions .btn{min-height:46px}
+ .mock{width:100%;padding:16px;border-radius:14px}
+ .mock:before{inset:-6px}
+ .strip{padding:17px 0}
+ .strip-in{justify-content:flex-start;column-gap:18px;row-gap:9px}
+ .strip span{flex-basis:100%;font-size:8px}
+ .strip b{font-size:9px}
+ .section{padding:66px 0}
+ .two{gap:16px}
+ .cards{grid-template-columns:1fr;gap:12px;margin-top:25px}
+ .card{display:grid;grid-template-columns:44px 1fr;column-gap:13px;align-items:center;padding:18px}
+ .card .ico{grid-row:span 2}
+ .card h3{margin:0 0 3px}
+ .card p{grid-column:2}
+ .heading{margin-bottom:22px}
+ .heading>p{font-size:11px;line-height:1.8}
+ .service{padding:22px;min-height:0}
+ .service h3{font-size:17px}
+ .portfolio-grid{grid-template-columns:1fr;gap:15px}
+ .portfolio{display:grid;grid-template-columns:1fr}
+ .preview{height:220px}
+ .portfolio>p{min-height:0;margin-bottom:12px}
+ .portfolio-tags{padding-bottom:16px}
+ .steps{gap:14px}
+ .step{padding-top:15px}
+ .step h3{font-size:12px}
+ .step p{font-size:9px}
+ .about{gap:22px}
+ .aboutmark{min-height:175px}
+ .about-mark-image{width:118px;height:118px}
+ .faqgrid{gap:20px}
+ .faq details{padding:15px 0}
+ .cta{padding:54px 0}
+ .cta h2{font-size:31px;line-height:1.2}
+ .footrow{align-items:flex-start}
+ .footer .logo img{width:155px}
+ .socials{gap:10px 14px}
+}
+@media(max-width:390px){
+ .wrap{width:calc(100% - 28px)}
+ .header .logo img{width:145px}
+ .hero h1{font-size:40px}
+ .actions{align-items:flex-start;flex-direction:column;gap:14px}
+ .mock{padding:13px}
+ .food{width:42px;height:42px}
+ .steps{grid-template-columns:1fr 1fr}
+ .values{flex-wrap:wrap}
+}
+
 </style>
 </head>
 <body>
@@ -70,7 +144,7 @@
 <div class="strip"><div class="wrap strip-in"><span>DIRANCANG UNTUK USAHA LOKAL</span><b>Warung makan</b><b>Toko kecil</b><b>Usaha rumahan</b><b>Jasa lokal</b></div></div>
 <section class="section"><div class="wrap"><div class="two"><div><p class="eyebrow">KENAPA PERLU DITATA?</p><h2>Informasi usaha yang jelas membuat pelanggan lebih mudah memilih.</h2></div><div class="copy"><p>Menu dikirim berulang kali. Harga sulit ditemukan. Foto produk tercecer di chat. Hal-hal kecil ini bisa membuat pelanggan perlu bertanya lebih banyak sebelum memesan.</p><p>Seiton.id membantu menyusun informasi usaha ke tempat yang lebih mudah diakses—mulai dari katalog WhatsApp sampai website katalog sederhana.</p></div></div><div class="cards"><article class="card"><span class="ico">↻</span><h3>Pertanyaan berulang</h3><p>Menu, harga, dan jam operasional sering ditanyakan lewat chat.</p></article><article class="card"><span class="ico">▦</span><h3>Informasi terpencar</h3><p>Foto, daftar produk, dan detail usaha belum tersusun di satu tempat.</p></article><article class="card"><span class="ico">⌕</span><h3>Sulit dibagikan</h3><p>Pelanggan belum punya satu tautan praktis untuk melihat pilihan produk.</p></article></div></div></section>
 <section class="section services" id="layanan"><div class="wrap"><div class="heading"><div><p class="eyebrow">LAYANAN SEITON.ID</p><h2>Mulai dari kebutuhan yang paling penting.</h2></div><p>Tidak harus langsung punya semuanya. Kita pilih penataan yang sesuai dengan kondisi usahamu.</p></div><div class="cards"><article class="service feature"><span class="number">01 · PAKET UTAMA</span><h3>Paket Etalase</h3><p>Penataan dasar agar pelanggan lebih mudah melihat informasi usaha.</p><ul><li>Katalog WhatsApp Business</li><li>Menu atau katalog QR</li><li>Google Business Profile</li></ul><a class="wa" data-msg="Halo Seiton.id, saya ingin tahu tentang Paket Etalase.">Tanyakan Paket Etalase ↗</a></article><article class="service"><span class="number">02 · KATALOG ONLINE</span><h3>Website Katalog</h3><p>Halaman katalog sederhana yang bisa dibagikan melalui satu tautan.</p><ul><li>Informasi dan daftar produk</li><li>Tampilan nyaman di HP</li><li>Tombol pesan ke WhatsApp</li></ul><a class="wa" data-msg="Halo Seiton.id, saya ingin konsultasi Website Katalog.">Tanyakan Website Katalog ↗</a></article><article class="service"><span class="number">03 · PERANGKAT KERJA</span><h3>Paket Template</h3><p>Template sederhana untuk membantu aktivitas administrasi harian.</p><ul><li>Template balasan cepat</li><li>Template pencatatan di Sheets</li><li>Panduan penggunaan</li></ul><a class="wa" data-msg="Halo Seiton.id, saya ingin tahu tentang Paket Template.">Tanyakan Paket Template ↗</a></article></div><p class="footnote">Ruang lingkup, biaya, dan waktu pengerjaan disepakati setelah kebutuhan usaha dipahami. Tidak ada janji kenaikan omzet atau peringkat pencarian.</p></div></section>
-<section class="section" id="portofolio"><div class="wrap"><div class="heading"><div><p class="eyebrow">CONTOH TAMPILAN</p><h2>Lihat seperti apa hasil penataannya.</h2></div><p>Contoh berikut adalah ilustrasi konsep, bukan dokumentasi pekerjaan klien.</p></div><div class="portfolio-grid"><article class="portfolio"><div class="preview"><div class="phone"><b>MENU HARI INI</b><div class="plate">🍛</div><b>Nasi Ayam Bakar</b><small>Menu utama · Rp20.000</small><div class="plate">🥤</div><b>Es Teh</b><small>Minuman · Rp5.000</small></div></div><div class="label">ILUSTRASI KONSEP</div><h3>Menu digital</h3><p>Daftar menu yang ringkas dan mudah dibuka melalui ponsel.</p></article><article class="portfolio"><div class="preview catalog"><div class="catalogbox"><b>KATALOG PRODUK</b><div class="rowitem"><span>🧴 Produk A</span><b>Rp25 rb</b></div><div class="rowitem"><span>🧼 Produk B</span><b>Rp18 rb</b></div><div class="rowitem"><span>🪴 Produk C</span><b>Rp30 rb</b></div></div></div><div class="label">ILUSTRASI KONSEP</div><h3>Katalog produk</h3><p>Informasi produk disusun konsisten: foto, nama, keterangan, dan harga.</p></article><article class="portfolio"><div class="preview profile"><div class="profilebox"><div class="cover"></div><b>Usaha Lokal</b><small>Warung makan · Banyuwangi</small><p>Menu terstruktur · Lokasi mudah dicari</p></div></div><div class="label">ILUSTRASI KONSEP</div><h3>Profil usaha</h3><p>Detail usaha dirapikan agar pelanggan mendapat informasi yang dibutuhkan.</p></article></div><div class="notice"><b>Transparansi portofolio.</b> Dokumentasi proyek nyata, cerita proses, dan testimoni hanya akan ditampilkan setelah pekerjaan selesai serta mendapat izin tertulis dari pemilik usaha.</div></div></section>
+<section class="section" id="portofolio"><div class="wrap"><div class="heading"><div><p class="eyebrow">CONTOH TAMPILAN</p><h2>Lihat seperti apa hasil penataannya.</h2></div><p>Contoh berikut adalah ilustrasi konsep, bukan dokumentasi pekerjaan klien.</p></div><div class="portfolio-grid"><article class="portfolio"><div class="preview"><div class="phone"><b>MENU HARI INI</b><div class="plate">🍛</div><b>Nasi Ayam Bakar</b><small>Menu utama · Rp20.000</small><div class="plate">🥤</div><b>Es Teh</b><small>Minuman · Rp5.000</small></div></div><div class="label">ILUSTRASI KONSEP</div><h3>Menu digital</h3><p>Daftar menu yang ringkas dan mudah dibuka melalui ponsel.</p><div class="portfolio-tags"><span>Nama menu</span><span>Harga</span><span>Info singkat</span></div></article><article class="portfolio"><div class="preview catalog"><div class="catalogbox"><b>KATALOG PRODUK</b><div class="rowitem"><span>🧴 Produk A</span><b>Rp25 rb</b></div><div class="rowitem"><span>🧼 Produk B</span><b>Rp18 rb</b></div><div class="rowitem"><span>🪴 Produk C</span><b>Rp30 rb</b></div></div></div><div class="label">ILUSTRASI KONSEP</div><h3>Katalog produk</h3><p>Informasi produk disusun konsisten: foto, nama, keterangan, dan harga.</p><div class="portfolio-tags"><span>Foto produk</span><span>Deskripsi</span><span>Harga</span></div></article><article class="portfolio"><div class="preview profile"><div class="profilebox"><div class="cover"></div><b>Usaha Lokal</b><small>Warung makan · Banyuwangi</small><p>Menu terstruktur · Lokasi mudah dicari</p></div></div><div class="label">ILUSTRASI KONSEP</div><h3>Profil usaha</h3><p>Detail usaha dirapikan agar pelanggan mendapat informasi yang dibutuhkan.</p><div class="portfolio-tags"><span>Jam buka</span><span>Lokasi</span><span>Kontak</span></div></article></div><div class="notice"><b>Transparansi portofolio.</b> Dokumentasi proyek nyata, cerita proses, dan testimoni hanya akan ditampilkan setelah pekerjaan selesai serta mendapat izin tertulis dari pemilik usaha.</div></div></section>
 <section class="section process" id="alur"><div class="wrap"><div class="heading"><div><p class="eyebrow">CARA KERJA</p><h2>Jelas dari awal sampai selesai.</h2></div><p>Kami mulai dengan memahami kebutuhan usaha, lalu menyepakati pekerjaan sebelum proses dimulai.</p></div><div class="steps"><article class="step"><span>01</span><h3>Konsultasi</h3><p>Ceritakan jenis usaha dan bagian yang ingin ditata.</p></article><article class="step"><span>02</span><h3>Sepakati kebutuhan</h3><p>Kami jelaskan cakupan, biaya, data, dan estimasi waktu.</p></article><article class="step"><span>03</span><h3>Pengerjaan</h3><p>Materi disusun berdasarkan informasi dan aset dari usahamu.</p></article><article class="step"><span>04</span><h3>Periksa & serah terima</h3><p>Kamu memeriksa hasil dan menerima hasil akhir.</p></article></div></div></section>
 <section class="section" id="tentang"><div class="wrap about"><div class="aboutmark"><img class="about-mark-image" src="/logo-mark.png" alt="Simbol resmi Seiton.id"></div><div><p class="eyebrow">TENTANG SEITON.ID</p><h2>Usaha yang baik adalah usaha yang terkelola.</h2><p>Seiton berasal dari kata Jepang <b>整頓</b>, yang berarti menata segala sesuatu pada tempatnya agar mudah ditemukan dan digunakan.</p><p>Prinsip itu kami bawa ke usaha kecil: membantu menata informasi produk, tampilan digital, dan jalur pemesanan supaya lebih jelas bagi pemilik usaha maupun pelanggan.</p><div class="values"><span>Tertata</span><span>Jelas</span><span>Sigap</span></div></div></div></section>
 <section class="section faq"><div class="wrap faqgrid"><div><p class="eyebrow">SEBELUM MULAI</p><h2>Pertanyaan yang sering muncul.</h2><p class="copy">Belum yakin layanan mana yang cocok? Mulai dari konsultasi singkat.</p></div><div><details><summary>Apakah harus punya website dulu?</summary><p>Tidak. Kita bisa mulai dari katalog WhatsApp atau menu QR. Website katalog menjadi pilihan jika usahamu membutuhkan satu tautan untuk membagikan informasi.</p></details><details><summary>Bagaimana menentukan layanan yang cocok?</summary><p>Ceritakan jenis usaha, produk, dan cara pelanggan memesan. Kami bantu memetakan kebutuhan sebelum menyepakati pekerjaan.</p></details><details><summary>Apakah hasilnya bisa langsung saya kelola?</summary><p>Ya. Akun dan aset yang dibuat untuk usahamu disiapkan atas nama usahamu. Cara akses dan pengelolaannya dijelaskan saat serah terima.</p></details><details><summary>Apakah foto usaha saya akan dipajang?</summary><p>Tidak tanpa izin tertulis. Foto dan data usaha digunakan sesuai kebutuhan pekerjaan dan persetujuan yang diberikan.</p></details></div></div></section>
