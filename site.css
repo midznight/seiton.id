@@ -13,11 +13,11 @@ button{font:inherit}
 .brand img{width:192px;height:auto}
 .primary-nav{display:flex;align-items:center;gap:24px}
 .primary-nav>a:not(.button){font-size:14px;font-weight:600;padding:12px 0;border-bottom:2px solid transparent}
-.primary-nav>a[aria-current=page]{border-color:var(--orange)}
+.primary-nav>a[aria-current=page]{border-color:var(--ink)}
 .menu-toggle{display:none;width:48px;height:48px;border:1px solid var(--ink);background:transparent;border-radius:4px;align-items:center;justify-content:center;flex-direction:column;gap:5px}
 .menu-toggle span{display:block;width:20px;height:2px;background:var(--ink)}
 .button{min-height:48px;display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border:2px solid var(--ink);border-radius:3px;font-size:16px;font-weight:700;line-height:1.3;transition:background .18s ease,color .18s ease,transform .18s ease}
-.button-orange{background:var(--orange);color:var(--ink);border-color:var(--orange)}
+.button-orange{background:var(--orange);color:var(--ink);border-color:var(--ink)}
 .button-orange:hover{background:var(--ink);color:var(--white);border-color:var(--ink)}
 .button-light{background:var(--bone);color:var(--ink);border-color:var(--bone)}
 .button-light:hover{background:var(--orange);border-color:var(--orange)}
