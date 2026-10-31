@@ -209,3 +209,55 @@ h3{font-size:22px;line-height:1.3;margin-bottom:12px}
 .portfolio-parts p{margin:0;color:var(--muted);font-size:15px}
 @media(max-width:1024px){.menu-sample-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:767px){.portfolio-disclaimer{grid-template-columns:1fr;gap:6px}.menu-sample-grid,.portfolio-parts{grid-template-columns:1fr}.menu-sample-photo{height:180px}.portfolio-parts article{padding:22px}}
+
+/* Visual refresh — editorial layout and real showcase image */
+.hero{padding:76px 0 72px;background:linear-gradient(115deg,#f5f5f4 0%,#f5f5f4 57%,#eeeae3 57%,#eeeae3 100%)}
+.hero-grid{grid-template-columns:.92fr 1.08fr;gap:48px}
+.hero-visual-photo{min-height:0;display:block}
+.home-showcase{position:relative;margin:0;background:#fff;border:1px solid #d1d5db;box-shadow:18px 18px 0 rgba(31,41,55,.10);transform:rotate(1deg)}
+.home-showcase img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.home-showcase figcaption{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 18px;font-size:13px}
+.home-showcase figcaption span{font-weight:700;letter-spacing:.1em;color:#ff6b35}
+.home-showcase figcaption b{font-size:14px}
+.hero-stamp{position:absolute;right:-18px;top:22px;padding:14px 18px;background:#ff6b35;color:#1f2937;font-size:12px;font-weight:800;line-height:1.5;letter-spacing:.08em;transform:rotate(5deg);box-shadow:5px 5px 0 #1f2937}
+h1 span{background:none;padding:0;color:var(--orange)}
+.button{border-radius:999px}
+.button-orange{color:#1f2937;border-color:var(--orange)}
+.button-orange:hover{background:#1f2937;border-color:#1f2937}
+.section{padding:88px 0}
+.featured-package{border-radius:22px;padding:48px}
+.secondary-services>a{border-radius:16px;border:1px solid var(--line);border-top:4px solid var(--orange);transition:transform .2s ease,box-shadow .2s ease}
+.secondary-services>a:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(31,41,55,.10);outline:0}
+.portfolio-hero-figure{overflow:hidden;border-radius:22px;box-shadow:0 20px 50px rgba(31,41,55,.10)}
+.portfolio-hero-figure img{aspect-ratio:3/2;object-fit:cover}
+.portfolio-disclaimer{border-radius:0 14px 14px 0}
+.portfolio-parts article{border-radius:14px;border-top-width:3px}
+.portfolio-cases{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:stretch}
+.portfolio-case{position:relative;overflow:hidden;padding:30px;border:1px solid var(--line);border-radius:18px;background:#fff}
+.portfolio-case.featured{padding:0}
+.portfolio-case.featured .case-image{width:100%;height:100%;min-height:340px;object-fit:cover}
+.case-copy{padding:28px}
+.case-tag{display:inline-flex;padding:6px 10px;border-radius:999px;background:#fff0e9;color:#b9471e;font-size:11px;font-weight:800;letter-spacing:.08em}
+.case-copy h3{margin:16px 0 8px;font-size:25px}
+.case-copy p{margin:0;color:var(--muted);font-size:14px}
+.case-ui{margin:24px 0 0;padding:18px;border-radius:14px;background:#f5f5f4;border:1px solid #e5e7eb}
+.case-ui-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px solid #d1d5db;font-size:12px;font-weight:700}
+.case-ui-head span:last-child{color:#ff6b35}
+.case-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #e5e7eb;font-size:13px}
+.case-row:last-child{border:0}
+.case-row b{font-size:13px}
+.case-foot{margin-top:14px!important;font-size:12px!important;color:#6b7280!important}
+.portfolio-case-stack{display:grid;grid-template-rows:1fr 1fr;gap:24px}
+.case-cta{display:inline-flex;margin-top:18px;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+@media(max-width:767px){
+ .hero{padding:54px 0 48px;background:var(--bone)}
+ .hero-grid{grid-template-columns:1fr;gap:34px}
+ .hero-visual-photo{min-height:0}
+ .home-showcase{transform:none}
+ .hero-stamp{right:-6px;top:-14px}
+ .section{padding:60px 0}
+ .featured-package{padding:26px;border-radius:16px}
+ .portfolio-cases{grid-template-columns:1fr}
+ .portfolio-case-stack{grid-template-rows:auto}
+ .portfolio-case.featured .case-image{min-height:0;aspect-ratio:3/2}
+}
