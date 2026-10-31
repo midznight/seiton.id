@@ -1,4 +1,11 @@
-const waNumber="6285117557133";
-document.querySelectorAll(".wa").forEach(a=>{const message=a.dataset.msg||"Halo Seiton.id, saya ingin konsultasi.";a.href="https://wa.me/"+waNumber+"?text="+encodeURIComponent(message);a.target="_blank";a.rel="noopener noreferrer"});
-const toggle=document.querySelector(".nav-toggle"),nav=document.querySelector(".site-nav");
-if(toggle&&nav){toggle.addEventListener("click",()=>{const open=nav.classList.toggle("is-open");toggle.setAttribute("aria-expanded",String(open));toggle.textContent=open?"×":"☰"});nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{nav.classList.remove("is-open");toggle.setAttribute("aria-expanded","false");toggle.textContent="☰"}))}
+const WHATSAPP_NUMBER="6285117557133";
+document.querySelectorAll("a.wa").forEach((link)=>{const message=link.dataset.message||"Halo Seiton.id, saya ingin konsultasi.";link.href="https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message);link.target="_blank";link.rel="noopener noreferrer";});
+const menuButton=document.querySelector(".menu-toggle");
+const primaryNav=document.querySelector("#primary-nav");
+if(menuButton&&primaryNav){
+  const closeMenu=()=>{primaryNav.classList.remove("is-open");menuButton.setAttribute("aria-expanded","false");menuButton.setAttribute("aria-label","Buka menu");};
+  menuButton.addEventListener("click",()=>{const isOpen=menuButton.getAttribute("aria-expanded")==="true";if(isOpen){closeMenu();}else{primaryNav.classList.add("is-open");menuButton.setAttribute("aria-expanded","true");menuButton.setAttribute("aria-label","Tutup menu");}});
+  primaryNav.querySelectorAll("a").forEach((link)=>link.addEventListener("click",closeMenu));
+  document.addEventListener("keydown",(event)=>{if(event.key==="Escape")closeMenu();});
+  document.addEventListener("click",(event)=>{if(!primaryNav.contains(event.target)&&!menuButton.contains(event.target))closeMenu();});
+}
