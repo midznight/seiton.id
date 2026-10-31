@@ -286,3 +286,20 @@ h1 span{background:none;padding:0;color:var(--orange);box-decoration-break:initi
  .home-showcase figcaption b{font-size:12px}
  .portfolio-hero-figure img{aspect-ratio:1.35/1;object-fit:contain}
 }
+
+
+/* Portfolio sample: isolated ex-/ph- namespace; safe to append without touching prior rules */
+.ex-container{max-width:1120px}
+.ex-ai-note{margin:22px 0 0;padding:15px 18px;border:1px solid #E5E7EB;border-left:4px solid #FF6B35;border-radius:10px;background:#F5F5F4;color:#1F2937;font-size:14px;line-height:1.7}
+.ex-products-section{padding-top:36px}
+.ex-product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.ex-product-card{overflow:hidden;min-width:0;border:1px solid #E5E7EB;border-radius:16px;background:#fff;box-shadow:0 10px 28px rgba(31,41,55,.06)}
+.ex-product-media{overflow:hidden;aspect-ratio:1/1;background:#F5F5F4}
+.ex-product-media img{display:block;width:100%;height:100%;object-fit:cover}
+.ex-product-copy{padding:16px 16px 18px}
+.ex-product-copy h3{margin:0 0 7px;font-size:16px;line-height:1.4;color:#1F2937}
+.ex-product-copy p{margin:0;color:#4B5563;font-size:13px;line-height:1.65}
+.ex-footnote{margin:24px 0 0;color:#6B7280;font-size:12px;line-height:1.7}
+.ph-image-placeholder{display:grid;place-items:center;aspect-ratio:1/1;padding:18px;background:#F5F5F4;color:#6B7280;text-align:center}
+@media(max-width:900px){.ex-product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
+@media(max-width:480px){.ex-ai-note{font-size:13px;padding:13px 14px}.ex-product-grid{gap:12px}.ex-product-copy{padding:12px}.ex-product-copy h3{font-size:14px}.ex-product-copy p{font-size:12px}}
