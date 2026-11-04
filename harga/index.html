@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Harga Website dan Bot Pesanan UMKM | Seiton.id</title>
-  <meta name="description" content="Lihat harga Website Katalog UMKM, Website Profile Usaha, Bot Pesanan Telegram dan WhatsApp, serta Paket Lengkap Seiton. Rincian biaya disampaikan terbuka.">
+  <title>Harga Layanan Seiton.id — Website, Bot Telegram, dan Paket Etalase</title>
+  <meta name="description" content="Daftar harga Website Katalog UMKM, Website Profile Usaha, dan Bot Pesanan Telegram. Paket Etalase untuk UMKM ditawarkan melalui konsultasi sesuai kebutuhan.">
   <meta name="theme-color" content="#1F2937">
   <link rel="canonical" href="https://seiton.biz.id/harga/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -38,6 +38,12 @@
     .price-card.featured .button{background:var(--orange);color:var(--ink);border-color:var(--orange)}
     .price-card.featured .button:hover{background:var(--bone);border-color:var(--bone)}
     .price-note{margin:26px 0 0;padding:17px 19px;border-left:4px solid var(--orange);background:var(--white);font-size:14px;line-height:1.7}
+    .price-service-callout{margin-bottom:24px;padding:24px 28px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;border:1px solid var(--orange);border-radius:14px;background:#FFF4EE}
+    .price-service-callout h2{font-size:24px;margin:0 0 8px}
+    .price-service-callout p{margin:0 0 8px;font-size:14px;line-height:1.7;color:var(--muted)}
+    .price-service-callout .eyebrow{margin-bottom:6px;color:#B9471E;font-weight:800;letter-spacing:.08em}
+    .price-unavailable-label{display:inline-flex;align-self:flex-start;margin:10px 0 12px;padding:7px 10px;border:1px solid #B45309;border-radius:4px;background:#FEF3C7;color:#92400E;font-size:12px;font-weight:800}
+    .price-unavailable-copy{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
     .price-subgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
     .price-addon{padding:20px;border:1px solid var(--line);border-radius:10px;background:var(--bone)}
     .price-addon h3{font-size:17px;margin:0 0 7px}
@@ -66,7 +72,7 @@
     .price-closing p{color:var(--gray);margin-bottom:20px}
     .price-closing .button{background:var(--orange);color:var(--ink);border-color:var(--orange)}
     @media(min-width:900px){.price-card.featured{display:grid;grid-template-columns:1fr .9fr;column-gap:36px;align-items:start}.price-card.featured .price-kicker,.price-card.featured h2,.price-card.featured .price-amount,.price-card.featured .price-normal,.price-card.featured .price-saving,.price-card.featured .price-description{grid-column:1}.price-card.featured .price-includes{grid-column:2;grid-row:1/6;margin:0}.price-card.featured .button{grid-column:1;max-width:330px}}
-    @media(max-width:767px){.price-hero{padding:48px 0 24px}.price-section{padding:24px 0 56px}.price-grid,.price-subgrid,.price-details-grid{grid-template-columns:1fr}.price-card,.price-card.featured{padding:22px}.price-card.featured{grid-column:auto}.price-details,.price-faq{padding:54px 0}.price-closing .button{width:100%}}
+    @media(max-width:767px){.price-hero{padding:48px 0 24px}.price-section{padding:24px 0 56px}.price-grid,.price-subgrid,.price-details-grid{grid-template-columns:1fr}.price-card,.price-card.featured{padding:22px}.price-card.featured{grid-column:auto}.price-service-callout{grid-template-columns:1fr;padding:22px}.price-service-callout .button{width:100%}.price-details,.price-faq{padding:54px 0}.price-closing .button{width:100%}}
     @media(max-width:380px){.price-card,.price-card.featured{padding:18px}.price-amount{font-size:29px}.price-includes{font-size:13px}}
   </style>
 </head>
@@ -87,17 +93,22 @@
       <div class="container">
         <p class="eyebrow">HARGA SEITON</p>
         <h1>Ketahui biayanya sebelum mulai.</h1>
-        <p class="page-lead">Bantu usahamu menjadi lebih tertata. Pilih layanan yang kamu perlukan; rincian biaya dan hal di luar paket dijelaskan sebelum kamu membayar DP.</p>
+        <p class="page-lead">Pilih layanan website atau bot Telegram dengan harga yang tercantum. Untuk Paket Etalase—Katalog WhatsApp Business, Menu QR, dan Google Business Profile—harga disusun setelah kebutuhan usaha diperiksa.</p>
       </div>
     </section>
     <section class="price-section" aria-label="Daftar harga">
       <div class="container">
+        <article class="price-service-callout">
+          <div>
+            <p class="eyebrow">LAYANAN UNTUK USAHA LOKAL</p>
+            <h2>Paket Etalase</h2>
+            <p>Menggabungkan Katalog WhatsApp Business, Menu QR, dan Google Business Profile. Paket ini berbeda dari Paket Website &amp; Telegram di bawah.</p>
+            <p>Harga disampaikan setelah jumlah produk/menu, kelengkapan foto, akses akun, dan kebutuhan profil diperiksa. Konsultasi awal gratis; tidak ada biaya yang dimulai sebelum ruang lingkup dan harga disepakati.</p>
+          </div>
+          <a class="button button-orange wa" data-message="Halo Seiton.id, saya ingin konsultasi Paket Etalase (Katalog WhatsApp Business, Menu QR, dan Google Business Profile).">Konsultasikan Paket Etalase</a>
+        </article>
         <div class="price-grid" id="price-grid"></div>
         <div class="price-subgrid" id="price-addons"></div>
-        <aside class="price-intro">
-          <h3>Harga perkenalan untuk 3 klien pertama</h3>
-          <p><strong><span id="slots-left">3</span> slot tersedia.</strong> Tiga klien pertama mendapat diskon sekitar 30% dengan syarat memberikan testimoni asli dan mengizinkan hasil pekerjaan ditampilkan di halaman Contoh Hasil Akhir. Besaran akhir setelah diskon akan dikonfirmasi sebelum DP.</p>
-        </aside>
         <p class="price-note"><strong>Cara pembayaran:</strong> DP 50% di awal. Pelunasan dilakukan saat pekerjaan selesai. Tidak ada pembayaran online di website ini.</p>
       </div>
     </section>
@@ -109,26 +120,25 @@
             <ul>
               <li>Ruang lingkup fitur yang tertulis pada kartu setiap layanan.</li>
               <li>Dua kali revisi untuk Website Katalog UMKM dan Website Profile Usaha.</li>
-              <li>Untuk Paket Lengkap, Website Katalog, Website Profile, Bot WhatsApp, dan bonus domain biz.id tahun pertama sesuai syarat.</li>
+              <li>Paket Website &amp; Telegram mencakup Website Katalog UMKM, Website Profile Usaha, dan Bot Pesanan Telegram. Harganya merupakan jumlah harga ketiga layanan tersebut.</li>
             </ul>
           </article>
           <article class="price-detail">
             <h2>Yang tidak termasuk / dibayar terpisah</h2>
             <ul>
-              <li>Biaya API atau platform WhatsApp untuk Bot Pesanan WhatsApp. Kamu membayarnya langsung ke penyedia.</li>
-              <li>Perpanjangan domain biz.id setelah tahun pertama. Biaya tahun berikutnya menjadi tanggunganmu.</li>
+              <li>Bot Pesanan WhatsApp belum tersedia untuk pemesanan. Jangan melakukan pembayaran untuk layanan tersebut sebelum statusnya diumumkan tersedia.</li>
+              <li>Domain biz.id tidak termasuk dalam Paket Website &amp; Telegram. Pengadaan awal dapat dipilih sebagai layanan tambahan; perpanjangan berikutnya menjadi tanggungan pemilik.</li>
               <li>Fitur atau pekerjaan di luar rincian paket. Ruang lingkup dan biayanya perlu disepakati sebelum DP.</li>
             </ul>
           </article>
         </div>
         <div class="domain-terms">
-          <h2>Syarat bonus domain biz.id</h2>
+          <h2>Ketentuan domain biz.id</h2>
           <ul>
-            <li>Gratis untuk tahun pertama saja.</li>
-            <li>Perpanjangan pada tahun berikutnya ditanggung klien.</li>
-            <li>Domain didaftarkan atas nama klien.</li>
-            <li>Berlaku untuk nama domain biz.id yang tersedia.</li>
-            <li>Nilai bonus maksimal Rp50.000.</li>
+            <li>Domain merupakan layanan tambahan, bukan bonus atau bagian otomatis dari paket.</li>
+            <li>Harga pengadaan satu tahun tercantum pada bagian layanan tambahan.</li>
+            <li>Domain didaftarkan atas nama klien dan mengikuti ketersediaan nama.</li>
+            <li>Perpanjangan tahun berikutnya dibayar oleh klien sesuai harga registrar saat perpanjangan.</li>
           </ul>
         </div>
       </div>
@@ -137,9 +147,9 @@
       <div class="container price-faq-list">
         <p class="eyebrow">SEBELUM MEMESAN</p>
         <h2>Pertanyaan yang sering muncul.</h2>
-        <details><summary>Apakah domain perlu diperpanjang?</summary><p>Ya. Bonus Paket Lengkap hanya mencakup tahun pertama. Perpanjangan pada tahun berikutnya dibayar oleh klien. Domain didaftarkan atas nama klien dan mengikuti ketersediaan nama, dengan nilai bonus maksimal Rp50.000.</p></details>
-        <details><summary>Apakah Bot Pesanan WhatsApp punya biaya tambahan?</summary><p>Ada biaya API atau platform WhatsApp. Biaya tersebut tidak termasuk harga Bot Pesanan WhatsApp dan dibayar langsung oleh klien kepada penyedia.</p></details>
-        <details><summary>Berapa kali revisi yang didapat?</summary><p>Website Katalog UMKM dan Website Profile Usaha masing-masing mendapat revisi 2x. Jumlah revisi untuk layanan bot tidak dicantumkan pada daftar harga; tanyakan dan sepakati ruang lingkupnya sebelum DP.</p></details>
+        <details><summary>Apakah domain biz.id termasuk dalam paket?</summary><p>Tidak. Domain biz.id adalah layanan tambahan dengan harga pengadaan satu tahun yang tercantum pada halaman ini. Domain didaftarkan atas nama klien; perpanjangan tahun berikutnya dibayar klien sesuai harga registrar.</p></details>
+        <details><summary>Apakah Bot Pesanan WhatsApp sudah tersedia?</summary><p>Belum. Untuk sementara Seiton belum menerima pesanan atau pembayaran untuk Bot Pesanan WhatsApp karena integrasi WhatsApp Business API masih ditunda. Halaman ini akan diperbarui ketika layanan sudah siap ditawarkan.</p></details>
+        <details><summary>Berapa kali revisi yang didapat?</summary><p>Website Katalog UMKM dan Website Profile Usaha masing-masing mendapat dua kali revisi. Ruang lingkup dukungan dan penyesuaian untuk Bot Pesanan Telegram disepakati sebelum DP.</p></details>
         <details><summary>Bagaimana pembayaran DP 50%?</summary><p>Kamu membayar DP 50% di awal setelah ruang lingkup dan biaya disepakati. Pelunasan dilakukan saat pekerjaan selesai.</p></details>
         <details><summary>Bagaimana cara memesan?</summary><p>Pilih layanan lalu tekan tombol WhatsApp. Ceritakan kebutuhan usahamu. Seiton akan membahas ruang lingkup dan biaya terlebih dahulu; pekerjaan dimulai setelah kesepakatan dan DP 50%.</p></details>
       </div>
@@ -163,16 +173,15 @@
   </footer>
   <script>
     const HARGA_SEITON = {
-      slotDiskon: 3,
       produk: [
-        {id:"lengkap",nama:"Paket Lengkap",harga:1199000,hargaNormal:1447000,hemat:248000,unggulan:true,deskripsi:"Katalog + Profile + Bot WhatsApp + bonus domain biz.id 1 tahun.",fitur:["Website Katalog UMKM","Website Profile Usaha","Bot Pesanan WhatsApp","Bonus domain biz.id 1 tahun (nilai maksimal Rp50.000)"],pesan:"Halo Seiton, saya tertarik dengan Paket Lengkap."},
+        {id:"paket-website-telegram",nama:"Paket Website & Telegram",harga:1147000,unggulan:true,deskripsi:"Gabungan tiga layanan yang juga tersedia secara terpisah. Total harga sama dengan penjumlahan harga satuan; domain tidak termasuk.",fitur:["Website Katalog UMKM — Rp299.000","Website Profile Usaha — Rp349.000","Bot Pesanan Telegram — Rp499.000"],pesan:"Halo Seiton, saya tertarik dengan Paket Website & Telegram."},
         {id:"katalog",nama:"Website Katalog UMKM",harga:299000,deskripsi:"Halaman katalog untuk menampilkan produk dan menerima pesanan.",fitur:["Sampai 20 produk","Tombol pesan ke WhatsApp","Revisi 2x"],pesan:"Halo Seiton, saya tertarik dengan Website Katalog UMKM."},
         {id:"profile",nama:"Website Profile Usaha",harga:349000,deskripsi:"Halaman informasi utama untuk memperkenalkan usahamu.",fitur:["Beranda","Tentang","Layanan","Kontak","Revisi 2x"],pesan:"Halo Seiton, saya tertarik dengan Website Profile Usaha."},
         {id:"telegram",nama:"Bot Pesanan Telegram",harga:499000,deskripsi:"Bot untuk merekap pesanan dan mengirimkannya otomatis ke penjual.",fitur:["Merekap pesanan","Mengirim pesanan otomatis ke penjual"],pesan:"Halo Seiton, saya tertarik dengan Bot Pesanan Telegram."},
-        {id:"whatsapp",nama:"Bot Pesanan WhatsApp",harga:799000,deskripsi:"Fungsi bot yang sama melalui WhatsApp.",fitur:["Merekap pesanan","Mengirim pesanan otomatis ke penjual","Biaya API/platform WhatsApp dibayar klien langsung ke penyedia"],pesan:"Halo Seiton, saya tertarik dengan Bot Pesanan WhatsApp."}
+        {id:"whatsapp",nama:"Bot Pesanan WhatsApp",tersedia:false,deskripsi:"Belum tersedia sementara. Integrasi WhatsApp Business API masih ditunda, sehingga Seiton belum menerima pesanan atau pembayaran untuk layanan ini."}
       ],
       tambahan: [
-        {nama:"Perawatan bot (opsional)",harga:99000,satuan:"per bulan",catatan:"Layanan opsional dengan biaya bulanan."},
+        {nama:"Perawatan Bot Telegram (opsional)",harga:99000,satuan:"per bulan",catatan:"Layanan opsional untuk Bot Pesanan Telegram."},
         {nama:"Domain biz.id 1 tahun",harga:49000,satuan:"tambahan di luar paket",catatan:"Untuk nama domain biz.id yang tersedia."}
       ]
     };
@@ -180,11 +189,12 @@
     const priceGrid = document.querySelector("#price-grid");
     priceGrid.innerHTML = HARGA_SEITON.produk.map((item)=>{
       const cardClass = item.unggulan ? "price-card featured" : "price-card";
-      const normal = item.hargaNormal ? '<p class="price-normal">Harga normal gabungan <del>'+rupiah.format(item.hargaNormal)+'</del></p><p class="price-saving">Hemat '+rupiah.format(item.hemat)+'</p>' : "";
-      return '<article class="'+cardClass+'"><p class="price-kicker">'+(item.unggulan ? "Pilihan gabungan" : "Layanan Seiton")+'</p><h2>'+item.nama+'</h2><p class="price-description">'+item.deskripsi+'</p><p class="price-amount">'+rupiah.format(item.harga)+'</p>'+normal+'<ul class="price-includes">'+item.fitur.map((fitur)=>"<li>"+fitur+"</li>").join("")+'</ul><a class="button button-orange wa" data-message="'+item.pesan+'">Tanya '+item.nama+'</a></article>';
+      if (item.tersedia === false) {
+        return '<article class="'+cardClass+'"><p class="price-kicker">Layanan Seiton</p><h2>'+item.nama+'</h2><p class="price-unavailable-label">Belum tersedia sementara</p><p class="price-unavailable-copy">'+item.deskripsi+'</p></article>';
+      }
+      return '<article class="'+cardClass+'"><p class="price-kicker">'+(item.unggulan ? "Paket gabungan" : "Layanan Seiton")+'</p><h2>'+item.nama+'</h2><p class="price-description">'+item.deskripsi+'</p><p class="price-amount">'+rupiah.format(item.harga)+'</p><ul class="price-includes">'+item.fitur.map((fitur)=>"<li>"+fitur+"</li>").join("")+'</ul><a class="button button-orange wa" data-message="'+item.pesan+'">Tanya '+item.nama+'</a></article>';
     }).join("");
     document.querySelector("#price-addons").innerHTML = HARGA_SEITON.tambahan.map((item)=>'<article class="price-addon"><h3>'+item.nama+'</h3><strong>'+rupiah.format(item.harga)+'</strong><p>'+item.satuan+'. '+item.catatan+'</p></article>').join("");
-    document.querySelector("#slots-left").textContent = HARGA_SEITON.slotDiskon;
   </script>
   <script src="/site.js" defer></script>
 </body>
