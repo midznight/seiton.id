@@ -354,7 +354,7 @@ h1 span{background:none;padding:0;color:var(--orange);box-decoration-break:initi
 
 
 /* Accessibility and loading polish */
-:root{--orange-text:#C2410C}
+:root{--orange-text:#B9380C}
 h1 span,
 .home-showcase figcaption span,
 .process-list article>span,
@@ -370,3 +370,6 @@ h1 span,
 .ex-wa-top small{color:#CDDFDD;opacity:1}
 h1,h2,h3{text-wrap:balance}
 a,button{-webkit-tap-highlight-color:rgba(31,41,55,.12);touch-action:manipulation}
+
+/* QR sample foreground also needs readable contrast on white */
+.ex-qr-placeholder{color:#B9380C}
