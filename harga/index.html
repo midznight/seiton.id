@@ -224,7 +224,7 @@
               const comparison = amount > unitTotal ? "lebih tinggi " : "lebih rendah ";
               description = "Harga paket ditetapkan tersendiri dan " + comparison + rupiah.format(difference) + " dibanding total harga satuan. Domain tidak termasuk.";
             }
-            features = packageParts.map(product => safeText(product.nama) + " — " + rupiah.format(Number(product.harga)));
+            features = packageParts.map(product => product.nama + " — " + rupiah.format(Number(product.harga)));
           } else {
             description = "Paket menggabungkan tiga layanan. Rincian harga komponennya belum dapat dimuat; silakan konsultasi untuk memastikan.";
           }
