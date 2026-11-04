@@ -97,7 +97,7 @@
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Buka menu"><span></span><span></span><span></span></button>
       <nav class="primary-nav" id="primary-nav" aria-label="Navigasi utama">
         <a href="/">Beranda</a><a href="/layanan/">Layanan</a><a href="/harga/" aria-current="page">Harga</a><a href="/portofolio/">Contoh</a><a href="/tentang/">Tentang</a><a href="/kontak/">Kontak</a>
-        <a class="button button-orange admin-link" href="https://admin.seiton.biz.id/">Panel Admin</a><a class="button button-orange wa nav-cta" data-message="Halo Seiton.id, saya ingin konsultasi tentang layanan Seiton.">Konsultasi</a>
+        <a class="button button-orange admin-link" href="https://admin.seiton.biz.id/">Panel Admin</a><a href="https://wa.me/6285117557133" class="button button-orange wa nav-cta" data-message="Halo Seiton.id, saya ingin konsultasi tentang layanan Seiton.">Konsultasi</a>
       </nav>
     </div>
   </header>
@@ -118,7 +118,7 @@
             <p>Menggabungkan Katalog WhatsApp Business, Menu QR, dan Google Business Profile. Paket ini berbeda dari Paket Website &amp; Telegram di bawah.</p>
             <p>Harga disampaikan setelah jumlah produk/menu, kelengkapan foto, akses akun, dan kebutuhan profil diperiksa. Konsultasi awal gratis; tidak ada biaya yang dimulai sebelum ruang lingkup dan harga disepakati.</p>
           </div>
-          <a class="button button-orange wa" data-message="Halo Seiton.id, saya ingin konsultasi Paket Etalase (Katalog WhatsApp Business, Menu QR, dan Google Business Profile).">Konsultasikan Paket Etalase</a>
+          <a href="https://wa.me/6285117557133" class="button button-orange wa" data-message="Halo Seiton.id, saya ingin konsultasi Paket Etalase (Katalog WhatsApp Business, Menu QR, dan Google Business Profile).">Konsultasikan Paket Etalase</a>
         </article>
         <div class="price-grid" id="price-grid"></div>
         <div class="price-subgrid" id="price-addons"></div>
@@ -172,7 +172,7 @@
         <p class="eyebrow">KONSULTASI SEITON</p>
         <h2>Sudah tahu layanan yang kamu perlukan?</h2>
         <p>Chat WhatsApp setiap hari, pukul 09.00-21.00 WIB.</p>
-        <a class="button wa" data-message="Halo Seiton.id, saya ingin konsultasi tentang layanan dan harga Seiton.">Chat WhatsApp, 09.00-21.00</a>
+        <a href="https://wa.me/6285117557133" class="button wa" data-message="Halo Seiton.id, saya ingin konsultasi tentang layanan dan harga Seiton.">Chat WhatsApp, 09.00-21.00</a>
       </div>
     </section>
   </main>
@@ -205,7 +205,7 @@
       if (item.tersedia === false) {
         return '<article class="'+cardClass+'"><p class="price-kicker">Layanan Seiton</p><h2>'+item.nama+'</h2><p class="price-unavailable-label">Belum tersedia sementara</p><p class="price-unavailable-copy">'+item.deskripsi+'</p></article>';
       }
-      return '<article class="'+cardClass+'"><p class="price-kicker">'+(item.unggulan ? "Paket gabungan" : "Layanan Seiton")+'</p><h2>'+item.nama+'</h2><p class="price-description">'+item.deskripsi+'</p><p class="price-amount">'+rupiah.format(item.harga)+'</p><ul class="price-includes">'+item.fitur.map((fitur)=>"<li>"+fitur+"</li>").join("")+'</ul><a class="button button-orange wa" data-message="'+item.pesan+'">Tanya '+item.nama+'</a></article>';
+      return '<article class="'+cardClass+'"><p class="price-kicker">'+(item.unggulan ? "Paket gabungan" : "Layanan Seiton")+'</p><h2>'+item.nama+'</h2><p class="price-description">'+item.deskripsi+'</p><p class="price-amount">'+rupiah.format(item.harga)+'</p><ul class="price-includes">'+item.fitur.map((fitur)=>"<li>"+fitur+"</li>").join("")+'</ul><a href="https://wa.me/6285117557133" class="button button-orange wa" data-message="'+item.pesan+'">Tanya '+item.nama+'</a></article>';
     }).join("");
     document.querySelector("#price-addons").innerHTML = HARGA_SEITON.tambahan.map((item)=>'<article class="price-addon"><h3>'+item.nama+'</h3><strong>'+rupiah.format(item.harga)+'</strong><p>'+item.satuan+'. '+item.catatan+'</p></article>').join("");
   </script>
