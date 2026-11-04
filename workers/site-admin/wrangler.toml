@@ -1,0 +1,12 @@
+name = "seiton-site-admin"
+main = "worker.js"
+compatibility_date = "2026-11-04"
+
+[[d1_databases]]
+binding = "SITE_DB"
+database_name = "seiton-site-content-prod"
+database_id = "2ccef282-fb8b-4ea6-b71d-b74a5b43ee95"
+
+[[services]]
+binding = "ORDER_BACKEND"
+service = "seiton-order-bot"
