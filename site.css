@@ -353,6 +353,7 @@ h1 span{background:none;padding:0;color:var(--orange);box-decoration-break:initi
 .admin-link{white-space:nowrap}
 
 
+/* WCAG AA accent color: at least 4.67:1 on the site's light neutral surfaces. */
 /* Accessibility and loading polish */
 :root{--orange-text:#B9380C}
 h1 span,
