@@ -120,7 +120,7 @@
           </div>
           <a href="https://wa.me/6285117557133" class="button button-orange wa" data-message="Halo Seiton.id, saya ingin konsultasi Paket Etalase (Katalog WhatsApp Business, Menu QR, dan Google Business Profile).">Konsultasikan Paket Etalase</a>
         </article>
-        <div class="price-grid" id="price-grid"></div>
+        <div class="price-grid" id="price-grid"><p class="price-load-message" role="status" aria-live="polite">Untuk melihat harga terbaru, aktifkan JavaScript atau hubungi Seiton.id melalui WhatsApp.</p></div>
         <div class="price-subgrid" id="price-addons"></div>
         <p class="price-note"><strong>Cara pembayaran:</strong> DP 50% di awal. Pelunasan dilakukan saat pekerjaan selesai. Tidak ada pembayaran online di website ini.</p>
       </div>
@@ -133,7 +133,7 @@
             <ul>
               <li>Ruang lingkup fitur yang tertulis pada kartu setiap layanan.</li>
               <li>Dua kali revisi untuk Website Katalog UMKM dan Website Profile Usaha.</li>
-              <li>Paket Website &amp; Telegram mencakup Website Katalog UMKM, Website Profile Usaha, dan Bot Pesanan Telegram. Harganya merupakan jumlah harga ketiga layanan tersebut.</li>
+              <li>Paket Website &amp; Telegram mencakup Website Katalog UMKM, Website Profile Usaha, dan Bot Pesanan Telegram. Harga paket ditetapkan tersendiri; perbandingan terhadap harga satuan ditampilkan pada kartu layanan.</li>
             </ul>
           </article>
           <article class="price-detail">
@@ -185,48 +185,77 @@
     </div>
   </footer>
   <script>
-    const DEFAULT_HARGA_SEITON = {
-      produk: [
-        {id:"paket-website-telegram",nama:"Paket Website & Telegram",harga:1147000,unggulan:true,deskripsi:"Gabungan tiga layanan yang juga tersedia secara terpisah. Total harga sama dengan penjumlahan harga satuan; domain tidak termasuk.",fitur:["Website Katalog UMKM — Rp299.000","Website Profile Usaha — Rp349.000","Bot Pesanan Telegram — Rp499.000"],pesan:"Halo Seiton, saya tertarik dengan Paket Website & Telegram."},
-        {id:"katalog",nama:"Website Katalog UMKM",harga:299000,deskripsi:"Halaman katalog untuk menampilkan produk dan menerima pesanan.",fitur:["Sampai 20 produk","Tombol pesan ke WhatsApp","Revisi 2x"],pesan:"Halo Seiton, saya tertarik dengan Website Katalog UMKM."},
-        {id:"profile",nama:"Website Profile Usaha",harga:349000,deskripsi:"Halaman informasi utama untuk memperkenalkan usahamu.",fitur:["Beranda","Tentang","Layanan","Kontak","Revisi 2x"],pesan:"Halo Seiton, saya tertarik dengan Website Profile Usaha."},
-        {id:"telegram",nama:"Bot Pesanan Telegram",harga:499000,deskripsi:"Bot untuk merekap pesanan dan mengirimkannya otomatis ke penjual.",fitur:["Merekap pesanan","Mengirim pesanan otomatis ke penjual"],pesan:"Halo Seiton, saya tertarik dengan Bot Pesanan Telegram."},
-        {id:"whatsapp",nama:"Bot Pesanan WhatsApp",tersedia:false,deskripsi:"Belum tersedia sementara. Integrasi WhatsApp Business API masih ditunda, sehingga Seiton belum menerima pesanan atau pembayaran untuk layanan ini."}
-      ],
-      tambahan: [
-        {nama:"Perawatan Bot Telegram (opsional)",harga:99000,satuan:"per bulan",catatan:"Layanan opsional untuk Bot Pesanan Telegram."},
-        {nama:"Domain biz.id 1 tahun",harga:49000,satuan:"tambahan di luar paket",catatan:"Untuk nama domain biz.id yang tersedia."}
-      ]
-    };
     const rupiah = new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0});
-    const safeText = value => String(value == null ? "" : value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
+    const priceGrid = document.querySelector("#price-grid");
+    const priceAddons = document.querySelector("#price-addons");
+    const fallbackMessage = "Harga terbaru belum dapat dimuat. Muat ulang halaman atau hubungi Seiton.id melalui WhatsApp untuk memastikan harga saat ini.";
+    const safeText = value => String(value == null ? "" : value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+
+    function showPriceFallback() {
+      priceGrid.innerHTML = '<p class="price-load-message" role="status" aria-live="polite">' + safeText(fallbackMessage) + '</p>';
+      priceAddons.innerHTML = "";
+    }
+
     function renderHarga(data) {
-      const products = Array.isArray(data.produk) ? data.produk : DEFAULT_HARGA_SEITON.produk;
-      const addons = Array.isArray(data.tambahan) ? data.tambahan : DEFAULT_HARGA_SEITON.tambahan;
-      document.querySelector("#price-grid").innerHTML = products.map(item => {
+      const products = data.produk;
+      const addons = data.tambahan;
+      const packageParts = ["katalog","profile","telegram"].map(id => products.find(product => product.id === id));
+      const packagePartsReady = packageParts.every(product => product && Number.isFinite(Number(product.harga)));
+
+      priceGrid.innerHTML = products.map(item => {
         const name = safeText(item.nama);
         const cardClass = item.unggulan ? "price-card featured" : "price-card";
         if (item.tersedia === false) {
           return '<article class="' + cardClass + '"><p class="price-kicker">Layanan Seiton</p><h2>' + name + '</h2><p class="price-unavailable-label">Belum tersedia sementara</p><p class="price-unavailable-copy">' + safeText(item.deskripsi) + '</p></article>';
         }
-        const features = Array.isArray(item.fitur) ? item.fitur : [];
-        return '<article class="' + cardClass + '"><p class="price-kicker">' + (item.unggulan ? "Paket gabungan" : "Layanan Seiton") + '</p><h2>' + name + '</h2><p class="price-description">' + safeText(item.deskripsi) + '</p><p class="price-amount">' + rupiah.format(Number(item.harga) || 0) + '</p><ul class="price-includes">' + features.map(feature => "<li>" + safeText(feature) + "</li>").join("") + '</ul><a href="https://wa.me/6285117557133" class="button button-orange wa" data-message="' + safeText(item.pesan || "") + '">Tanya ' + name + '</a></article>';
+
+        const amount = Number(item.harga);
+        if (!Number.isFinite(amount) || amount < 0) return "";
+
+        let description = safeText(item.deskripsi);
+        let features = Array.isArray(item.fitur) ? item.fitur : [];
+        if (item.id === "paket-website-telegram") {
+          if (packagePartsReady) {
+            const unitTotal = packageParts.reduce((total, product) => total + Number(product.harga), 0);
+            const difference = Math.abs(amount - unitTotal);
+            if (difference === 0) {
+              description = "Paket menggabungkan tiga layanan yang tersedia secara terpisah. Harga paket sama dengan total harga satuan; domain tidak termasuk.";
+            } else {
+              const comparison = amount > unitTotal ? "lebih tinggi " : "lebih rendah ";
+              description = "Harga paket ditetapkan tersendiri dan " + comparison + rupiah.format(difference) + " dibanding total harga satuan. Domain tidak termasuk.";
+            }
+            features = packageParts.map(product => product.nama + " — " + rupiah.format(Number(product.harga)));
+          } else {
+            description = "Paket menggabungkan tiga layanan. Rincian harga komponennya belum dapat dimuat; silakan konsultasi untuk memastikan.";
+          }
+        }
+
+        const featureList = features.map(feature => "<li>" + safeText(feature) + "</li>").join("");
+        return '<article class="' + cardClass + '"><p class="price-kicker">' + (item.unggulan ? "Paket gabungan" : "Layanan Seiton") + '</p><h2>' + name + '</h2><p class="price-description">' + description + '</p><p class="price-amount">' + rupiah.format(amount) + '</p><ul class="price-includes">' + featureList + '</ul><a href="https://wa.me/6285117557133" class="button button-orange wa" data-message="' + safeText(item.pesan || "") + '">Tanya ' + name + '</a></article>';
       }).join("");
-      document.querySelector("#price-addons").innerHTML = addons.map(item => '<article class="price-addon"><h3>' + safeText(item.nama) + '</h3><strong>' + rupiah.format(Number(item.harga) || 0) + '</strong><p>' + safeText(item.satuan) + '. ' + safeText(item.catatan) + '</p></article>').join("");
+
+      priceAddons.innerHTML = addons.map(item => {
+        const amount = Number(item.harga);
+        if (!Number.isFinite(amount) || amount < 0) return "";
+        return '<article class="price-addon"><h3>' + safeText(item.nama) + '</h3><strong>' + rupiah.format(amount) + '</strong><p>' + safeText(item.satuan) + '. ' + safeText(item.catatan) + '</p></article>';
+      }).join("");
     }
+
     async function loadHarga() {
-      let data = DEFAULT_HARGA_SEITON;
       try {
         const response = await fetch("https://admin.seiton.biz.id/api/pricing",{method:"GET",mode:"cors",cache:"no-store"});
-        if (response.ok) {
-          const remote = await response.json();
-          if (Array.isArray(remote.produk) && Array.isArray(remote.tambahan)) data = remote;
+        if (!response.ok) throw new Error("Pricing API returned HTTP " + response.status);
+        const data = await response.json();
+        if (!Array.isArray(data.produk) || data.produk.length === 0 || !Array.isArray(data.tambahan)) {
+          throw new Error("Format data harga tidak sesuai.");
         }
+        renderHarga(data);
       } catch (error) {
-        console.warn("Menggunakan harga cadangan karena API belum tersedia.", error);
+        console.warn("Harga terbaru tidak dapat dimuat.", error);
+        showPriceFallback();
       }
-      renderHarga(data);
     }
+
     loadHarga();
   </script>
   <script src="/site.js" defer></script>
