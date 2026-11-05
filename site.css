@@ -351,3 +351,28 @@ h1 span{background:none;padding:0;color:var(--orange);box-decoration-break:initi
 
 /* Administrative entry point */
 .admin-link{white-space:nowrap}
+
+
+/* WCAG AA accent color: at least 4.67:1 on the site's light neutral surfaces. */
+/* Accessibility and loading polish */
+:root{--orange-text:#B9380C}
+h1 span,
+.home-showcase figcaption span,
+.process-list article>span,
+.portfolio-parts article>span,
+.ex-demo-label,
+.ex-chat-demo article small,
+.ex-bundle-grid article>span,
+.ex-site-hero small,
+.ex-site-demo>header>b span,
+.ex-change-arrow{color:var(--orange-text)}
+.ex-google-stars{color:#8A5A00}
+.ex-menu-brand small{color:#6B7280}
+.ex-wa-top small{color:#CDDFDD;opacity:1}
+h1,h2,h3{text-wrap:balance}
+a,button{-webkit-tap-highlight-color:rgba(31,41,55,.12);touch-action:manipulation}
+
+/* QR sample foreground also needs readable contrast on white */
+.ex-qr-placeholder{color:#B9380C}
+
+@media(min-width:900px){.secondary-services{grid-template-columns:repeat(3,minmax(0,1fr))}}
