@@ -34,6 +34,7 @@ const catalogue = read("layanan/website-katalog/index.html");
 const about = read("tentang/index.html");
 const portfolio = read("portofolio/index.html");
 const terms = read("ketentuan/index.html");
+const pricingSeed = read("workers/site-admin/migrations/0001_initial.sql");
 
 for (const [label, source, href, name] of [
   ["homepage", home, "/harga/#profile", "Website Profile Usaha"],
@@ -67,8 +68,17 @@ if (!portfolio.includes('id="telegram-order-bot"') ||
     !portfolio.includes("Demo publik belum ditampilkan")) {
   errors.push("Portfolio page: Telegram workflow illustration or honest demo disclaimer is missing");
 }
-if (!terms.includes("Jangan membayar DP sebelum rincian pembatalan dan pengembalian dana")) {
-  errors.push("Terms page: pre-DP cancellation/refund checklist is missing");
+if (!terms.includes("Pembatalan oleh pembeli dan uang muka") ||
+    !terms.includes("uang muka yang telah dibayarkan dianggap hangus dan tidak dapat diminta kembali atau dikembalikan")) {
+  errors.push("Terms page: buyer DP forfeiture rule is missing");
+}
+if (!read("harga/index.html").includes("uang DP hangus dan tidak dikembalikan")) {
+  errors.push("Pricing page: buyer DP forfeiture notice is missing");
+}
+if (!pricingSeed.includes("'Paket Website & Telegram',1107000") ||
+    !pricingSeed.includes("'Website Katalog UMKM',259000") ||
+    pricingSeed.includes("1147000") || pricingSeed.includes("299000") || pricingSeed.includes("Rp299.000")) {
+  errors.push("D1 seed migration: package or catalogue prices are stale");
 }
 
 if (errors.length) {
