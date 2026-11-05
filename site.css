@@ -374,3 +374,5 @@ a,button{-webkit-tap-highlight-color:rgba(31,41,55,.12);touch-action:manipulatio
 
 /* QR sample foreground also needs readable contrast on white */
 .ex-qr-placeholder{color:#B9380C}
+
+@media(min-width:900px){.secondary-services{grid-template-columns:repeat(3,minmax(0,1fr))}}
