@@ -19,10 +19,12 @@ const requiredServices = [
 check(new Set(slugs).size === slugs.length, "Slug layanan harus unik.");
 for (const slug of requiredServices) check(slugs.includes(slug), "Layanan hilang: " + slug);
 check(site.navigation.some((item) => item.href === "/kontak/"), "Navigasi Kontak belum tersedia.");
-check(site.navigation.some((item) => item.href === "/pendiri/"), "Navigasi Pendiri belum tersedia.");
+check(site.navigation.some((item) => item.href === "/cerita/"), "Navigasi Cerita belum tersedia.");
+check(!site.navigation.some((item) => item.href === "/pendiri/"), "Navigasi Pendiri pribadi tidak boleh berada pada website company.");
 check(site.contacts.some((item) => item.label === "WhatsApp" && item.url === "https://wa.me/6285117557133"), "Kontak WhatsApp resmi tidak sesuai.");
 check(site.contacts.some((item) => item.label === "Email" && item.url === "mailto:seiton.id@gmail.com"), "Kontak email resmi tidak sesuai.");
 check(site.contacts.some((item) => item.label === "Instagram" && item.url === "https://www.instagram.com/seiton.id"), "Kontak Instagram resmi tidak sesuai.");
+check(site.founderProfileUrl === "", "Tautan profil pendiri harus tetap kosong sampai alamat website terpisah tersedia.");
 
 check(dataset.period.fictional === true, "Dataset demo harus ditandai fiktif.");
 check(dataset.products.length === 15, "Dataset demo harus memiliki 15 produk.");
@@ -37,7 +39,7 @@ const sitemap = read("public/sitemap.xml");
 for (const slug of requiredServices) {
   check(sitemap.includes("https://seiton.biz.id/layanan/" + slug + "/"), "Sitemap belum mencantumkan layanan " + slug + ".");
 }
-for (const route of ["/", "/layanan/", "/harga/", "/contoh/", "/pendiri/", "/tentang/", "/kontak/", "/ketentuan/", "/privasi/"]) {
+for (const route of ["/", "/layanan/", "/harga/", "/contoh/", "/cerita/", "/tentang/", "/kontak/", "/ketentuan/", "/privasi/"]) {
   check(sitemap.includes("<loc>https://seiton.biz.id" + route + "</loc>"), "Sitemap belum mencantumkan " + route);
 }
 
