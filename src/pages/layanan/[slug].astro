@@ -1,0 +1,14 @@
+---
+import Base from "../../layouts/Base.astro";
+import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
+import services from "../../data/services.json";
+export function getStaticPaths(){return services.map((service)=>({params:{slug:service.slug},props:{service}}));}
+const {service}=Astro.props;
+---
+<Base title={service.name + " — Layanan Seiton.id"} description={service.short}>
+  <section class="page-hero"><div class="container"><p class="eyebrow">{service.slugLabel}</p><h1>{service.name}</h1><p class="lead">{service.short}</p><div class="actions"><WhatsAppCTA message={"Halo Seiton.id, saya ingin konsultasi tentang " + service.name + "."}/><a class="button button-secondary" href="/layanan/">Semua layanan</a></div></div></section>
+  <section class="section section-white"><div class="container service-detail-grid">
+    <article class="prose"><p>{service.description}</p><h2>Untuk siapa layanan ini?</h2><p>{service.audience}</p><h2>Ruang lingkup utama</h2><ul>{service.features.map((feature)=><li>{feature}</li>)}</ul><h2>Hasil pekerjaan</h2><ul>{service.deliverables.map((item)=><li>{item}</li>)}</ul></article>
+    <aside class="detail-aside"><p class="card-kicker">SEBELUM MULAI</p><h3>Pastikan lingkupnya jelas.</h3><p>Rincian akhir mengikuti penawaran tertulis. Biaya pihak ketiga, domain, API, dan langganan tidak termasuk kecuali tertulis dalam penawaran.</p><WhatsAppCTA message={"Halo Seiton.id, saya ingin meminta rincian penawaran untuk " + service.name + "."}/>{service.slug==="sistem-bot-umkm"||service.slug==="paket-combo"?<a class="aside-demo-link" href="https://demo.seiton.biz.id/paket-combo/">Lihat demonstrasi Paket Combo →</a>:null}</aside>
+  </div></section>
+</Base>

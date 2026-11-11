@@ -1,0 +1,16 @@
+---
+import Base from "../../layouts/Base.astro";
+import site from "../../data/site.json";
+import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
+---
+<Base title="Contoh dan Demonstrasi — Seiton.id" description="Contoh alur katalog, website profil usaha, dan sistem bot dalam demonstrasi fiktif.">
+  <section class="page-hero"><div class="container"><p class="eyebrow">CONTOH PRODUK</p><h1>Lihat cara kerja sebelum menentukan layanan.</h1><p class="lead">Semua contoh di halaman demo menggunakan usaha dan data fiktif. Tidak ada transaksi, pelanggan, maupun klaim proyek klien nyata.</p><div class="actions"><a class="button button-primary" href={site.brand.demo + "/"}>Buka pusat demonstrasi</a><WhatsAppCTA/></div></div></section>
+  <section class="section section-white"><div class="container card-grid">
+    <article class="card"><p class="card-kicker">DEMO 01</p><h3>Katalog WhatsApp</h3><p>Contoh struktur kategori dan katalog produk untuk dibagikan.</p><a href={site.brand.demo + "/katalog-whatsapp/"}>Buka contoh →</a></article>
+    <article class="card"><p class="card-kicker">DEMO 02</p><h3>Menu QR</h3><p>Contoh pengalaman membuka menu digital melalui halaman web.</p><a href={site.brand.demo + "/menu-qr/"}>Buka contoh →</a></article>
+    <article class="card"><p class="card-kicker">DEMO 03</p><h3>Website Profil dan Katalog</h3><p>Contoh halaman usaha dengan informasi profil dan produk.</p><a href={site.brand.demo + "/website-katalog/"}>Buka contoh →</a></article>
+    <article class="card"><p class="card-kicker">DEMO 04</p><h3>Sistem Bot UMKM</h3><p>Simulasi keranjang, pesanan, konfirmasi, dan laporan di browser.</p><a href={site.brand.demo + "/bot-umkm/"}>Buka contoh →</a></article>
+    <article class="card"><p class="card-kicker">DEMO 05</p><h3>Paket Combo</h3><p>Gabungan website profil dan katalog dengan simulasi sistem bot.</p><a href={site.brand.demo + "/paket-combo/"}>Buka contoh →</a></article>
+    <article class="card"><p class="card-kicker">KETERANGAN</p><h3>Proyek internal</h3><p>Contoh ini adalah demonstrasi internal Seiton.id, bukan proyek klien.</p><a href="/tentang/">Kenali Seiton.id →</a></article>
+  </div></section>
+</Base>

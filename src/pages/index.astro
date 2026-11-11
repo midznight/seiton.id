@@ -1,0 +1,33 @@
+---
+import Base from "../layouts/Base.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import WhatsAppCTA from "../components/WhatsAppCTA.astro";
+import services from "../data/services.json";
+const featured = services.filter((service) => service.featured);
+---
+<Base title="Seiton.id — Tata Usahamu, Mudahkan Pelanggan" description="Seiton.id membantu UMKM di seluruh Indonesia menata informasi usaha melalui katalog, website, menu digital, dan sistem pemesanan.">
+  <section class="hero"><div class="container hero-grid">
+    <div><p class="eyebrow">DIGITALISASI UMKM · INDONESIA</p><h1>Tata usahamu, mudahkan pelanggan.</h1>
+      <p class="lead">Mulai dari katalog dan website hingga alur pemesanan yang lebih terstruktur. Seiton.id membantu usaha menampilkan informasi yang jelas dan memudahkan pelanggan mengambil langkah berikutnya.</p>
+      <div class="actions"><WhatsAppCTA message="Halo Seiton.id, saya ingin konsultasi kebutuhan digitalisasi usaha."/><a class="button button-secondary" href="/layanan/">Jelajahi layanan</a></div>
+      <p class="home-microcopy">Layanan tersedia secara online di seluruh Indonesia.</p>
+    </div>
+    <aside class="hero-card"><p class="card-kicker">MULAI DARI KEBUTUHAN USAHA</p><strong>Informasi lebih tertata. Alur pelanggan lebih jelas.</strong>
+      <ul><li>Produk dan menu ditampilkan lebih rapi.</li><li>Profil usaha mudah dibagikan melalui tautan.</li><li>Pesanan dapat diarahkan ke alur yang sesuai kebutuhan.</li></ul><a href="/contoh/">Lihat contoh demonstrasi →</a>
+    </aside>
+  </div></section>
+  <section class="section section-white"><div class="container">
+    <div class="section-heading"><div><p class="eyebrow">SOLUSI SEITON.ID</p><h2>Mulai dari fondasi digital yang dibutuhkan.</h2></div><p>Tidak semua usaha membutuhkan sistem yang sama. Pilih layanan berdasarkan cara pelanggan mengenal, memilih, dan memesan produk.</p></div>
+    <div class="card-grid">{featured.map((service)=><ServiceCard service={service}/>)}</div>
+  </div></section>
+  <section class="section"><div class="container split">
+    <div><p class="eyebrow">CARA KERJA</p><h2>Jelas sejak pembicaraan pertama.</h2></div>
+    <div class="process-list">
+      <article><span>01</span><div><h3>Konsultasi kebutuhan</h3><p>Ceritakan jenis usaha, produk, dan kendala yang ingin diselesaikan.</p></div></article>
+      <article><span>02</span><div><h3>Penawaran dan ruang lingkup</h3><p>Hasil pekerjaan, biaya, jadwal, bahan, serta akses dirinci sebelum pekerjaan dimulai.</p></div></article>
+      <article><span>03</span><div><h3>Pengerjaan dan pemeriksaan</h3><p>Konten dan fungsi diperiksa bersama sebelum hasil dipublikasikan.</p></div></article>
+      <article><span>04</span><div><h3>Serah terima</h3><p>Akun dan akses tetap berada dalam kendali pemilik usaha sesuai kesepakatan.</p></div></article>
+    </div>
+  </div></section>
+  <section class="section section-white"><div class="container band"><p class="eyebrow">LANGKAH BERIKUTNYA</p><h2>Mulai dengan kebutuhan yang paling penting.</h2><p>Konsultasi awal digunakan untuk memahami kebutuhan dan menilai ruang lingkup. Tidak ada pekerjaan dimulai sebelum biaya dan hasil yang disepakati jelas.</p><div class="actions"><WhatsAppCTA message="Halo Seiton.id, saya ingin memulai konsultasi kebutuhan usaha."/><a class="button button-secondary" href="/harga/">Lihat informasi harga</a></div></div></section>
+</Base>

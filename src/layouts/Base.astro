@@ -3,37 +3,15 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import site from "../data/site.json";
 import "../styles/site.css";
-
-const {
-  title = "Seiton.id — Tata Usahamu, Mudahkan Pelanggan",
-  description = site.brand.description,
-  canonical,
-  noindex = false,
-  demoSite = false
-} = Astro.props;
-const canonicalUrl = canonical || new URL(Astro.url.pathname, demoSite ? site.brand.demo : site.brand.website).toString();
+import "../styles/pages.css";
+const { title="Seiton.id — Tata Usahamu, Mudahkan Pelanggan", description=site.brand.description, canonical, noindex=false, demoSite=false }=Astro.props;
+const canonicalUrl=canonical||new URL(Astro.url.pathname,demoSite?site.brand.demo:site.brand.website).toString();
 ---
-<!doctype html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <meta name="theme-color" content="#F5F5F4" />
-    <link rel="canonical" href={canonicalUrl} />
-    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Seiton.id" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:image" content="https://seiton.biz.id/og-seiton.svg" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  </head>
-  <body>
-    <Header demoSite={demoSite} />
-    <main id="main-content"><slot /></main>
-    <Footer demoSite={demoSite} />
-  </body>
-</html>
+<!doctype html><html lang="id"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>{title}</title><meta name="description" content={description}/><meta name="theme-color" content="#F5F5F4"/>
+<link rel="canonical" href={canonicalUrl}/><meta name="robots" content={noindex?"noindex, nofollow":"index, follow"}/>
+<meta property="og:type" content="website"/><meta property="og:site_name" content="Seiton.id"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonicalUrl}/><meta property="og:image" content="https://seiton.biz.id/og-seiton.svg"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/></head><body>
+<Header demoSite={demoSite}/><main id="main-content"><slot/></main><Footer demoSite={demoSite}/>
+</body></html>
