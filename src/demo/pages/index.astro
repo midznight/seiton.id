@@ -1,0 +1,19 @@
+---
+import Base from "../../layouts/Base.astro";
+import DemoLabel from "../../components/DemoLabel.astro";
+import dataset from "../../data/demo-dataset.json";
+---
+<Base title="Pusat Demonstrasi Seiton.id" description="Pusat demonstrasi produk Seiton.id dengan data fiktif." noindex={true} demoSite={true}>
+  <section class="page-hero"><div class="container"><p class="eyebrow">PUSAT DEMONSTRASI</p><h1>Lihat contoh alur produk Seiton.id.</h1><p class="lead">Semua contoh memakai usaha dan data fiktif. Gunakan demo untuk melihat tampilan dan alur, bukan sebagai tempat transaksi.</p><DemoLabel label="Seluruh data contoh bersifat fiktif" detail="Tidak ada usaha nyata, pembayaran, atau pesan pelanggan yang diproses."/></div></section>
+  <section class="section section-white"><div class="container">
+    <div class="card-grid">
+      <article class="card"><p class="card-kicker">DEMO 01</p><h3>Katalog WhatsApp</h3><p>Susunan 15 produk dengan kategori dan harga contoh.</p><a href="/katalog-whatsapp/">Buka katalog →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 02</p><h3>Menu QR</h3><p>Contoh halaman menu digital untuk dipindai atau dibagikan.</p><a href="/menu-qr/">Buka menu QR →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 03</p><h3>Google Business Profile</h3><p>Contoh materi dan checklist persiapan, bukan profil bisnis sungguhan.</p><a href="/google-business-profile/">Buka panduan →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 04</p><h3>Website Profil + Katalog</h3><p>Contoh website usaha fiktif dengan halaman profil dan katalog.</p><a href="/website-katalog/">Buka website →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 05</p><h3>Sistem Bot UMKM</h3><p>Simulasi keranjang, pesanan, status pembayaran, dan laporan.</p><a href="/bot-umkm/">Coba bot →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 06</p><h3>Paket Combo</h3><p>Gabungan website profil dan katalog dengan sistem bot.</p><a href="/paket-combo/">Buka Paket Combo →</a></article>
+    </div>
+    <p class="demo-stat-note">Dataset usaha contoh: {dataset.business}, {dataset.products.length} SKU, periode {dataset.period.label}.</p>
+  </div></section>
+</Base>

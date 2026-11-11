@@ -1,0 +1,24 @@
+---
+import Base from "../../../layouts/Base.astro";
+import DemoLabel from "../../../components/DemoLabel.astro";
+---
+<Base title="Demo Paket Combo Website + Bot — Seiton.id" description="Demonstrasi gabungan website profil dan katalog dengan sistem bot UMKM." noindex={true} demoSite={true}>
+  <section class="page-hero"><div class="container"><p class="eyebrow">DEMO PRODUK · PAKET COMBO</p><h1>Website untuk ditemukan. Bot untuk membantu menerima pesanan.</h1><p class="lead">Paket Combo memperlihatkan dua bagian yang saling melengkapi: website sebagai media informasi publik, dan bot sebagai alur interaksi pemesanan.</p><DemoLabel label="Demonstrasi internal Seiton.id" detail="Usaha, nama produk, stok, pesanan, dan nilai penjualan di halaman ini hanya contoh fiktif."/></div></section>
+  <section class="section section-white"><div class="container">
+    <div class="combo-flow">
+      <article class="combo-stage"><span>01</span><p class="eyebrow">MEDIA INFORMASI</p><h2>Website Profil dan Katalog</h2><p>Calon pelanggan dapat mengenal usaha, melihat profil, menelusuri produk, dan menemukan informasi kontak.</p><ul><li>Beranda dan identitas usaha</li><li>Informasi tentang usaha</li><li>Katalog produk dengan foto</li><li>Kontak dan tautan pemesanan</li></ul><a class="button button-primary" href="/website-katalog/">Lihat demonstrasi website</a></article>
+      <div class="combo-connector" aria-hidden="true">↓</div>
+      <article class="combo-stage"><span>02</span><p class="eyebrow">ALUR PEMESANAN</p><h2>Sistem Bot UMKM</h2><p>Setelah memilih produk, pelanggan dapat mencoba contoh keranjang dan alur pemesanan. Pemilik dapat meninjau status dan ringkasan penjualan.</p><ul><li>Katalog dan keranjang</li><li>Konfirmasi pembayaran simulasi</li><li>Panel pemilik dan status</li><li>Rekap penjualan contoh</li></ul><a class="button button-primary" href="/bot-umkm/">Coba simulasi bot</a></article>
+    </div>
+  </div></section>
+  <section class="section"><div class="container band"><p class="eyebrow">INTEGRASI DALAM PROYEK NYATA</p><h2>Ruang lingkup ditentukan sebelum pengerjaan.</h2><p>Koneksi data, kanal pesan, pembayaran, autentikasi admin, domain, dan layanan pihak ketiga memerlukan pembahasan dan konfigurasi terpisah. Halaman demo ini tidak membuktikan integrasi produksi telah aktif.</p><a class="button button-primary" href="https://seiton.biz.id/kontak/">Konsultasikan Paket Combo</a></div></section>
+</Base>
+<style>
+.combo-flow{display:grid;grid-template-columns:minmax(0,1fr) 50px minmax(0,1fr);align-items:stretch;gap:16px}
+.combo-stage{position:relative;padding:30px;border:1px solid #D1D5DB;border-radius:18px;background:#fff}
+.combo-stage>span{display:grid;width:38px;height:38px;place-items:center;margin-bottom:18px;border-radius:50%;background:#1F2937;color:#fff;font-weight:800}
+.combo-stage h2{font-size:1.8rem}
+.combo-stage ul{padding-left:20px;color:#4B5563}
+.combo-connector{display:grid;place-items:center;color:#B9380C;font-size:2rem;font-weight:800}
+@media(max-width:760px){.combo-flow{grid-template-columns:1fr}.combo-connector{min-height:30px;transform:rotate(0)}}
+</style>
