@@ -435,3 +435,14 @@ a,button{-webkit-tap-highlight-color:rgba(255,107,53,.18)}
   .footer-links a{min-height:40px}
   .story-purpose-grid p,.story-approach-list p{font-size:.94rem}
 }
+
+
+/* Keep all interface text on the same sans-serif family; serif is reserved for decoration. */
+.need-result h3,.mock-browser-heading strong,.mock-menu-heading strong{
+  font-family:var(--font-heading);
+  font-weight:750;
+  letter-spacing:-.03em;
+}
+.mock-browser-heading strong,.mock-menu-heading strong{font-size:1.32rem}
+.brand-tagline{font-size:.66rem;line-height:1.35}
+@media(max-width:600px){.brand-tagline{font-size:.6rem}}
