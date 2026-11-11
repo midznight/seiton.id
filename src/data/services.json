@@ -90,22 +90,43 @@
   {
     "slug": "sistem-bot-umkm",
     "name": "Sistem Bot UMKM",
-    "short": "Satu alur untuk katalog, pemesanan, konfirmasi pembayaran, bantuan pelanggan, dan laporan.",
-    "description": "Konsep sistem operasional UMKM yang menghubungkan pengalaman pelanggan dengan pengelolaan pesanan pemilik usaha. Integrasi, kanal, dan kebutuhan legal pihak ketiga diperiksa sebelum proyek berjalan.",
-    "audience": "UMKM yang ingin mengurangi pencatatan pesanan manual dan membutuhkan ringkasan operasional.",
-    "features": ["Katalog produk di bot", "Keranjang dan alur pemesanan", "Konfirmasi pembayaran oleh admin", "Bantuan pelanggan", "Laporan penjualan dan ringkasan produk"],
-    "deliverables": ["Sistem sesuai ruang lingkup tertulis", "Panel pengelolaan sesuai kesepakatan", "Dokumentasi dan serah terima"],
+    "short": "Katalog, pemesanan, konfirmasi pembayaran, bantuan pelanggan, dan laporan dalam satu alur.",
+    "description": "Sistem operasional UMKM yang menghubungkan pengalaman pelanggan dengan pengelolaan usaha. Kanal pesan, metode pembayaran, integrasi, dan kebutuhan legal pihak ketiga ditentukan setelah pemeriksaan kesiapan serta kesepakatan ruang lingkup.",
+    "audience": "UMKM yang ingin mengurangi pencatatan pesanan manual dan mengelola produk, pesanan, serta ringkasan penjualan dari satu alur.",
+    "features": [
+      "Katalog produk yang dapat ditelusuri melalui kanal pesan yang disepakati",
+      "Keranjang dan pencatatan pesanan",
+      "Konfirmasi pembayaran dan pembaruan status oleh admin",
+      "Panel admin untuk menambah, mengubah, dan menghapus produk serta harga",
+      "Dashboard dan laporan penjualan serta ringkasan produk",
+      "Respons bantuan otomatis sesuai skenario usaha"
+    ],
+    "deliverables": [
+      "Sistem pemesanan sesuai kanal dan ruang lingkup tertulis",
+      "Panel admin sesuai fitur yang disepakati",
+      "Dokumentasi konfigurasi, penggunaan, dan serah terima"
+    ],
     "slugLabel": "Otomasi pesanan",
     "featured": true
   },
   {
     "slug": "paket-combo",
     "name": "Paket Combo Website + Bot UMKM",
-    "short": "Gabungkan website profil dan katalog dengan alur pemesanan melalui bot.",
-    "description": "Paket terpadu untuk memperkenalkan usaha melalui website dan membantu operasional pemesanan melalui sistem bot UMKM.",
+    "short": "Satukan website profil dan katalog dengan alur pemesanan serta pengelolaan pesanan melalui bot.",
+    "description": "Paket terpadu yang memisahkan fungsi website sebagai media informasi publik dan sistem bot sebagai alur pemesanan. Integrasi data, kanal, autentikasi admin, metode pembayaran, dan layanan pihak ketiga diperjelas dalam penawaran.",
     "audience": "UMKM yang ingin memiliki media informasi publik sekaligus alur pemesanan yang lebih terstruktur.",
-    "features": ["Website profil dan katalog", "Katalog produk yang konsisten", "Alur pemesanan bot", "Konfirmasi pembayaran dan laporan sesuai kebutuhan"],
-    "deliverables": ["Website usaha", "Sistem bot sesuai ruang lingkup", "Panduan pengelolaan dan serah terima"],
+    "features": [
+      "Website profil dan katalog produk",
+      "Informasi produk yang diselaraskan antara website dan sistem pemesanan",
+      "Alur pemesanan melalui kanal bot yang disepakati",
+      "Panel admin dan konfirmasi pembayaran sesuai ruang lingkup",
+      "Dashboard dan laporan penjualan sesuai kebutuhan"
+    ],
+    "deliverables": [
+      "Website usaha responsif",
+      "Sistem bot dan panel pengelolaan sesuai ruang lingkup",
+      "Dokumentasi, panduan pengelolaan, dan serah terima"
+    ],
     "slugLabel": "Website + bot",
     "featured": true
   }

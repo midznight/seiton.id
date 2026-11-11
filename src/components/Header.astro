@@ -2,9 +2,13 @@
 import site from "../data/site.json";
 
 const { demoSite = false } = Astro.props;
-const path = (href) => demoSite
-  ? site.brand.website + href
-  : href;
+const currentPath = Astro.url.pathname;
+const path = (href) => demoSite ? site.brand.website + href : href;
+const isCurrent = (href) => !demoSite && (
+  href === "/"
+    ? currentPath === "/"
+    : currentPath === href || currentPath.startsWith(href)
+);
 ---
 <a class="skip-link" href="#main-content">Lewati ke konten</a>
 <header class="site-header">
@@ -17,7 +21,9 @@ const path = (href) => demoSite
       <span aria-hidden="true">☰</span>
     </button>
     <nav class="primary-nav" id="primary-nav" aria-label="Navigasi utama">
-      {site.navigation.map((item) => <a href={path(item.href)}>{item.label}</a>)}
+      {site.navigation.map((item) => (
+        <a href={path(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>
+      ))}
       <a class="nav-cta" href={path("/kontak/")}>Konsultasi</a>
     </nav>
   </div>
@@ -26,11 +32,24 @@ const path = (href) => demoSite
   const menuButton = document.querySelector(".menu-toggle");
   const navigation = document.querySelector("#primary-nav");
   if (menuButton && navigation) {
+    const closeMenu = () => {
+      navigation.classList.remove("is-open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Buka menu");
+    };
     menuButton.addEventListener("click", () => {
       const open = menuButton.getAttribute("aria-expanded") === "true";
-      menuButton.setAttribute("aria-expanded", String(!open));
-      menuButton.setAttribute("aria-label", open ? "Buka menu" : "Tutup menu");
-      navigation.classList.toggle("is-open", !open);
+      if (open) {
+        closeMenu();
+      } else {
+        navigation.classList.add("is-open");
+        menuButton.setAttribute("aria-expanded", "true");
+        menuButton.setAttribute("aria-label", "Tutup menu");
+      }
+    });
+    navigation.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
     });
   }
 </script>
