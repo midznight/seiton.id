@@ -21,6 +21,8 @@ for (const slug of requiredServices) check(slugs.includes(slug), "Layanan hilang
 check(site.navigation.some((item) => item.href === "/kontak/"), "Navigasi Kontak belum tersedia.");
 check(site.navigation.some((item) => item.href === "/cerita/"), "Navigasi Cerita belum tersedia.");
 check(!site.navigation.some((item) => item.href === "/pendiri/"), "Navigasi Pendiri pribadi tidak boleh berada pada website company.");
+check(!site.navigation.some((item) => item.href === "/tentang/"), "Informasi perusahaan sudah digabung ke halaman Cerita.");
+check(site.navigation.length === 6, "Navigasi utama harus tetap ringkas dengan enam item.");
 check(site.contacts.some((item) => item.label === "WhatsApp" && item.url === "https://wa.me/6285117557133"), "Kontak WhatsApp resmi tidak sesuai.");
 check(site.contacts.some((item) => item.label === "Email" && item.url === "mailto:seiton.id@gmail.com"), "Kontak email resmi tidak sesuai.");
 check(site.contacts.some((item) => item.label === "Instagram" && item.url === "https://www.instagram.com/seiton.id"), "Kontak Instagram resmi tidak sesuai.");
@@ -39,7 +41,7 @@ const sitemap = read("public/sitemap.xml");
 for (const slug of requiredServices) {
   check(sitemap.includes("https://seiton.biz.id/layanan/" + slug + "/"), "Sitemap belum mencantumkan layanan " + slug + ".");
 }
-for (const route of ["/", "/layanan/", "/harga/", "/contoh/", "/cerita/", "/tentang/", "/kontak/", "/ketentuan/", "/privasi/"]) {
+for (const route of ["/", "/layanan/", "/harga/", "/contoh/", "/cerita/", "/kontak/", "/ketentuan/", "/privasi/"]) {
   check(sitemap.includes("<loc>https://seiton.biz.id" + route + "</loc>"), "Sitemap belum mencantumkan " + route);
 }
 
@@ -50,6 +52,8 @@ check(terms.includes("uang muka yang telah dibayarkan dianggap hangus dan tidak 
 check(privacy.includes("BERLAKU MULAI 4 NOVEMBER 2026"), "Tanggal Kebijakan Privasi berubah.");
 check(privacy.includes("Informasi konsultasi dan komunikasi disimpan paling lama 24 bulan"), "Aturan retensi pada Kebijakan Privasi tidak ditemukan.");
 check(fs.existsSync("public/logo-horizontal.png"), "Logo halaman legal belum tersedia di folder publik.");
+check(fs.existsSync("public/assets/logo-horizontal-transparan.png"), "Logo horizontal resmi Seiton belum tersedia di folder publik.");
+check(read("public/_redirects").includes("/tentang/ /cerita/ 301"), "URL Tentang lama belum diarahkan ke halaman Cerita.");
 
 const pricing = read("src/pages/harga/index.astro");
 check(pricing.includes("https://admin.seiton.biz.id/api/pricing"), "Sumber harga lama harus tetap digunakan.");
