@@ -17,15 +17,30 @@ import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
   const addonsNode=document.querySelector("#price-addons");
   const rupiah=new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0});
   function node(tag,value,className){const el=document.createElement(tag);el.textContent=String(value??"");if(className)el.className=className;return el;}
-  function cardFor(item){
+  function cardFor(item, packageParts, packagePartsReady){
     const card=node("article","","card price-card");card.id=item.id||"";
     card.append(node("p",item.unggulan?"Paket gabungan":"Layanan Seiton","card-kicker"));
     card.append(node("h3",item.nama));
-    card.append(node("p",item.deskripsi||""));
-    if(item.tersedia===false){card.append(node("p","Belum tersedia sementara","price-unavailable"));return card;}
+    if(item.tersedia===false){card.append(node("p","Belum tersedia sementara","price-unavailable"));card.append(node("p",item.deskripsi||""));return card;}
     const amount=Number(item.harga);if(!Number.isFinite(amount)||amount<0)return null;
+    let description=item.deskripsi||"";
+    let features=Array.isArray(item.fitur)?item.fitur:[];
+    if(item.id==="paket-website-telegram"){
+      if(packagePartsReady){
+        const unitTotal=packageParts.reduce((total,product)=>total+Number(product.harga),0);
+        const difference=Math.abs(amount-unitTotal);
+        description=difference===0
+          ?"Harga paket sama dengan total harga ketiga layanan satuan. Domain tidak termasuk."
+          :"Harga paket "+(amount>unitTotal?"lebih tinggi ":"lebih rendah ")+rupiah.format(difference)+" dibanding total harga satuan. Perbandingan dihitung otomatis dari harga layanan terkini; domain tidak termasuk.";
+        features=packageParts.map((product)=>product.nama+" — "+rupiah.format(Number(product.harga)));
+      }else{
+        description="Paket menggabungkan tiga layanan. Rincian perbandingan harga satuan belum dapat dimuat; silakan konfirmasi melalui WhatsApp.";
+        features=[];
+      }
+    }
+    card.append(node("p",description));
     card.append(node("strong",rupiah.format(amount),"price-amount"));
-    const list=document.createElement("ul");(Array.isArray(item.fitur)?item.fitur:[]).forEach((feature)=>list.append(node("li",feature)));
+    const list=document.createElement("ul");features.forEach((feature)=>list.append(node("li",feature)));
     card.append(list);
     const link=node("a","Tanya layanan","button button-primary");link.href="https://wa.me/6285117557133?text="+encodeURIComponent(item.pesan||"Halo Seiton.id, saya ingin bertanya tentang layanan.");link.target="_blank";link.rel="noopener noreferrer";card.append(link);return card;
   }
@@ -35,7 +50,10 @@ import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
       if(!response.ok)throw new Error("Sumber harga tidak dapat diakses.");
       const data=await response.json();
       if(!Array.isArray(data.produk)||!Array.isArray(data.tambahan))throw new Error("Format data harga tidak sesuai.");
-      data.produk.forEach((item)=>{const card=cardFor(item);if(card)grid.append(card);});
+      const productById=new Map(data.produk.map((product)=>[product.id,product]));
+      const packageParts=["katalog","profile","telegram"].map((id)=>productById.get(id));
+      const packagePartsReady=packageParts.every((product)=>product&&Number.isFinite(Number(product.harga))&&Number(product.harga)>=0);
+      data.produk.forEach((item)=>{const card=cardFor(item,packageParts,packagePartsReady);if(card)grid.append(card);});
       data.tambahan.forEach((item)=>{const card=node("article","","price-addon");card.append(node("h3",item.nama));const amount=Number(item.harga);if(Number.isFinite(amount)&&amount>=0)card.append(node("strong",rupiah.format(amount)));card.append(node("p",[item.satuan,item.catatan].filter(Boolean).join(". ")));addonsNode.append(card);});
       statusNode.hidden=true;
     }catch(error){console.warn("Harga tidak dimuat; angka cadangan tidak ditampilkan.",error);statusNode.textContent="Sumber data harga sedang tidak dapat diakses. Silakan hubungi Seiton.id untuk mendapatkan rincian harga terbaru.";}
