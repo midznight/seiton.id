@@ -57,3 +57,15 @@ Bot Pesanan Telegram merupakan layanan terpisah dari Sistem Bot UMKM. Kanal, met
 ## Pemeriksaan
 
 GitHub Actions pada branch `rebuild` memvalidasi struktur sumber, layanan, kontak, dataset, sitemap, teks legal, sumber harga, dan keluaran statis kedua website.
+
+
+## Preview Cloudflare Pages
+
+Dua project preview terpisah disiapkan dengan Git integration dari repository yang sama. Keduanya hanya menerima branch `rebuild` untuk deployment preview dan menonaktifkan deployment production; tidak ada custom domain produksi yang dipasang.
+
+| Project preview | Build command | Output | Branch preview |
+|---|---|---|---|
+| `seiton-main-preview` | `npm run build:site` | `dist` | `rebuild` |
+| `seiton-demo-preview` | `npm run build:demo` | `dist-demo` | `rebuild` |
+
+Project Pages produksi yang telah ada (`seiton-biz-id`) tidak diubah. Domain `seiton.biz.id` dan `demo.seiton.biz.id` belum dipindahkan atau ditautkan ke project preview.
