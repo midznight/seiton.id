@@ -1,90 +1,71 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 
 const errors = [];
-const read = path => readFileSync(join(process.cwd(), path), "utf8");
-const sitemap = read("sitemap.xml");
-const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
+const read = (file) => fs.readFileSync(path.resolve(file), "utf8");
+const json = (file) => JSON.parse(read(file));
+const check = (condition, message) => { if (!condition) errors.push(message); };
 
-if (urls.length !== 14) errors.push("Expected 14 public URLs in sitemap.xml; found " + urls.length);
+const site = json("src/data/site.json");
+const services = json("src/data/services.json");
+const dataset = json("src/data/demo-dataset.json");
+const slugs = services.map((service) => service.slug);
+const requiredServices = [
+  "paket-etalase", "katalog-produk", "menu-qr", "profil-google",
+  "website-katalog", "website-profile", "paket-template", "bot-telegram",
+  "sistem-bot-umkm", "paket-combo"
+];
 
-const pages = urls.map(url => {
-  const pathname = new URL(url).pathname;
-  const file = pathname === "/" ? "index.html" : pathname.replace(/^\/+|\/+$/g, "") + "/index.html";
-  try {
-    return { file, html: read(file) };
-  } catch {
-    errors.push("Sitemap page has no matching file: " + file);
-    return null;
-  }
-}).filter(Boolean);
+check(new Set(slugs).size === slugs.length, "Slug layanan harus unik.");
+for (const slug of requiredServices) check(slugs.includes(slug), "Layanan hilang: " + slug);
+check(site.navigation.some((item) => item.href === "/kontak/"), "Navigasi Kontak belum tersedia.");
+check(site.navigation.some((item) => item.href === "/pendiri/"), "Navigasi Pendiri belum tersedia.");
+check(site.contacts.some((item) => item.label === "WhatsApp" && item.url === "https://wa.me/6285117557133"), "Kontak WhatsApp resmi tidak sesuai.");
+check(site.contacts.some((item) => item.label === "Email" && item.url === "mailto:seiton.id@gmail.com"), "Kontak email resmi tidak sesuai.");
+check(site.contacts.some((item) => item.label === "Instagram" && item.url === "https://www.instagram.com/seiton.id"), "Kontak Instagram resmi tidak sesuai.");
 
-for (const page of pages) {
-  if (!/<meta\b[^>]*name=["']theme-color["'][^>]*content=["']#F5F5F4["']/.test(page.html)) {
-    errors.push(page.file + ": theme-color must match the page background");
-  }
-  if (!/<main\b/.test(page.html)) errors.push(page.file + ": main landmark is missing");
-  if (!/<a\b[^>]*href=["']#main["']/.test(page.html)) errors.push(page.file + ": skip link is missing");
+check(dataset.period.fictional === true, "Dataset demo harus ditandai fiktif.");
+check(dataset.products.length === 15, "Dataset demo harus memiliki 15 produk.");
+check(dataset.summary.orders === 263 && dataset.summary.units === 354 && dataset.summary.grossRevenue === 4668000, "Ringkasan dataset demo berubah dari data yang disetujui.");
+
+const botService = services.find((item) => item.slug === "sistem-bot-umkm");
+const comboService = services.find((item) => item.slug === "paket-combo");
+check(botService?.features.some((feature) => feature.toLowerCase().includes("menambah, mengubah, dan menghapus produk")), "Ruang lingkup panel admin Sistem Bot UMKM belum disebutkan.");
+check(comboService?.features.some((feature) => feature.toLowerCase().includes("website profil")), "Paket Combo belum mencakup website profil.");
+
+const sitemap = read("public/sitemap.xml");
+for (const slug of requiredServices) {
+  check(sitemap.includes("https://seiton.biz.id/layanan/" + slug + "/"), "Sitemap belum mencantumkan layanan " + slug + ".");
 }
-
-const home = read("index.html");
-const services = read("layanan/index.html");
-const prices = read("harga/index.html");
-const catalogue = read("layanan/website-katalog/index.html");
-const about = read("tentang/index.html");
-const portfolio = read("portofolio/index.html");
-const terms = read("ketentuan/index.html");
-const pricingSeed = read("workers/site-admin/migrations/0001_initial.sql");
-
-for (const [label, source, href, name] of [
-  ["homepage", home, "/harga/#profile", "Website Profile Usaha"],
-  ["homepage", home, "/harga/#telegram", "Bot Pesanan Telegram"],
-  ["homepage", home, "/harga/#paket-website-telegram", "Paket Website &amp; Telegram"],
-  ["service index", services, "/harga/#profile", "Website Profile Usaha"],
-  ["service index", services, "/harga/#telegram", "Bot Pesanan Telegram"],
-  ["service index", services, "/harga/#paket-website-telegram", "Paket Website &amp; Telegram"]
-]) {
-  if (!source.includes('href="' + href + '"') || !source.includes(name)) {
-    errors.push(label + ": missing catalogue entry " + name);
-  }
+for (const route of ["/", "/layanan/", "/harga/", "/contoh/", "/pendiri/", "/tentang/", "/kontak/", "/ketentuan/", "/privasi/"]) {
+  check(sitemap.includes("<loc>https://seiton.biz.id" + route + "</loc>"), "Sitemap belum mencantumkan " + route);
 }
 
-if (!/id="' \+ cardId \+ '"/.test(prices) ||
-    !prices.includes("const unitTotal = packageParts.reduce") ||
-    !prices.includes("Harga paket")) {
-  errors.push("harga/index.html: dynamic product anchors or package comparison are missing");
-}
-if (prices.includes("Rp299.000") || prices.includes("DEFAULT_HARGA_SEITON")) {
-  errors.push("harga/index.html: outdated hard-coded price fallback remains");
-}
-if (!catalogue.includes("Panel admin untuk menambah, mengubah, atau menghapus produk dan harga tidak termasuk")) {
-  errors.push("Website Katalog page: admin CRUD exclusion is not explicit");
-}
-if (!about.includes("berbasis di Jember, Jawa Timur") ||
-    !about.includes("Bot Pesanan WhatsApp belum tersedia")) {
-  errors.push("About page: operating context or WhatsApp availability note is missing");
-}
-if (!portfolio.includes('id="telegram-order-bot"') ||
-    !portfolio.includes("Demo publik belum ditampilkan")) {
-  errors.push("Portfolio page: Telegram workflow illustration or honest demo disclaimer is missing");
-}
-if (!terms.includes("Pembatalan oleh pembeli dan uang muka") ||
-    !terms.includes("uang muka yang telah dibayarkan dianggap hangus dan tidak dapat diminta kembali atau dikembalikan")) {
-  errors.push("Terms page: buyer DP forfeiture rule is missing");
-}
-if (!read("harga/index.html").includes("uang DP hangus dan tidak dikembalikan")) {
-  errors.push("Pricing page: buyer DP forfeiture notice is missing");
-}
-if (!pricingSeed.includes("'Paket Website & Telegram',1107000") ||
-    !pricingSeed.includes("'Website Katalog UMKM',259000") ||
-    pricingSeed.includes("1147000") || pricingSeed.includes("299000") || pricingSeed.includes("Rp299.000")) {
-  errors.push("D1 seed migration: package or catalogue prices are stale");
-}
+const terms = read("public/ketentuan/index.html");
+const privacy = read("public/privasi/index.html");
+check(terms.includes("BERLAKU MULAI 5 NOVEMBER 2026"), "Tanggal Ketentuan Layanan berubah.");
+check(terms.includes("uang muka yang telah dibayarkan dianggap hangus dan tidak dapat diminta kembali atau dikembalikan"), "Aturan pembatalan DP pada Ketentuan tidak ditemukan.");
+check(privacy.includes("BERLAKU MULAI 4 NOVEMBER 2026"), "Tanggal Kebijakan Privasi berubah.");
+check(privacy.includes("Informasi konsultasi dan komunikasi disimpan paling lama 24 bulan"), "Aturan retensi pada Kebijakan Privasi tidak ditemukan.");
+check(fs.existsSync("public/logo-horizontal.png"), "Logo halaman legal belum tersedia di folder publik.");
+
+const pricing = read("src/pages/harga/index.astro");
+check(pricing.includes("https://admin.seiton.biz.id/api/pricing"), "Sumber harga lama harus tetap digunakan.");
+check(pricing.includes("angka cadangan tidak ditampilkan"), "Halaman harga harus menghindari angka fallback.");
+check(pricing.includes("Sistem Bot UMKM dan Paket Combo"), "Penawaran layanan lanjutan belum ada.");
+
+const detail = read("src/pages/layanan/[slug].astro");
+check(detail.includes('"/bot-umkm/"'), "Halaman Sistem Bot belum memiliki tautan demo sendiri.");
+check(detail.includes('"/paket-combo/"'), "Halaman Paket Combo belum memiliki tautan demo sendiri.");
+check(read("src/demo/pages/bot-umkm/index.astro").includes("noindex={true}"), "Demo bot belum noindex.");
+check(read("src/demo/pages/paket-combo/index.astro").includes("noindex={true}"), "Demo Combo belum noindex.");
+check(read("public/_headers").includes("https://demo.seiton.biz.id/*"), "Header noindex untuk domain demo belum tersedia.");
+check(read("src/layouts/Base.astro").includes('noindex ? "noindex, nofollow"'), "Layout belum merender metadata noindex.");
 
 if (errors.length) {
-  console.error("Site integrity check failed:");
+  console.error("Source integrity check failed:");
   for (const error of errors) console.error(" - " + error);
-  process.exitCode = 1;
-} else {
-  console.log("Site integrity check passed for " + pages.length + " sitemap pages and service/pricing consistency.");
+  process.exit(1);
 }
+
+console.log("Source integrity check passed: services, contacts, dataset, sitemap, legal text, pricing source, and demo indexing.");

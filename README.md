@@ -1,36 +1,59 @@
-# Seiton.id
+# Seiton.id — Website dan Pusat Demonstrasi
 
-Situs profil statis untuk layanan penataan informasi digital usaha lokal.
+Repositori ini menyiapkan dua keluaran website statis dengan Astro:
 
-## Struktur
-- `index.html`: beranda
-- `layanan/`: daftar layanan dan enam halaman detail
-- `portofolio/`: ilustrasi konsep, bukan proyek klien
-- `tentang/`, `kontak/`, `ketentuan/`, `privasi/`: informasi pendukung
-- `site.css`: satu-satunya stylesheet
-- `site.js`: satu-satunya JavaScript untuk menu dan tautan WhatsApp
-- `sitemap.xml`, `robots.txt`: indeks mesin pencari
-- `og-seiton.svg`: gambar Open Graph 1200 × 630
-- `favicon.svg`, `favicon-32.png`, `favicon-180.png`, `favicon-192.png`: ikon situs
+- **Website utama**: profil Seiton.id, layanan, harga, contoh produk, pendiri, kontak, ketentuan, dan privasi.
+- **Pusat demonstrasi**: katalog WhatsApp, menu QR, panduan persiapan Google Business Profile, website usaha fiktif, simulasi Sistem Bot UMKM, dan Paket Combo.
 
 ## Teknologi
-HTML, CSS, dan JavaScript biasa. Tidak ada framework, database, proses build, atau backend. Poppins dimuat satu kali per halaman melalui Google Fonts.
 
-## Pengaturan WhatsApp
-Nomor WhatsApp hanya ditetapkan sekali sebagai konstanta `WHATSAPP_NUMBER` di `site.js`. Semua tautan konsultasi menggunakan kelas `.wa` dan atribut `data-message`.
+- Astro dengan output statis.
+- HTML, CSS, dan JavaScript ringan.
+- Tidak ada database atau backend untuk website utama maupun demonstrasi.
+- Tidak menggunakan framework UI tambahan.
+- Dataset demonstrasi berada di `src/data/demo-dataset.json` dan bersifat fiktif.
+- Kontak dan navigasi berada di `src/data/site.json`.
+- Data layanan berada di `src/data/services.json`.
 
-## Konten yang perlu dikonfirmasi pendiri
-- Jam layanan.
-- Ketentuan uang muka 50%, dua kali revisi, waktu mulai dihitung setelah materi lengkap, akun atas nama klien, dan izin tertulis foto/data.
-- Harga final per layanan.
-- Detail contoh tetap fiktif sampai ada materi proyek nyata dengan izin publikasi.
+## Perintah build
 
-## Hosting
-Struktur ini ditujukan untuk hosting statis. Proyek sebelumnya memakai Cloudflare Pages [TERBUKTI dari konfigurasi proyek]. Batas unggah, batas jumlah berkas, dan batas ukuran aset paket akun yang digunakan belum diperiksa pada sesi ini [PERLU DIVERIFIKASI]. Tidak ada fungsi server atau proses build yang diperlukan.
+Build dilakukan oleh GitHub Actions atau Cloudflare Pages pada mesin remote. Pengguna tidak perlu memasang Node.js atau menjalankan build di perangkat lokal.
 
-## Pemeriksaan sebelum unggah
-1. Pastikan seluruh halaman memakai `/site.css` dan `/site.js`.
-2. Pastikan nomor WhatsApp benar pada satu konstanta di `site.js`.
-3. Konfirmasi isi halaman Ketentuan dan jam layanan.
-4. Uji tautan, tampilan 360 px, navigasi keyboard, dan tombol WhatsApp.
-5. Pastikan sitemap dan metadata Open Graph terbaca setelah deploy.
+```bash
+npm install
+npm run build:site
+npm run build:demo
+npm run check
+npm run check:build
+```
+
+Hasil build:
+- `npm run build:site` menghasilkan `dist/`.
+- `npm run build:demo` menghasilkan `dist-demo/`.
+
+## Target Cloudflare Pages
+
+| Project | Branch preview | Build command | Output |
+|---|---|---|---|
+| Website utama | `rebuild` | `npm run build:site` | `dist` |
+| Pusat demonstrasi | `rebuild` | `npm run build:demo` | `dist-demo` |
+
+Domain target: `seiton.biz.id` dan `demo.seiton.biz.id`. Hubungan project Pages, custom domain, dan deployment aktual harus diperiksa melalui dashboard Cloudflare sebelum publikasi. Jangan mengubah production branch `main` sebelum hasil preview diperiksa dan disetujui.
+
+## Harga dan layanan
+
+Harga layanan lama tetap dimuat dari API harga resmi `https://admin.seiton.biz.id/api/pricing`. Halaman tidak menampilkan angka cadangan saat API gagal. Harga Sistem Bot UMKM dan Paket Combo tidak direka; calon pelanggan diarahkan meminta penawaran tertulis.
+
+Bot Pesanan Telegram merupakan layanan terpisah dari Sistem Bot UMKM. Kanal, metode pembayaran, autentikasi panel, dan kebutuhan legal pihak ketiga ditetapkan setelah pemeriksaan kesiapan dan kesepakatan ruang lingkup.
+
+## Privasi, legal, dan demonstrasi
+
+- Halaman Ketentuan dan Privasi statis berada di `public/ketentuan/` dan `public/privasi/`; isi legal disalin dari sumber lama dan dipertahankan.
+- Demonstrasi menggunakan usaha dan data fiktif. Tidak ada pesan atau transaksi nyata.
+- Seluruh halaman di subdomain demo harus memakai metadata noindex.
+- Contoh internal Seiton.id tidak boleh disebut sebagai proyek klien.
+- Folder `workers/` merupakan proyek terpisah dan tidak termasuk build Astro.
+
+## Pemeriksaan
+
+GitHub Actions pada branch `rebuild` memvalidasi struktur sumber, layanan, kontak, dataset, sitemap, teks legal, sumber harga, dan keluaran statis kedua website.

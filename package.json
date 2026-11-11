@@ -5,9 +5,13 @@
   "scripts": {
     "build:site": "astro build",
     "build:demo": "SITE_TARGET=demo astro build",
-    "check": "astro check"
+    "check": "node scripts/check-site-integrity.mjs",
+    "check:build": "npm run build:site && npm run build:demo && node scripts/check-site-build.mjs"
   },
   "dependencies": {
     "astro": "7.4.8"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }
