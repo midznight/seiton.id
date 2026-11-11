@@ -6,28 +6,230 @@ import services from "../data/services.json";
 const featured = services.filter((service) => service.featured);
 ---
 <Base title="Seiton.id — Tata Usahamu, Mudahkan Pelanggan" description="Seiton.id membantu UMKM di seluruh Indonesia menata informasi usaha melalui katalog, website, menu digital, dan sistem pemesanan.">
-  <section class="hero"><div class="container hero-grid">
-    <div><p class="eyebrow">DIGITALISASI UMKM · INDONESIA</p><h1>Tata usahamu, mudahkan pelanggan.</h1>
-      <p class="lead">Mulai dari katalog dan website hingga alur pemesanan yang lebih terstruktur. Seiton.id membantu usaha menampilkan informasi yang jelas dan memudahkan pelanggan mengambil langkah berikutnya.</p>
-      <div class="actions"><WhatsAppCTA message="Halo Seiton.id, saya ingin konsultasi kebutuhan digitalisasi usaha."/><a class="button button-secondary" href="/layanan/">Jelajahi layanan</a></div>
-      <p class="home-microcopy">Layanan tersedia secara online di seluruh Indonesia.</p>
+  <section class="hero home-hero">
+    <div class="hero-orbit hero-orbit-one" aria-hidden="true"></div>
+    <div class="hero-orbit hero-orbit-two" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">SOLUSI DIGITAL UNTUK UMKM INDONESIA</p>
+        <h1>Usaha bertumbuh. Cara kerjanya ikut berkembang.</h1>
+        <p class="lead">Kami membantu usaha menata informasi, memperluas jangkauan, dan membangun alur digital yang terasa mudah bagi pemilik maupun pelanggan.</p>
+        <div class="actions">
+          <WhatsAppCTA message="Halo Seiton.id, saya ingin konsultasi kebutuhan digital untuk usaha saya."/>
+          <a class="button button-secondary" href="/layanan/">Jelajahi layanan <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="hero-signals">
+          <span><i aria-hidden="true"></i> Sesuai kebutuhan usaha</span>
+          <span><i aria-hidden="true"></i> Dikerjakan secara online</span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="showcase-float showcase-float-top"><span class="float-dot"></span> Lebih mudah ditemukan</div>
+        <div class="showcase-shell" data-showcase>
+          <div class="showcase-topbar">
+            <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span>Gambaran solusi digital</span>
+            <span class="showcase-live"><i></i> INTERAKTIF</span>
+          </div>
+          <div class="showcase-tabs" role="tablist" aria-label="Pilih contoh solusi">
+            <button type="button" role="tab" id="showcase-tab-katalog" aria-controls="showcase-panel-katalog" aria-selected="true" data-showcase-tab="katalog">Katalog</button>
+            <button type="button" role="tab" id="showcase-tab-menu" aria-controls="showcase-panel-menu" aria-selected="false" data-showcase-tab="menu" tabindex="-1">Menu QR</button>
+            <button type="button" role="tab" id="showcase-tab-pesanan" aria-controls="showcase-panel-pesanan" aria-selected="false" data-showcase-tab="pesanan" tabindex="-1">Pesanan</button>
+          </div>
+
+          <div class="showcase-screen">
+            <div class="showcase-panel" id="showcase-panel-katalog" role="tabpanel" aria-labelledby="showcase-tab-katalog" data-showcase-panel="katalog">
+              <div class="mock-browser-heading"><div><span class="mock-eyebrow">ETALASE DIGITAL</span><strong>Temukan yang kamu cari</strong><small>Informasi usaha dalam satu tempat.</small></div><span class="mock-round-icon" aria-hidden="true">↗</span></div>
+              <div class="mock-search"><span aria-hidden="true">⌕</span> Cari produk atau layanan <kbd>⌕</kbd></div>
+              <div class="mock-product-row">
+                <div class="mock-product-card"><span class="mock-art art-orange"></span><span class="mock-line long"></span><span class="mock-line short"></span></div>
+                <div class="mock-product-card"><span class="mock-art art-sage"></span><span class="mock-line long"></span><span class="mock-line short"></span></div>
+                <div class="mock-product-card"><span class="mock-art art-blue"></span><span class="mock-line long"></span><span class="mock-line short"></span></div>
+              </div>
+              <div class="mock-browser-foot"><span>Profil usaha</span><span>Produk</span><span>Hubungi kami</span></div>
+            </div>
+
+            <div class="showcase-panel" id="showcase-panel-menu" role="tabpanel" aria-labelledby="showcase-tab-menu" data-showcase-panel="menu" hidden>
+              <div class="mock-menu-heading"><span class="mock-eyebrow">MENU DIGITAL</span><strong>Pilih dengan lebih nyaman</strong><small>Tampilan menu yang mudah dibuka dari ponsel.</small></div>
+              <div class="mock-menu-categories"><span class="active">Semua</span><span>Makanan</span><span>Minuman</span></div>
+              <div class="mock-menu-item"><span class="menu-thumb menu-thumb-one"></span><span><strong>Menu pilihan</strong><small>Deskripsi singkat produk</small></span><b>•••</b></div>
+              <div class="mock-menu-item"><span class="menu-thumb menu-thumb-two"></span><span><strong>Favorit pelanggan</strong><small>Informasi produk yang jelas</small></span><b>•••</b></div>
+              <div class="mock-menu-foot"><span>Dipindai melalui QR</span><span class="mock-qr">▦</span></div>
+            </div>
+
+            <div class="showcase-panel" id="showcase-panel-pesanan" role="tabpanel" aria-labelledby="showcase-tab-pesanan" data-showcase-panel="pesanan" hidden>
+              <div class="mock-chat-heading"><span class="mock-chat-avatar">S</span><span><strong>Alur pemesanan</strong><small>Contoh percakapan otomatis</small></span><span class="mock-chat-status">● Aktif</span></div>
+              <div class="mock-chat-body">
+                <div class="chat-bubble chat-customer">Halo, saya ingin melihat pilihan produk.</div>
+                <div class="chat-bubble chat-business">Tentu. Silakan pilih katalog untuk melihat daftar produk.</div>
+                <div class="chat-choice-row"><span>📋 Lihat katalog</span><span>🛍️ Buat pesanan</span></div>
+                <div class="chat-bubble chat-customer chat-small">Saya ingin membuat pesanan.</div>
+              </div>
+              <div class="mock-chat-input"><span>Tulis pesan...</span><b>➤</b></div>
+            </div>
+          </div>
+          <p class="showcase-caption">Ilustrasi antarmuka. Bentuk akhir disesuaikan dengan kebutuhan usaha.</p>
+        </div>
+        <div class="showcase-float showcase-float-bottom"><span class="float-check">✓</span> Teknologi yang terasa sederhana</div>
+      </div>
     </div>
-    <aside class="hero-card"><p class="card-kicker">MULAI DARI KEBUTUHAN USAHA</p><strong>Informasi lebih tertata. Alur pelanggan lebih jelas.</strong>
-      <ul><li>Produk dan menu ditampilkan lebih rapi.</li><li>Profil usaha mudah dibagikan melalui tautan.</li><li>Pesanan dapat diarahkan ke alur yang sesuai kebutuhan.</li></ul><a href="/contoh/">Lihat contoh demonstrasi →</a>
-    </aside>
-  </div></section>
-  <section class="section section-white"><div class="container">
-    <div class="section-heading"><div><p class="eyebrow">SOLUSI SEITON.ID</p><h2>Mulai dari fondasi digital yang dibutuhkan.</h2></div><p>Tidak semua usaha membutuhkan sistem yang sama. Pilih layanan berdasarkan cara pelanggan mengenal, memilih, dan memesan produk.</p></div>
-    <div class="card-grid">{featured.map((service)=><ServiceCard service={service}/>)}</div>
-  </div></section>
-  <section class="section"><div class="container split">
-    <div><p class="eyebrow">CARA KERJA</p><h2>Jelas sejak pembicaraan pertama.</h2></div>
-    <div class="process-list">
-      <article><span>01</span><div><h3>Konsultasi kebutuhan</h3><p>Ceritakan jenis usaha, produk, dan kendala yang ingin diselesaikan.</p></div></article>
-      <article><span>02</span><div><h3>Penawaran dan ruang lingkup</h3><p>Hasil pekerjaan, biaya, jadwal, bahan, serta akses dirinci sebelum pekerjaan dimulai.</p></div></article>
-      <article><span>03</span><div><h3>Pengerjaan dan pemeriksaan</h3><p>Konten dan fungsi diperiksa bersama sebelum hasil dipublikasikan.</p></div></article>
-      <article><span>04</span><div><h3>Serah terima</h3><p>Akun dan akses tetap berada dalam kendali pemilik usaha sesuai kesepakatan.</p></div></article>
+  </section>
+
+  <section class="intro-ribbon">
+    <div class="container intro-ribbon-inner">
+      <span class="ribbon-kicker">DARI SEITON</span>
+      <p>Bukan sekadar hadir di dunia digital. <strong>Bangun pengalaman pelanggan yang lebih jelas.</strong></p>
+      <a href="/cerita/">Kenali cerita kami <span aria-hidden="true">→</span></a>
     </div>
-  </div></section>
-  <section class="section section-white"><div class="container band"><p class="eyebrow">LANGKAH BERIKUTNYA</p><h2>Mulai dengan kebutuhan yang paling penting.</h2><p>Konsultasi awal digunakan untuk memahami kebutuhan dan menilai ruang lingkup. Tidak ada pekerjaan dimulai sebelum biaya dan hasil yang disepakati jelas.</p><div class="actions"><WhatsAppCTA message="Halo Seiton.id, saya ingin memulai konsultasi kebutuhan usaha."/><a class="button button-secondary" href="/harga/">Lihat informasi harga</a></div></div></section>
+  </section>
+
+  <section class="section services-section" id="layanan">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">YANG BISA KAMI BANTU</p><h2>Mulai dari hal yang paling dibutuhkan usaha.</h2></div>
+        <p>Setiap usaha punya tantangan berbeda. Pilih solusi yang menjawab kebutuhan saat ini dan bisa dikembangkan ketika usaha tumbuh.</p>
+      </div>
+      <div class="card-grid service-grid">{featured.map((service)=><ServiceCard service={service}/>)}</div>
+      <div class="section-tail-link"><a href="/layanan/">Lihat seluruh layanan <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+
+  <section class="section need-section">
+    <div class="container need-layout">
+      <div class="need-intro">
+        <p class="eyebrow">MULAI DARI SINI</p>
+        <h2>Bagian mana dari usahamu yang ingin dibuat lebih mudah?</h2>
+        <p>Pilih situasi yang paling dekat dengan kebutuhanmu. Kami akan arahkan ke solusi awal yang bisa didiskusikan.</p>
+        <span class="need-note">Belum yakin? Tidak masalah. Kita bisa mulai dari konsultasi.</span>
+      </div>
+      <div class="need-interactive" data-need-selector>
+        <div class="need-choices" role="group" aria-label="Pilih kebutuhan usaha">
+          <button type="button" class="need-choice is-active" data-need-choice="katalog" aria-pressed="true"><span>01</span><strong>Informasi produk belum tertata</strong><small>Produk dan layanan sulit ditemukan pelanggan.</small><i aria-hidden="true">↗</i></button>
+          <button type="button" class="need-choice" data-need-choice="website" aria-pressed="false"><span>02</span><strong>Usaha belum punya website</strong><small>Ingin punya halaman usaha yang mudah dibagikan.</small><i aria-hidden="true">↗</i></button>
+          <button type="button" class="need-choice" data-need-choice="pesanan" aria-pressed="false"><span>03</span><strong>Pesanan perlu lebih terarah</strong><small>Ingin merapikan proses pemesanan pelanggan.</small><i aria-hidden="true">↗</i></button>
+        </div>
+        <div class="need-result" aria-live="polite">
+          <span class="result-label">ARAH SOLUSI AWAL</span>
+          <span class="result-number" data-need-number>01</span>
+          <h3 data-need-title>Mulai dengan katalog produk.</h3>
+          <p data-need-description>Susun informasi produk dalam katalog digital agar pelanggan bisa melihat pilihan dan detail dengan lebih mudah.</p>
+          <a class="result-link" data-need-link href="/layanan/katalog-produk/">Pelajari layanan katalog <span aria-hidden="true">→</span></a>
+          <a class="result-contact" data-need-contact href="https://wa.me/6285117557133?text=Halo%20Seiton.id%2C%20saya%20ingin%20berdiskusi%20tentang%20katalog%20produk%20untuk%20usaha%20saya." target="_blank" rel="noopener noreferrer">Diskusikan kebutuhan ini ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section process-section">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">PROSES YANG TERBUKA</p><h2>Jelas dari awal, terarah sampai selesai.</h2></div>
+        <p>Kami menjaga agar kebutuhan, biaya, dan hasil pekerjaan dapat dipahami sebelum pengerjaan dimulai.</p>
+      </div>
+      <div class="process-grid">
+        <article><span class="process-number">01</span><div><h3>Kenali kebutuhan</h3><p>Ceritakan jenis usaha, produk, dan bagian yang ingin dibenahi.</p></div><span class="process-arrow" aria-hidden="true">↘</span></article>
+        <article><span class="process-number">02</span><div><h3>Tentukan ruang lingkup</h3><p>Hasil, biaya, jadwal, bahan, serta akses dijelaskan bersama.</p></div><span class="process-arrow" aria-hidden="true">↘</span></article>
+        <article><span class="process-number">03</span><div><h3>Bangun dan periksa</h3><p>Solusi dikerjakan lalu diperiksa bersama sebelum dipublikasikan.</p></div><span class="process-arrow" aria-hidden="true">↘</span></article>
+        <article><span class="process-number">04</span><div><h3>Serah terima</h3><p>Akses dan hasil pekerjaan diserahkan sesuai kesepakatan.</p></div><span class="process-arrow" aria-hidden="true">✓</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section home-story-section">
+    <div class="container home-story-card">
+      <div><p class="eyebrow">MENGENAL SEITON</p><h2>Teknologi seharusnya membuat usaha lebih ringan.</h2><p>Seiton dibangun dari keinginan membantu UMKM beradaptasi dengan cara kerja digital yang lebih tertata, tanpa harus memulai dari sistem yang rumit.</p><a href="/cerita/">Baca cerita dan pendekatan kami <span aria-hidden="true">↗</span></a></div>
+      <div class="story-visual" aria-hidden="true"><span class="story-visual-large">S</span><span class="story-visual-small">Seiton.id</span><span class="story-visual-dot"></span></div>
+    </div>
+  </section>
+
+  <section class="section home-cta-section">
+    <div class="container band home-band">
+      <p class="eyebrow">LANGKAH PERTAMA</p>
+      <h2>Punya kebutuhan digital untuk usahamu?</h2>
+      <p>Ceritakan apa yang sedang kamu hadapi. Kita mulai dengan memahami kebutuhan dan memilih ruang lingkup yang paling masuk akal.</p>
+      <div class="actions"><WhatsAppCTA message="Halo Seiton.id, saya ingin berkonsultasi tentang kebutuhan digital usaha saya."/><a class="button button-light" href="/harga/">Lihat informasi harga</a></div>
+      <span class="band-decoration" aria-hidden="true">S</span>
+    </div>
+  </section>
+
+  <script>
+    const showcase = document.querySelector("[data-showcase]");
+    if (showcase) {
+      const tabs = Array.from(showcase.querySelectorAll("[data-showcase-tab]"));
+      const panels = Array.from(showcase.querySelectorAll("[data-showcase-panel]"));
+      const activateTab = (name, moveFocus = false) => {
+        tabs.forEach((tab) => {
+          const active = tab.dataset.showcaseTab === name;
+          tab.setAttribute("aria-selected", String(active));
+          tab.tabIndex = active ? 0 : -1;
+          if (active && moveFocus) tab.focus();
+        });
+        panels.forEach((panel) => { panel.hidden = panel.dataset.showcasePanel !== name; });
+      };
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => activateTab(tab.dataset.showcaseTab));
+        tab.addEventListener("keydown", (event) => {
+          if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+          event.preventDefault();
+          const direction = event.key === "ArrowRight" ? 1 : -1;
+          const next = (index + direction + tabs.length) % tabs.length;
+          activateTab(tabs[next].dataset.showcaseTab, true);
+        });
+      });
+    }
+
+    const needSelector = document.querySelector("[data-need-selector]");
+    if (needSelector) {
+      const recommendations = {
+        katalog: {
+          number: "01",
+          title: "Mulai dengan katalog produk.",
+          description: "Susun informasi produk dalam katalog digital agar pelanggan bisa melihat pilihan dan detail dengan lebih mudah.",
+          link: "/layanan/katalog-produk/",
+          linkLabel: "Pelajari layanan katalog",
+          message: "Halo Seiton.id, saya ingin berdiskusi tentang katalog produk untuk usaha saya."
+        },
+        website: {
+          number: "02",
+          title: "Bangun website untuk usaha.",
+          description: "Satukan profil, layanan, informasi, dan kontak usaha dalam website yang bisa dibagikan kepada calon pelanggan.",
+          link: "/layanan/website-katalog/",
+          linkLabel: "Pelajari website katalog",
+          message: "Halo Seiton.id, saya ingin berdiskusi tentang pembuatan website untuk usaha saya."
+        },
+        pesanan: {
+          number: "03",
+          title: "Rapikan alur pemesanan.",
+          description: "Diskusikan sistem pemesanan yang sesuai dengan alur usaha, mulai dari penerimaan pesanan hingga proses tindak lanjut.",
+          link: "/layanan/bot-telegram/",
+          linkLabel: "Pelajari sistem pemesanan",
+          message: "Halo Seiton.id, saya ingin berdiskusi tentang sistem pemesanan untuk usaha saya."
+        }
+      };
+      const choices = Array.from(needSelector.querySelectorAll("[data-need-choice]"));
+      const number = needSelector.querySelector("[data-need-number]");
+      const title = needSelector.querySelector("[data-need-title]");
+      const description = needSelector.querySelector("[data-need-description]");
+      const link = needSelector.querySelector("[data-need-link]");
+      const contact = needSelector.querySelector("[data-need-contact]");
+      choices.forEach((choice) => {
+        choice.addEventListener("click", () => {
+          const item = recommendations[choice.dataset.needChoice];
+          if (!item) return;
+          choices.forEach((button) => {
+            const active = button === choice;
+            button.classList.toggle("is-active", active);
+            button.setAttribute("aria-pressed", String(active));
+          });
+          number.textContent = item.number;
+          title.textContent = item.title;
+          description.textContent = item.description;
+          link.href = item.link;
+          link.textContent = item.linkLabel + " →";
+          contact.href = "https://wa.me/6285117557133?text=" + encodeURIComponent(item.message);
+        });
+      });
+    }
+  </script>
 </Base>
