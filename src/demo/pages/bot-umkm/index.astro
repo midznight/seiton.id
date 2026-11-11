@@ -11,7 +11,7 @@ const ranked=[...dataset.products].sort((a,b)=>b.soldDuringPeriod-a.soldDuringPe
 ---
 <Base title="Simulasi Sistem Bot UMKM — Seiton.id" description="Simulasi alur katalog, keranjang, pemesanan, konfirmasi pembayaran, bantuan, dan laporan." noindex={true} demoSite={true}>
   <section class="page-hero"><div class="container"><p class="eyebrow">DEMO PRODUK 05 · SISTEM BOT UMKM</p><h1>Coba alur pemesanan dan pengelolaan pesanan.</h1><p class="lead">Jelajahi simulasi dari sisi pelanggan sampai pemilik usaha: pilih produk, buat pesanan, kirim konfirmasi, dan tinjau laporan penjualan.</p><DemoLabel label="Simulasi dengan data contoh" detail="Tidak terhubung ke Telegram, WhatsApp, database, payment gateway, atau pelanggan sungguhan."/></div></section>
-  <section class="section"><div class="container">
+  <section class="section"><div class="container bot-demo">
     <div class="bot-business-bar"><div class="bot-business-mark">KT</div><div><strong>{dataset.business}</strong><span>Usaha fiktif · {dataset.products.length} SKU · {dataset.period.label}</span></div><span class="pill">MODE DEMO</span></div>
     <div class="bot-tabs" role="tablist" aria-label="Tampilan simulasi"><button type="button" class="is-active" data-view="customer" role="tab" aria-selected="true">Tampilan Pelanggan</button><button type="button" data-view="owner" role="tab" aria-selected="false">Panel Pemilik</button></div>
     <section data-panel="customer" class="bot-panel">
