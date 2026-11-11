@@ -19,7 +19,6 @@
     { "label": "Layanan", "href": "/layanan/" },
     { "label": "Harga", "href": "/harga/" },
     { "label": "Contoh", "href": "/contoh/" },
-    { "label": "Tentang", "href": "/tentang/" },
     { "label": "Cerita", "href": "/cerita/" },
     { "label": "Kontak", "href": "/kontak/" }
   ]
