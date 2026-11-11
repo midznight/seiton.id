@@ -55,6 +55,24 @@ check(fs.existsSync("public/logo-horizontal.png"), "Logo halaman legal belum ter
 check(fs.existsSync("public/assets/logo-horizontal-transparan.png"), "Logo horizontal resmi Seiton belum tersedia di folder publik.");
 check(read("public/_redirects").includes("/tentang/ /cerita/ 301"), "URL Tentang lama belum diarahkan ke halaman Cerita.");
 
+const homePage = read("src/pages/index.astro");
+const servicesPage = read("src/pages/layanan/index.astro");
+const examplesPage = read("src/pages/contoh/index.astro");
+const uiStyles = read("src/styles/site.css");
+const pageStyles = read("src/styles/pages.css");
+check(homePage.includes('class="card-grid service-grid"'), "Grid layanan unggulan beranda belum memakai layout khusus.");
+check(servicesPage.includes("service-directory-grid"), "Daftar layanan belum memakai grid katalog yang seimbang.");
+check(examplesPage.includes("demo-grid") && (examplesPage.match(/<article class="card">/g) || []).length === 6, "Halaman contoh harus menampilkan enam kartu demo dalam grid.");
+check(!examplesPage.includes('href="/tentang/"'), "Tautan internal masih mengarah ke halaman Tentang lama.");
+check(examplesPage.includes('href="/cerita/"'), "Halaman contoh belum mengarah ke Cerita Seiton.");
+check(uiStyles.includes("--font-ui") && uiStyles.includes("--font-heading"), "Sistem font utama belum didefinisikan secara konsisten.");
+check(uiStyles.includes(":focus-visible"), "Indikator fokus keyboard belum tersedia.");
+check(uiStyles.includes("font-size:16px"), "Ukuran teks dasar belum memenuhi ukuran baca yang nyaman.");
+check(uiStyles.includes(".service-grid{grid-template-columns:repeat(4"), "Grid layanan unggulan desktop belum memiliki empat kolom.");
+check(uiStyles.includes(".service-directory-grid{grid-template-columns:repeat(2"), "Grid daftar layanan belum memakai dua kolom.");
+check(pageStyles.includes(".demo-notice{"), "Keterangan demonstrasi belum dipisahkan dari grid demo.");
+
+
 const pricing = read("src/pages/harga/index.astro");
 check(pricing.includes("https://admin.seiton.biz.id/api/pricing"), "Sumber harga lama harus tetap digunakan.");
 check(pricing.includes("angka cadangan") && pricing.includes("tidak menampilkan angka"), "Halaman harga harus menghindari angka fallback.");
