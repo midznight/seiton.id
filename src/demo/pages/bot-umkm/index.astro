@@ -1,0 +1,124 @@
+---
+import Base from "../../../layouts/Base.astro";
+import DemoLabel from "../../../components/DemoLabel.astro";
+import dataset from "../../../data/demo-dataset.json";
+import demoImages from "../../../data/demo-images.json";
+const categories=["Roti","Pastry & Camilan","Minuman","Paket"];
+const groups=categories.map((category)=>({category,id:category.toLowerCase().replace(/[^a-z0-9]+/g,"-"),products:dataset.products.filter((product)=>product.category===category)})).filter((group)=>group.products.length);
+const rupiah=(value)=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(value);
+const ranked=[...dataset.products].sort((a,b)=>b.soldDuringPeriod-a.soldDuringPeriod).slice(0,5);
+---
+<Base title="Simulasi Sistem Bot UMKM — Seiton.id" description="Simulasi alur katalog, keranjang, pemesanan, konfirmasi pembayaran, bantuan, dan laporan." noindex={true} demoSite={true}>
+  <section class="page-hero"><div class="container"><p class="eyebrow">DEMO PRODUK 05 · SISTEM BOT UMKM</p><h1>Coba alur pemesanan dan pengelolaan pesanan.</h1><p class="lead">Jelajahi simulasi dari sisi pelanggan sampai pemilik usaha: pilih produk, buat pesanan, kirim konfirmasi, dan tinjau laporan penjualan.</p><DemoLabel label="Simulasi dengan data contoh" detail="Tidak terhubung ke Telegram, WhatsApp, database, payment gateway, atau pelanggan sungguhan."/></div></section>
+  <section class="section"><div class="container">
+    <div class="bot-business-bar"><div class="bot-business-mark">KT</div><div><strong>{dataset.business}</strong><span>Usaha fiktif · {dataset.products.length} SKU · {dataset.period.label}</span></div><span class="pill">MODE DEMO</span></div>
+    <div class="bot-tabs" role="tablist" aria-label="Tampilan simulasi"><button type="button" class="is-active" data-view="customer" role="tab" aria-selected="true">Tampilan Pelanggan</button><button type="button" data-view="owner" role="tab" aria-selected="false">Panel Pemilik</button></div>
+    <section data-panel="customer" class="bot-panel">
+      <div class="section-heading"><div><p class="eyebrow">SISI PELANGGAN</p><h2>Pilih produk untuk dipesan.</h2></div><span class="pill">{dataset.products.length} produk demo</span></div>
+      <div class="bot-shop-layout">
+        <div class="bot-catalog">
+          <nav class="bot-category-nav" aria-label="Kategori produk">{groups.map((group)=><a href={"#bot-"+group.id}>{group.category}</a>)}</nav>
+          {groups.map((group)=><section class="bot-product-group" id={"bot-"+group.id}><div class="bot-group-title"><h3>{group.category}</h3><span>{group.products.length} item</span></div><div class="bot-product-grid">{group.products.map((product)=>{const image=demoImages[product.sku];return <article class="bot-product-card" data-product={product.sku}><div class="bot-product-image">{image?<img src={image.src} width="640" height="640" alt={image.alt} loading="lazy"/>:<span>Foto produk contoh belum tersedia</span>}</div><div class="bot-product-content"><p class="card-kicker">{product.sku}</p><h4>{product.name}</h4><p>{product.description}</p><div class="bot-product-bottom"><div><strong>{rupiah(product.price)}</strong><small data-stock-label={product.sku}>Stok contoh: {product.stockAfterPeriod}</small></div><button type="button" data-add={product.sku} class="bot-add-button">+ Tambah</button></div></div></article>;})}</div></section>)}
+        </div>
+        <aside class="bot-cart"><p class="eyebrow">KERANJANG DEMO</p><h3>Pesanan kamu</h3><div id="bot-cart-items" aria-live="polite"><p class="muted-note">Keranjang masih kosong.</p></div><div class="bot-total"><span>Total contoh</span><strong id="bot-cart-total">Rp0</strong></div><button id="bot-checkout-open" type="button" class="button button-primary" disabled>Lanjutkan pesanan</button>
+          <form id="bot-checkout-form" hidden><h4>Data pesanan contoh</h4><label for="bot-customer">Nama pelanggan</label><input id="bot-customer" type="text" value="Pelanggan Demo" maxlength="40" required/><fieldset><legend>Metode pembayaran simulasi</legend><label><input type="radio" name="bot-payment" value="QRIS" checked/> QRIS</label><label><input type="radio" name="bot-payment" value="Transfer Bank"/> Transfer bank</label><label><input type="radio" name="bot-payment" value="Tunai"/> Tunai</label></fieldset><div class="bot-action-row"><button id="bot-checkout-cancel" class="button button-secondary" type="button">Kembali</button><button class="button button-primary" type="submit">Buat pesanan demo</button></div></form>
+          <div id="bot-order-result" class="bot-result" hidden><p class="card-kicker">RINGKASAN PESANAN DEMO</p><strong id="bot-order-id"></strong><p id="bot-order-status"></p><strong id="bot-order-total"></strong><div class="bot-action-row"><button type="button" id="bot-send-proof" class="button button-primary">Kirim konfirmasi simulasi</button><button type="button" id="bot-cancel-order" class="button button-secondary">Batalkan</button></div><small>Tidak ada uang atau bukti transfer yang dikirim.</small></div>
+        </aside>
+      </div>
+      <section class="bot-help"><div><p class="eyebrow">BANTUAN PELANGGAN</p><h3>Contoh respons otomatis</h3><p>Pilih topik untuk melihat contoh respons bantuan.</p></div><div class="bot-help-buttons"><button data-help="menu">Lihat menu</button><button data-help="order">Cara memesan</button><button data-help="payment">Pembayaran</button><button data-help="status">Status pesanan</button></div><div id="bot-help-response" role="status" aria-live="polite">Pilih topik bantuan.</div></section>
+    </section>
+    <section data-panel="owner" class="bot-panel" hidden>
+      <p class="eyebrow">SISI PEMILIK</p><h2>Ringkasan operasional demo.</h2><div class="bot-warning"><strong>Panel pemilik simulasi.</strong><span>Tanpa login, database, atau transaksi nyata. Perubahan hanya berlaku selama halaman masih terbuka.</span></div>
+      <div class="bot-group-title"><h3>Pesanan sesi ini</h3><span id="bot-owner-count">0 pesanan</span></div><div id="bot-owner-orders"><p class="muted-note">Belum ada pesanan demo. Buat pesanan dari tampilan pelanggan.</p></div>
+      <section class="bot-report"><p class="eyebrow">LAPORAN PENJUALAN · 30 HARI</p><h3>Rekap dataset contoh</h3><div class="bot-report-kpis"><article><span>Jumlah pesanan</span><strong>{dataset.summary.orders}</strong></article><article><span>Unit terjual</span><strong>{dataset.summary.units}</strong></article><article><span>Omzet kotor contoh</span><strong>{rupiah(dataset.summary.grossRevenue)}</strong></article></div><p class="muted-note">Angka di atas merupakan agregat data contoh. Rekap berikut mengikuti kelompok tanggal yang sudah disetujui, bukan transaksi individual.</p>
+        <div class="bot-report-table"><table><thead><tr><th>Periode</th><th>Pesanan</th><th>Unit</th><th>Omzet</th></tr></thead><tbody>{dataset.weeklySales.map((week)=><tr><th>{week.label}</th><td>{week.orders}</td><td>{week.units}</td><td>{rupiah(week.revenue)}</td></tr>)}</tbody></table></div>
+      </section>
+      <section class="bot-report"><p class="eyebrow">PRODUK</p><h3>Lima produk teratas berdasarkan unit terjual</h3><div class="bot-ranking">{ranked.map((product,index)=><div><span>{index+1}</span><strong>{product.name}</strong><b>{product.soldDuringPeriod} unit</b></div>)}</div></section>
+    </section>
+    <section class="bot-boundary"><p class="eyebrow">BATAS SIMULASI</p><h2>Ini bukan bot yang sedang beroperasi.</h2><p>Keranjang, pesanan, konfirmasi, dan status hanya diproses di memori browser. Laporan memakai dataset contoh 11 Oktober–9 November 2026. Tidak ada pesan, pembayaran, atau data pelanggan yang dikirim ke server.</p></section>
+  </div></section>
+</Base>
+<script>
+  import data from "../../../data/demo-dataset.json";
+  const root=document.querySelector(".bot-demo");
+  if(root){
+    const products=new Map(data.products.map((p)=>[p.sku,p]));
+    const stock=new Map(data.products.map((p)=>[p.sku,p.stockAfterPeriod]));
+    const cart=new Map(),orders=[];let sequence=0,activeOrder=null;
+    const money=(v)=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(v);
+    const esc=(v)=>String(v).replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    const cartNode=root.querySelector("#bot-cart-items"),totalNode=root.querySelector("#bot-cart-total"),checkout=root.querySelector("#bot-checkout-open"),form=root.querySelector("#bot-checkout-form"),result=root.querySelector("#bot-order-result");
+    const qty=()=>[...cart.values()].reduce((s,i)=>s+i.quantity,0);
+    const total=()=>[...cart.values()].reduce((s,i)=>s+i.price*i.quantity,0);
+    function renderCart(){
+      const items=[...cart.values()];totalNode.textContent=money(total());checkout.disabled=!items.length;
+      if(!items.length){cartNode.innerHTML='<p class="muted-note">Keranjang masih kosong.</p>';return;}
+      cartNode.innerHTML=items.map((i)=>'<div class="bot-cart-row"><div><strong>'+esc(i.name)+'</strong><small>'+money(i.price)+' × '+i.quantity+'</small></div><div class="bot-quantity"><button type="button" data-step="-1" data-sku="'+esc(i.sku)+'">−</button><span>'+i.quantity+'</span><button type="button" data-step="1" data-sku="'+esc(i.sku)+'">+</button></div></div>').join("");
+    }
+    function setStock(sku){
+      const label=root.querySelector('[data-stock-label="'+sku+'"]'),button=root.querySelector('[data-add="'+sku+'"]');
+      const remaining=stock.get(sku)||0;if(label)label.textContent="Stok contoh: "+remaining;
+      if(button){button.disabled=remaining<=0;button.textContent=remaining<=0?"Stok demo habis":"+ Tambah";}
+    }
+    root.querySelectorAll("[data-add]").forEach((button)=>button.addEventListener("click",()=>{
+      const p=products.get(button.dataset.add);if(!p)return;
+      const old=cart.get(p.sku)?.quantity||0;if(old>=(stock.get(p.sku)||0))return;
+      cart.set(p.sku,{sku:p.sku,name:p.name,price:p.price,quantity:old+1});renderCart();
+    }));
+    cartNode.addEventListener("click",(event)=>{
+      const button=event.target.closest("[data-step]");if(!button)return;
+      const item=cart.get(button.dataset.sku);if(!item)return;
+      const next=item.quantity+Number(button.dataset.step),max=stock.get(item.sku)||0;
+      if(next<1)cart.delete(item.sku);else if(next<=max)cart.set(item.sku,{...item,quantity:next});renderCart();
+    });
+    checkout.addEventListener("click",()=>{if(!cart.size)return;form.hidden=false;checkout.hidden=true;});
+    root.querySelector("#bot-checkout-cancel").addEventListener("click",()=>{form.hidden=true;checkout.hidden=false;});
+    function refreshOrders(){
+      root.querySelector("#bot-owner-count").textContent=orders.length+" pesanan";
+      const target=root.querySelector("#bot-owner-orders");
+      if(!orders.length){target.innerHTML='<p class="muted-note">Belum ada pesanan demo. Buat pesanan dari tampilan pelanggan.</p>';return;}
+      target.innerHTML=[...orders].reverse().map((o)=>'<article class="bot-order-card"><div class="bot-order-heading"><div><strong>'+esc(o.id)+'</strong><small>'+esc(o.customer)+'</small></div><span>'+esc(o.label)+'</span></div><p>'+o.items.map((i)=>esc(i.name)+' × '+i.quantity).join(", ")+'</p><div class="bot-order-heading"><strong>'+money(o.total)+'</strong><small>'+esc(o.payment)+'</small></div>'+((o.status==="REVIEW"||o.status==="CASH")?'<div class="bot-action-row"><button type="button" class="button button-primary" data-approve="'+o.id+'">Setujui simulasi</button><button type="button" class="button button-secondary" data-reject="'+o.id+'">Tolak simulasi</button></div>':"")+'</article>').join("");
+    }
+    function status(order,state,label){order.status=state;order.label=label;if(activeOrder===order){root.querySelector("#bot-order-status").textContent=label;root.querySelector("#bot-send-proof").hidden=!(state==="WAIT"||state==="REJECTED");root.querySelector("#bot-cancel-order").hidden=!(state==="WAIT"||state==="REVIEW");}refreshOrders();}
+    form.addEventListener("submit",(event)=>{
+      event.preventDefault();if(!cart.size)return;
+      const customer=root.querySelector("#bot-customer").value.trim();if(!customer)return;
+      const payment=root.querySelector('input[name="bot-payment"]:checked')?.value||"QRIS";
+      const items=[...cart.values()].map((i)=>({...i}));
+      if(items.some((i)=>i.quantity>(stock.get(i.sku)||0)))return;
+      items.forEach((i)=>{stock.set(i.sku,stock.get(i.sku)-i.quantity);setStock(i.sku);});
+      sequence+=1;const order={id:"DEMO-"+String(sequence).padStart(4,"0"),customer,payment,items,total:items.reduce((s,i)=>s+i.price*i.quantity,0),status:payment==="Tunai"?"CASH":"WAIT",label:payment==="Tunai"?"Menunggu konfirmasi tunai":"Menunggu pembayaran"};
+      orders.push(order);activeOrder=order;cart.clear();renderCart();form.hidden=true;checkout.hidden=false;result.hidden=false;
+      root.querySelector("#bot-order-id").textContent=order.id;root.querySelector("#bot-order-status").textContent=order.label;root.querySelector("#bot-order-total").textContent=money(order.total);
+      root.querySelector("#bot-send-proof").hidden=payment==="Tunai";root.querySelector("#bot-cancel-order").hidden=false;refreshOrders();
+    });
+    root.querySelector("#bot-send-proof").addEventListener("click",()=>{
+      if(!activeOrder)return;status(activeOrder,"REVIEW","Menunggu pemeriksaan pemilik");
+      root.querySelector("#bot-order-status").textContent=activeOrder.label;
+    });
+    root.querySelector("#bot-cancel-order").addEventListener("click",()=>{
+      if(!activeOrder||!["WAIT","REVIEW"].includes(activeOrder.status))return;
+      activeOrder.items.forEach((i)=>{stock.set(i.sku,(stock.get(i.sku)||0)+i.quantity);setStock(i.sku);});
+      status(activeOrder,"CANCELLED","Dibatalkan dalam simulasi");
+    });
+    root.querySelector("#bot-owner-orders").addEventListener("click",(event)=>{
+      const approve=event.target.closest("[data-approve]"),reject=event.target.closest("[data-reject]");
+      const button=approve||reject;if(!button)return;
+      const order=orders.find((o)=>o.id===button.dataset.approve||o.id===button.dataset.reject);if(!order)return;
+      status(order,approve?"PAID":"REJECTED",approve?"Pembayaran disetujui dalam simulasi":"Konfirmasi ditolak dalam simulasi");
+    });
+    const help={
+      menu:"Kategori produk contoh: Roti, Pastry & Camilan, Minuman, dan Paket. Pilih produk untuk memasukkannya ke keranjang.",
+      order:"Pilih produk, atur jumlah, pilih metode pembayaran simulasi, lalu buat pesanan demo.",
+      payment:"Metode pembayaran hanya contoh. Tidak ada uang yang dibayarkan. Pemilik dapat mencoba menyetujui atau menolak konfirmasi.",
+      status:"Buka Panel Pemilik untuk melihat status pesanan pada sesi yang sama. Status tidak disimpan setelah halaman dimuat ulang."
+    };
+    root.querySelectorAll("[data-help]").forEach((button)=>button.addEventListener("click",()=>{root.querySelector("#bot-help-response").textContent=help[button.dataset.help];}));
+    root.querySelectorAll("[data-view]").forEach((button)=>button.addEventListener("click",()=>{
+      const view=button.dataset.view;
+      root.querySelectorAll("[data-view]").forEach((tab)=>{const selected=tab===button;tab.classList.toggle("is-active",selected);tab.setAttribute("aria-selected",String(selected));});
+      root.querySelectorAll("[data-panel]").forEach((panel)=>{panel.hidden=panel.dataset.panel!==view;});
+    }));
+    renderCart();
+  }
+</script>
