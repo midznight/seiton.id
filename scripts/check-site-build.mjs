@@ -16,6 +16,7 @@ const required = [
   "dist/layanan/paket-combo/index.html",
   "dist/harga/index.html",
   "dist/contoh/index.html",
+  "dist/cerita/index.html",
   "dist/pendiri/index.html",
   "dist/tentang/index.html",
   "dist/kontak/index.html",
