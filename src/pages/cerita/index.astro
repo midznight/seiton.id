@@ -1,0 +1,92 @@
+---
+import Base from "../../layouts/Base.astro";
+import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
+import site from "../../data/site.json";
+const founderProfileUrl = site.founderProfileUrl;
+---
+<Base title="Cerita Seiton.id — Alasan dan Tujuan Kami Dibangun" description="Cerita tentang alasan Seiton.id dibangun, masalah yang ingin dijawab, dan tujuan digitalisasi usaha mikro, kecil, dan menengah.">
+  <section class="page-hero story-hero">
+    <div class="container story-hero-inner">
+      <p class="eyebrow">CERITA SEITON</p>
+      <h1>Mengapa Seiton dibangun</h1>
+      <p class="lead">Seiton.id berangkat dari keinginan membantu UMKM beralih dari cara kerja yang tidak lagi relevan menuju sistem digital yang lebih tertata dan mudah digunakan.</p>
+      <div class="story-hero-note"><span class="story-rule"></span><p>Bukan tentang membuat usaha terlihat semakin rumit. Ini tentang membantu pekerjaan sehari-hari menjadi lebih jelas.</p></div>
+    </div>
+  </section>
+
+  <section class="section section-white">
+    <div class="container story-intro-grid">
+      <div class="story-side-note"><p class="eyebrow">TITIK AWAL</p><span>01</span><p>Berangkat dari kebutuhan usaha, bukan dari teknologi semata.</p></div>
+      <article class="story-copy">
+        <h2>Usaha kecil juga berhak memiliki sistem kerja yang lebih baik.</h2>
+        <p>Seiton.id dibangun karena masih banyak kegiatan usaha yang dijalankan dengan cara yang terasa semakin sulit ketika informasi produk, komunikasi pelanggan, dan pesanan mulai tersebar di banyak tempat.</p>
+        <p>Keinginan Seiton adalah membantu mengubah cara kerja yang sudah tidak lagi sesuai dengan kebutuhan menjadi proses yang lebih tertata melalui pemanfaatan teknologi digital.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section story-purpose-section">
+    <div class="container story-purpose-grid">
+      <div>
+        <p class="eyebrow">ALASAN DAN TUJUAN</p>
+        <h2>Teknologi seharusnya membantu pemilik usaha, bukan menambah beban.</h2>
+      </div>
+      <div class="story-purpose-list">
+        <article><span>01</span><div><h3>Membuat informasi lebih mudah ditemukan</h3><p>Produk, layanan, harga, dan profil usaha perlu disajikan dengan jelas agar pelanggan tidak kesulitan mencari informasi.</p></div></article>
+        <article><span>02</span><div><h3>Menata proses yang berulang</h3><p>Alur pemesanan, konfirmasi, dan pencatatan dapat dibantu dengan sistem yang sesuai dengan cara usaha beroperasi.</p></div></article>
+        <article><span>03</span><div><h3>Memilih solusi sesuai kebutuhan</h3><p>Tidak semua UMKM membutuhkan sistem yang sama. Solusi perlu mengikuti skala, proses, dan kesiapan pemilik usaha.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-white">
+    <div class="container story-build-grid">
+      <div><p class="eyebrow">CARA SEITON BEKERJA</p><h2>Dibangun bertahap, dengan ruang lingkup yang jelas.</h2></div>
+      <div class="story-copy">
+        <p>Setiap pekerjaan dimulai dengan memahami kondisi usaha dan bagian mana yang perlu dibenahi. Setelah kebutuhan dipahami, hasil pekerjaan, biaya, jadwal, bahan, serta akses dirinci sebelum pengerjaan dimulai.</p>
+        <p>Hasilnya kemudian diperiksa bersama sebelum dipublikasikan dan diserahterimakan. Pemilik usaha tetap memegang kendali atas akun serta layanan pihak ketiga yang digunakan.</p>
+        <p>Seiton.id melayani konsultasi dan pengerjaan secara online untuk usaha di seluruh Indonesia.</p>
+        <div class="actions"><WhatsAppCTA message="Halo Seiton.id, saya ingin berdiskusi tentang kebutuhan digitalisasi usaha."/><a class="button button-secondary" href="/layanan/">Lihat layanan</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section story-founder-section">
+    <div class="container">
+      <div class="story-founder-card">
+        <div><p class="eyebrow">DI LUAR CERITA BISNIS INI</p><h2>Profil pribadi pendiri</h2><p>Halaman ini berfokus pada cerita dan tujuan Seiton sebagai bisnis. Latar belakang pribadi, pemikiran, dan perjalanan pendirinya akan ditempatkan pada website profil yang terpisah.</p></div>
+        {founderProfileUrl ? <a class="button button-primary" href={founderProfileUrl} target="_blank" rel="noopener noreferrer">Kunjungi profil pendiri ↗</a> : <span class="story-profile-status">Website profil pendiri terpisah akan ditautkan di sini.</span>}
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+.story-hero{padding-block:92px 78px;background:#F1EEE7}
+.story-hero-inner{max-width:900px}
+.story-hero h1{max-width:760px;font-size:clamp(3rem,7vw,5.8rem)}
+.story-hero-note{display:flex;align-items:flex-start;gap:18px;max-width:610px;margin-top:36px}
+.story-rule{flex:0 0 42px;height:2px;margin-top:13px;background:var(--orange)}
+.story-hero-note p{max-width:500px;color:var(--ink);font-size:1rem}
+.story-intro-grid,.story-purpose-grid,.story-build-grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:58px;align-items:start}
+.story-side-note{padding-top:8px}
+.story-side-note>span{display:block;margin:14px 0;color:#B9380C;font-family:Georgia,serif;font-size:3.4rem;line-height:1}
+.story-side-note p:last-child{max-width:190px;font-size:.88rem}
+.story-copy{max-width:720px}
+.story-copy h2,.story-purpose-grid h2,.story-build-grid h2,.story-founder-card h2{font-size:clamp(2rem,4.3vw,3.15rem)}
+.story-copy p{font-size:1rem;line-height:1.9}
+.story-purpose-section{background:#E9E6DE}
+.story-purpose-list{display:grid;gap:0}
+.story-purpose-list article{display:grid;grid-template-columns:44px 1fr;gap:18px;padding:22px 0;border-top:1px solid #CFC8BC}
+.story-purpose-list article:last-child{border-bottom:1px solid #CFC8BC}
+.story-purpose-list article>span{color:#A64024;font-family:Georgia,serif;font-size:1.65rem}
+.story-purpose-list h3{font-size:1.08rem}
+.story-purpose-list p{max-width:640px;margin:0;font-size:.91rem}
+.story-build-grid{grid-template-columns:1fr 1.05fr;gap:76px}
+.story-founder-section{padding-top:22px}
+.story-founder-card{display:flex;align-items:center;justify-content:space-between;gap:32px;padding:35px;border:1px solid var(--line);border-radius:18px;background:#F8F6F1}
+.story-founder-card>div{max-width:620px}
+.story-founder-card h2{margin-bottom:12px}
+.story-founder-card p:not(.eyebrow){margin:0}
+.story-profile-status{display:inline-flex;max-width:250px;padding:12px 16px;border:1px dashed #A9A297;border-radius:999px;color:#666157;font-size:.82rem}
+@media(max-width:760px){.story-hero{padding-block:64px 50px}.story-intro-grid,.story-purpose-grid,.story-build-grid{grid-template-columns:1fr;gap:28px}.story-side-note{display:flex;align-items:center;gap:14px}.story-side-note>span{margin:0}.story-side-note p:last-child{margin:0}.story-founder-card{align-items:flex-start;flex-direction:column;padding:25px}}
+</style>
