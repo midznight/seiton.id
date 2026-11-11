@@ -51,7 +51,7 @@ check(fs.existsSync("public/logo-horizontal.png"), "Logo halaman legal belum ter
 
 const pricing = read("src/pages/harga/index.astro");
 check(pricing.includes("https://admin.seiton.biz.id/api/pricing"), "Sumber harga lama harus tetap digunakan.");
-check(pricing.includes("angka cadangan tidak ditampilkan"), "Halaman harga harus menghindari angka fallback.");
+check(pricing.includes("angka cadangan") && pricing.includes("tidak menampilkan angka"), "Halaman harga harus menghindari angka fallback.");
 check(pricing.includes("Sistem Bot UMKM dan Paket Combo"), "Penawaran layanan lanjutan belum ada.");
 
 const detail = read("src/pages/layanan/[slug].astro");
@@ -60,7 +60,8 @@ check(detail.includes('"/paket-combo/"'), "Halaman Paket Combo belum memiliki ta
 check(read("src/demo/pages/bot-umkm/index.astro").includes("noindex={true}"), "Demo bot belum noindex.");
 check(read("src/demo/pages/paket-combo/index.astro").includes("noindex={true}"), "Demo Combo belum noindex.");
 check(read("public/_headers").includes("https://demo.seiton.biz.id/*"), "Header noindex untuk domain demo belum tersedia.");
-check(read("src/layouts/Base.astro").includes('noindex ? "noindex, nofollow"'), "Layout belum merender metadata noindex.");
+const baseLayout = read("src/layouts/Base.astro");
+check(/noindex\s*\?\s*["']noindex, nofollow["']/.test(baseLayout), "Layout belum merender metadata noindex.");
 
 if (errors.length) {
   console.error("Source integrity check failed:");
