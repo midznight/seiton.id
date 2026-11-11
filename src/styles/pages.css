@@ -119,3 +119,66 @@
   .story-scope-items{grid-template-columns:1fr}
   .story-reach{grid-template-columns:1fr}
 }
+
+
+/* Page-level alignment and readability refinements. */
+.demo-notice{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-top:28px;
+  padding:17px 20px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#F7F5EF;
+}
+.demo-notice>span{
+  flex:0 0 34px;
+  display:grid;
+  width:34px;
+  height:34px;
+  place-items:center;
+  border-radius:50%;
+  background:#E5EBE1;
+  color:#405947;
+  font-size:1.05rem;
+}
+.demo-notice p{
+  flex:1;
+  margin:0;
+  color:#53606C;
+  font-size:.88rem;
+  line-height:1.65;
+}
+.demo-notice p strong{display:block;color:var(--ink);font-size:.9rem}
+.demo-notice>a{
+  display:inline-flex;
+  min-height:44px;
+  align-items:center;
+  color:#A94727;
+  font-size:.84rem;
+  font-weight:800;
+  white-space:nowrap;
+}
+.aside-demo-link{display:inline-flex;min-height:44px;align-items:center;font-size:.88rem}
+.pricing-callout{align-items:center}
+.pricing-callout>div{max-width:690px}
+.pricing-callout h2{max-width:640px;line-height:1.18}
+.price-heading{margin-top:54px}
+.price-grid .price-card{min-height:100%}
+.price-addon-grid{align-items:stretch}
+.price-addon{display:flex;flex-direction:column;align-items:flex-start;gap:7px}
+.price-addon p{margin-top:auto;line-height:1.65}
+.detail-aside p,.detail-aside li{font-size:.9rem;line-height:1.7}
+.contact-item{min-height:68px}
+@media(max-width:700px){
+  .demo-notice{align-items:flex-start;flex-wrap:wrap;gap:10px;padding:15px}
+  .demo-notice p{flex:1 1 calc(100% - 48px)}
+  .demo-notice>a{margin-left:44px}
+}
+@media(max-width:420px){
+  .demo-notice{display:grid;grid-template-columns:34px minmax(0,1fr)}
+  .demo-notice>span{grid-column:1;grid-row:1}
+  .demo-notice p{grid-column:2;grid-row:1}
+  .demo-notice>a{grid-column:2;margin-left:0}
+}
