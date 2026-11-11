@@ -1,0 +1,12 @@
+---
+const { label = "Simulasi data fiktif", detail = "Bukan transaksi atau usaha sungguhan." } = Astro.props;
+---
+<aside class="demo-note" role="note">
+  <strong>{label}</strong>
+  <span>{detail}</span>
+</aside>
+<style>
+  .demo-note{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 15px;border:1px solid #F0B39B;border-radius:11px;background:#FFF4EE;color:#7C2D12;font-size:.78rem}
+  .demo-note strong{font-weight:800}
+  .demo-note span{color:#7C2D12}
+</style>

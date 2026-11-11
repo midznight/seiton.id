@@ -1,0 +1,39 @@
+{
+  "version": "1.0",
+  "business": "Kedai Roti & Teh Contoh",
+  "period": {
+    "start": "2026-10-11",
+    "end": "2026-11-09",
+    "label": "11 Oktober–9 November 2026",
+    "fictional": true
+  },
+  "summary": {
+    "orders": 263,
+    "units": 354,
+    "grossRevenue": 4668000
+  },
+  "weeklySales": [
+    { "label": "11–17 Okt 2026", "orders": 61, "units": 69, "revenue": 927000 },
+    { "label": "18–24 Okt 2026", "orders": 58, "units": 95, "revenue": 1262000 },
+    { "label": "25–31 Okt 2026", "orders": 68, "units": 74, "revenue": 951000 },
+    { "label": "1–7 Nov 2026", "orders": 57, "units": 91, "revenue": 1208000 },
+    { "label": "8–9 Nov 2026", "orders": 19, "units": 25, "revenue": 320000 }
+  ],
+  "products": [
+    { "sku": "RT-001", "name": "Roti Sobek Cokelat", "category": "Roti", "price": 12000, "initialStock": 80, "soldDuringPeriod": 29, "stockAfterPeriod": 51, "description": "Roti lembut dengan isian cokelat." },
+    { "sku": "RT-002", "name": "Roti Keju Susu", "category": "Roti", "price": 14000, "initialStock": 80, "soldDuringPeriod": 29, "stockAfterPeriod": 51, "description": "Roti dengan perpaduan keju dan susu." },
+    { "sku": "RT-003", "name": "Roti Srikaya", "category": "Roti", "price": 13000, "initialStock": 70, "soldDuringPeriod": 14, "stockAfterPeriod": 56, "description": "Roti dengan isian srikaya." },
+    { "sku": "RT-004", "name": "Roti Pisang Cokelat", "category": "Roti", "price": 15000, "initialStock": 70, "soldDuringPeriod": 32, "stockAfterPeriod": 38, "description": "Roti isi pisang dan cokelat." },
+    { "sku": "RT-005", "name": "Roti Abon", "category": "Roti", "price": 16000, "initialStock": 65, "soldDuringPeriod": 27, "stockAfterPeriod": 38, "description": "Roti gurih dengan taburan abon." },
+    { "sku": "PS-001", "name": "Croissant Butter", "category": "Pastry & Camilan", "price": 18000, "initialStock": 60, "soldDuringPeriod": 19, "stockAfterPeriod": 41, "description": "Pastry berlapis dengan rasa butter." },
+    { "sku": "PS-002", "name": "Donat Gula", "category": "Pastry & Camilan", "price": 8000, "initialStock": 90, "soldDuringPeriod": 20, "stockAfterPeriod": 70, "description": "Donat lembut dengan taburan gula." },
+    { "sku": "PS-003", "name": "Donat Cokelat", "category": "Pastry & Camilan", "price": 10000, "initialStock": 85, "soldDuringPeriod": 16, "stockAfterPeriod": 69, "description": "Donat dengan lapisan cokelat." },
+    { "sku": "PS-004", "name": "Brownies Potong", "category": "Pastry & Camilan", "price": 12000, "initialStock": 65, "soldDuringPeriod": 25, "stockAfterPeriod": 40, "description": "Brownies cokelat potong." },
+    { "sku": "PS-005", "name": "Pisang Bolen", "category": "Pastry & Camilan", "price": 15000, "initialStock": 60, "soldDuringPeriod": 23, "stockAfterPeriod": 37, "description": "Pastry isi pisang." },
+    { "sku": "MN-001", "name": "Teh Original 250 ml", "category": "Minuman", "price": 8000, "initialStock": 100, "soldDuringPeriod": 25, "stockAfterPeriod": 75, "description": "Teh original siap minum." },
+    { "sku": "MN-002", "name": "Teh Lemon 250 ml", "category": "Minuman", "price": 10000, "initialStock": 90, "soldDuringPeriod": 23, "stockAfterPeriod": 67, "description": "Teh dengan rasa lemon." },
+    { "sku": "MN-003", "name": "Teh Susu 250 ml", "category": "Minuman", "price": 12000, "initialStock": 80, "soldDuringPeriod": 22, "stockAfterPeriod": 58, "description": "Teh susu dalam botol." },
+    { "sku": "MN-004", "name": "Kopi Susu 250 ml", "category": "Minuman", "price": 15000, "initialStock": 80, "soldDuringPeriod": 27, "stockAfterPeriod": 53, "description": "Kopi susu siap minum." },
+    { "sku": "PK-001", "name": "Paket Roti & Teh", "category": "Paket", "price": 18000, "initialStock": 55, "soldDuringPeriod": 23, "stockAfterPeriod": 32, "inventoryMode": "separate_bundle_sku", "description": "Paket roti dan teh." }
+  ]
+}

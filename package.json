@@ -1,0 +1,13 @@
+{
+  "name": "seiton-id-site-rebuild",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:site": "astro build",
+    "build:demo": "SITE_TARGET=demo astro build",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "7.4.8"
+  }
+}

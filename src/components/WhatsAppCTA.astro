@@ -1,0 +1,5 @@
+---
+const { message = "Halo Seiton.id, saya ingin konsultasi mengenai layanan digitalisasi usaha." } = Astro.props;
+const href = "https://wa.me/6285117557133?text=" + encodeURIComponent(message);
+---
+<a class="button button-primary" href={href} target="_blank" rel="noopener noreferrer">Konsultasi melalui WhatsApp</a>

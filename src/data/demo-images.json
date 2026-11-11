@@ -1,0 +1,5 @@
+{
+  "RT-001": { "src": "/assets/roti-sobek-cokelat.webp", "alt": "Roti sobek cokelat" },
+  "RT-002": { "src": "/assets/roti-keju-susu.webp", "alt": "Roti keju susu" },
+  "MN-001": { "src": "/assets/es-teh-manis.webp", "alt": "Es teh manis" }
+}

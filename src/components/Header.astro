@@ -1,0 +1,36 @@
+---
+import site from "../data/site.json";
+
+const { demoSite = false } = Astro.props;
+const path = (href) => demoSite
+  ? site.brand.website + href
+  : href;
+---
+<a class="skip-link" href="#main-content">Lewati ke konten</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={path("/")} aria-label="Seiton.id — Beranda">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <span>Seiton.id<small>Tata Usahamu, Mudahkan Pelanggan.</small></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="primary-nav">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <nav class="primary-nav" id="primary-nav" aria-label="Navigasi utama">
+      {site.navigation.map((item) => <a href={path(item.href)}>{item.label}</a>)}
+      <a class="nav-cta" href={path("/kontak/")}>Konsultasi</a>
+    </nav>
+  </div>
+</header>
+<script>
+  const menuButton = document.querySelector(".menu-toggle");
+  const navigation = document.querySelector("#primary-nav");
+  if (menuButton && navigation) {
+    menuButton.addEventListener("click", () => {
+      const open = menuButton.getAttribute("aria-expanded") === "true";
+      menuButton.setAttribute("aria-expanded", String(!open));
+      menuButton.setAttribute("aria-label", open ? "Buka menu" : "Tutup menu");
+      navigation.classList.toggle("is-open", !open);
+    });
+  }
+</script>
