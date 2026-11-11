@@ -5,9 +5,14 @@ const root=demoSite?site.brand.website:"";
 ---
 <footer class="site-footer"><div class="container">
   <div class="footer-grid">
-    <div><a class="footer-brand" href={root + "/"}>Seiton</a><p class="footer-brand-copy">{site.brand.tagline}. {site.brand.description}</p></div>
-    <div><strong>Jelajahi</strong><div class="footer-links"><a href={root + "/layanan/"}>Layanan</a><a href={root + "/harga/"}>Harga</a><a href={root + "/contoh/"}>Contoh produk</a><a href={root + "/cerita/"}>Cerita Seiton</a></div></div>
-    <div><strong>Informasi</strong><div class="footer-links"><a href={root + "/tentang/"}>Tentang</a><a href={root + "/kontak/"}>Kontak</a><a href={root + "/ketentuan/"}>Ketentuan</a><a href={root + "/privasi/"}>Privasi</a></div></div>
+    <div class="footer-brand-block">
+      <a class="footer-logo-wrap" href={root + "/"} aria-label="Seiton.id — Beranda">
+        <img src="/assets/logo-horizontal-transparan.png" alt="Seiton.id" width="500" height="164" />
+      </a>
+      <p class="footer-brand-copy">{site.brand.tagline}. {site.brand.description}</p>
+    </div>
+    <div><strong>Jelajahi</strong><div class="footer-links"><a href={root + "/layanan/"}>Layanan</a><a href={root + "/harga/"}>Harga</a><a href={root + "/contoh/"}>Contoh produk</a></div></div>
+    <div><strong>Informasi</strong><div class="footer-links"><a href={root + "/cerita/"}>Cerita Seiton</a><a href={root + "/kontak/"}>Kontak</a><a href={root + "/ketentuan/"}>Ketentuan</a><a href={root + "/privasi/"}>Privasi</a></div></div>
   </div>
   <div class="footer-bottom"><span>© {new Date().getFullYear()} Seiton.id</span><span>Tersedia secara online di seluruh Indonesia.</span></div>
 </div></footer>
