@@ -1,11 +1,12 @@
 {
   "brand": {
     "name": "Seiton.id",
-    "tagline": "Tata Usahamu, Mudahkan Pelanggan.",
+    "tagline": "Tata Usahamu, Mudahkan Pelanggan",
     "website": "https://seiton.biz.id",
     "demo": "https://demo.seiton.biz.id",
     "description": "Membantu UMKM menata informasi usaha dan membangun layanan digital yang lebih mudah digunakan pelanggan."
   },
+  "founderProfileUrl": "",
   "contacts": [
     { "label": "WhatsApp", "value": "+62 851-1755-7133", "url": "https://wa.me/6285117557133" },
     { "label": "Email", "value": "seiton.id@gmail.com", "url": "mailto:seiton.id@gmail.com" },
@@ -19,7 +20,7 @@
     { "label": "Harga", "href": "/harga/" },
     { "label": "Contoh", "href": "/contoh/" },
     { "label": "Tentang", "href": "/tentang/" },
-    { "label": "Pendiri", "href": "/pendiri/" },
+    { "label": "Cerita", "href": "/cerita/" },
     { "label": "Kontak", "href": "/kontak/" }
   ]
 }
