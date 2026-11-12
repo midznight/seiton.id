@@ -6,6 +6,8 @@ const dataset = JSON.parse(await fs.readFile("src/data/demo-dataset.json", "utf8
 const imageMap = JSON.parse(await fs.readFile("src/data/demo-images.json", "utf8"));
 const publicRoot = path.resolve("public");
 const outputDir = path.resolve(publicRoot, "assets/optimized-demo-products");
+const brandOutputDir = path.resolve(publicRoot, "assets/optimized-brand");
+const brandSource = path.resolve(publicRoot, "assets/logo-horizontal-transparan.png");
 const variants = [
   { width: 480, maxBytes: 140 * 1024 },
   { width: 960, maxBytes: 320 * 1024 }
@@ -36,6 +38,24 @@ if (Object.keys(imageMap).length !== dataset.products.length) {
 
 await fs.rm(outputDir, { recursive: true, force: true });
 await fs.mkdir(outputDir, { recursive: true });
+await fs.rm(brandOutputDir, { recursive: true, force: true });
+await fs.mkdir(brandOutputDir, { recursive: true });
+
+const brandStat = await fs.stat(brandSource).catch(() => null);
+if (!brandStat?.isFile()) {
+  throw new Error("Logo sumber tidak ditemukan: " + brandSource);
+}
+const brandOutput = path.join(brandOutputDir, "logo-horizontal-540.webp");
+await sharp(brandSource, { failOn: "error" })
+  .resize({ width: 540, withoutEnlargement: true })
+  .webp({ quality: 88, effort: 6, alphaQuality: 100 })
+  .toFile(brandOutput);
+const brandOutputStat = await fs.stat(brandOutput);
+if (brandOutputStat.size > 30 * 1024) {
+  throw new Error("Logo WebP melebihi batas 30 KB: " + Math.round(brandOutputStat.size / 1024) + " KB");
+}
+console.log("Brand logo: " + Math.round(brandStat.size / 1024) + " KB PNG -> " +
+  Math.round(brandOutputStat.size / 1024) + " KB WebP (540 px).");
 
 for (const product of dataset.products) {
   const image = imageMap[product.sku];

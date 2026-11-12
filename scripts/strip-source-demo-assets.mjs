@@ -11,6 +11,7 @@ if (!["dist", "dist-demo"].includes(outputDirectory) ||
 const root = path.resolve(outputDirectory);
 const candidates = [
   "assets/dummy-products",
+  "assets/logo-horizontal-transparan.png",
   "assets/foto-profil-terang.png",
   "assets/es-teh-manis.webp",
   "assets/roti-keju-susu.webp",

@@ -23,7 +23,9 @@ const required = [
   "dist/ketentuan/index.html",
   "dist/privasi/index.html",
   "dist/logo-horizontal.png",
+  "dist/assets/optimized-brand/logo-horizontal-540.webp",
   "dist-demo/index.html",
+  "dist-demo/assets/optimized-brand/logo-horizontal-540.webp",
   "dist-demo/katalog-whatsapp/index.html",
   "dist-demo/menu-qr/index.html",
   "dist-demo/google-business-profile/index.html",
@@ -40,6 +42,14 @@ const missing = required.filter((file) => !fs.existsSync(path.resolve(file)));
 if (missing.length) {
   console.error("Build verification failed. Missing output:", missing.join(", "));
   process.exit(1);
+}
+
+for (const output of ["dist", "dist-demo"]) {
+  const brand = path.resolve(output, "assets/optimized-brand/logo-horizontal-540.webp");
+  if (fs.existsSync(brand) && fs.statSync(brand).size > 30 * 1024) {
+    console.error("Optimized brand logo exceeds the 30 KB budget:", brand);
+    process.exit(1);
+  }
 }
 
 const demoPages = required.filter((file) => file.startsWith("dist-demo/") && file.endsWith(".html"));
