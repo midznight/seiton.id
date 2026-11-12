@@ -362,7 +362,7 @@ p{margin:0 0 16px;color:var(--muted)}
   .hero-grid{grid-template-columns:minmax(0,1fr);gap:43px}
   .hero-copy{max-width:740px}
   .hero-visual{max-width:620px}
-  .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .service-grid,.demo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .process-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .home-story-card{grid-template-columns:minmax(0,1fr);padding:34px}
   .story-visual{min-height:220px}
