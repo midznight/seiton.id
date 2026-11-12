@@ -121,6 +121,9 @@ for (const legalPath of ["public/ketentuan/index.html", "public/privasi/index.ht
   check(legalHtml.includes('href="/kontak/" class="button button-orange nav-cta">Konsultasi</a>'), "CTA Konsultasi halaman legal harus menuju halaman Kontak seperti halaman lain: " + legalPath);
 }
 
+check(fs.existsSync("scripts/finalize-preview.mjs"), "Langkah pengamanan indeks preview belum tersedia.");
+check(json("package.json").scripts["build:site"].includes("finalize-preview.mjs dist") && json("package.json").scripts["build:demo"].includes("finalize-preview.mjs dist-demo"), "Kedua target build harus menjalankan pengamanan indeks preview.");
+
 if (errors.length) {
   console.error("Source integrity check failed:");
   for (const error of errors) console.error(" - " + error);

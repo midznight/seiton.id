@@ -69,6 +69,8 @@ try {
   for (const route of mainRoutes) {
     const response = await page.goto(mainBase + route, { waitUntil: "domcontentloaded" });
     check(Boolean(response && response.ok()), "Halaman utama gagal dimuat: " + route);
+    check(await page.locator('meta[name="robots"]').getAttribute("content") === "noindex, nofollow",
+      "Halaman preview utama harus noindex: " + route);
     if (route === "/ketentuan/" || route === "/privasi/") {
       const legalNav = await page.locator("#primary-nav a").evaluateAll((items) => items.map((item) => ({
         label: item.textContent.trim(),
@@ -186,6 +188,23 @@ try {
   for (const route of demoRoutes) {
     const response = await demoPage.goto(demoBase + route, { waitUntil: "domcontentloaded" });
     check(Boolean(response && response.ok()), "Halaman demonstrasi gagal dimuat: " + route);
+    check(await demoPage.locator('meta[name="robots"]').getAttribute("content") === "noindex, nofollow",
+      "Halaman preview demo harus noindex: " + route);
+    const demoHrefs = await demoPage.locator("a[href]").evaluateAll((items) =>
+      items.map((item) => item.getAttribute("href")).filter(Boolean)
+    );
+    for (const href of [...new Set(demoHrefs)]) {
+      if (href.startsWith("#")) {
+        const id = decodeURIComponent(href.slice(1));
+        if (id) check(await demoPage.locator('[id="' + id + '"]').count() > 0,
+          "Target anchor demo hilang pada " + route + ": " + href);
+        continue;
+      }
+      const target = new URL(href, demoBase + route);
+      if (target.origin !== new URL(demoBase).origin) continue;
+      const linkResponse = await demoPage.request.get(target.href);
+      check(linkResponse.ok(), "Tautan internal demo gagal (" + linkResponse.status() + "): " + target.href);
+    }
   }
   await demoPage.goto(demoBase + "/", { waitUntil: "domcontentloaded" });
   check(await demoPage.locator('meta[name="robots"]').getAttribute("content") === "noindex, nofollow",

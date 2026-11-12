@@ -53,6 +53,17 @@ if (missingNoindex.length) {
   process.exit(1);
 }
 
+if (process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH !== "main") {
+  const previewLegalPages = ["dist/ketentuan/index.html", "dist/privasi/index.html"];
+  const missingPreviewRobots = previewLegalPages.filter((file) =>
+    !/name=["']robots["'] content=["']noindex, nofollow["']/.test(fs.readFileSync(file, "utf8"))
+  );
+  if (missingPreviewRobots.length) {
+    console.error("Preview legal pages missing noindex metadata:", missingPreviewRobots.join(", "));
+    process.exit(1);
+  }
+}
+
 const mainHome = fs.readFileSync("dist/index.html", "utf8");
 const demoHome = fs.readFileSync("dist-demo/index.html", "utf8");
 if (!mainHome.includes("https://seiton.biz.id/")) {
