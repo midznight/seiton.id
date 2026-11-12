@@ -149,10 +149,12 @@ const collectHtmlDocuments = (directory) => {
 const expectedGtmSource = "https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3";
 const mainHtmlDocuments = collectHtmlDocuments(path.resolve("dist"));
 const demoHtmlDocuments = collectHtmlDocuments(path.resolve("dist-demo"));
-const isRedirectDocument = (html) =>
-  /<meta[^>]+http-equiv=["']refresh["']/i.test(html) ||
-  /window\\.location(?:\\.href)?\\s*=/.test(html) ||
-  /location\\.replace\\(/.test(html);
+const isRedirectDocument = (html) => {
+  const normalized = html.toLowerCase();
+  return normalized.includes('http-equiv="refresh"') ||
+    normalized.includes("window.location") ||
+    normalized.includes("location.replace(");
+};
 const missingGtm = mainHtmlDocuments.filter((file) => {
   const html = fs.readFileSync(file, "utf8");
   return !isRedirectDocument(html) && !html.includes(expectedGtmSource);
