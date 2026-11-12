@@ -217,6 +217,18 @@ try {
   check(await menuToggle.getAttribute("aria-expanded") === "false", "Tombol Escape tidak menutup menu.");
   check(await menuToggle.evaluate((el) => el === document.activeElement), "Fokus keyboard tidak kembali ke tombol menu.");
 
+  const legalMobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  legalMobile.on("pageerror", (error) => pageErrors.push(error.message));
+  await legalMobile.goto(mainBase + "/ketentuan/", { waitUntil: "domcontentloaded" });
+  const legalMenu = legalMobile.locator(".menu-toggle");
+  check(!(await legalMobile.locator("#primary-nav").isVisible()), "Navigasi legal mobile harus tertutup pada awal.");
+  await legalMenu.click();
+  check(await legalMobile.locator("#primary-nav").isVisible(), "Navigasi legal mobile tidak terbuka.");
+  await legalMobile.keyboard.press("Escape");
+  check(await legalMenu.getAttribute("aria-expanded") === "false", "Escape tidak menutup menu halaman legal.");
+  check(await legalMenu.evaluate((el) => el === document.activeElement), "Fokus Escape pada halaman legal tidak kembali ke tombol menu.");
+  await legalMobile.close();
+
   for (const width of [1440, 1100, 1024, 900, 768, 600, 390, 360]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(mainBase + "/", { waitUntil: "domcontentloaded" });

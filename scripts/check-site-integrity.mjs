@@ -105,7 +105,9 @@ check(read("src/pages/contoh/index.astro").includes("siteUrls.demo"), "Kartu dem
 check(detail.includes("siteUrls.demo"), "Tautan demo pada detail layanan harus menggunakan URL sesuai environment.");
 check(read("src/demo/pages/paket-combo/index.astro").includes("siteUrls.main"), "CTA Paket Combo harus menggunakan URL utama sesuai environment.");
 check(baseLayout.includes("isPreviewBuild") && baseLayout.includes("noindex, nofollow"), "Preview harus diberi metadata noindex secara otomatis.");
-check(homePage.includes('data-need-contact target="_blank" rel="noopener noreferrer"'), "CTA pemilih kebutuhan harus memakai perilaku tautan yang aman.");
+const needContactAnchor = homePage.match(/<a class="result-contact"[^>]*>/)?.[0] || "";
+check(needContactAnchor.includes('data-need-contact href=') && needContactAnchor.includes('target="_blank" rel="noopener noreferrer"'), "CTA pemilih kebutuhan harus memakai perilaku tautan yang aman.");
+check((needContactAnchor.match(/target="_blank"/g) || []).length === 1 && (needContactAnchor.match(/rel="noopener noreferrer"/g) || []).length === 1, "CTA pemilih kebutuhan tidak boleh memiliki atribut tautan ganda.");
 check(pricing.includes("new AbortController()") && pricing.includes("clearTimeout(timeoutId)") && pricing.includes("grid.replaceChildren()"), "Loader harga harus memiliki timeout dan mengganti kartu secara atomik.");
 check(fs.existsSync("scripts/test-customer-journey.mjs"), "Pengujian perjalanan pelanggan belum tersedia.");
 check(json("package.json").scripts["test:journey"] === "node scripts/test-customer-journey.mjs", "Perintah test:journey belum terdaftar.");
