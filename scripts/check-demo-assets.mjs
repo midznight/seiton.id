@@ -38,7 +38,7 @@ for (const [sku, image] of Object.entries(imageMap)) {
   totals.source += fs.statSync(sourcePath).size;
 
   const candidates = typeof image.srcset === "string"
-    ? image.srcset.split(",").map((entry) => entry.trim().split(/\\s+/))
+    ? image.srcset.split(",").map((entry) => entry.trim().split(/\s+/))
     : [];
   const widths = candidates.map((entry) => Number.parseInt((entry[1] || "").replace("w", ""), 10));
   if (candidates.length !== 2 || widths[0] !== 480 || widths[1] !== 960 ||
@@ -74,7 +74,7 @@ for (const [sku, image] of Object.entries(imageMap)) {
 const slugify = (value) => value
   .toLowerCase()
   .normalize("NFKD")
-  .replace(/[\\u0300-\\u036f]/g, "")
+  .replace(/[\u0300-\u036f]/g, "")
   .replace(/[^a-z0-9]+/g, "-")
   .replace(/^-|-$/g, "");
 

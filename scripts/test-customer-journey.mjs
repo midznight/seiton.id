@@ -232,7 +232,7 @@ try {
       check(Boolean(image.alt && image.alt.trim()),
         "Teks alt foto produk kosong: " + image.src);
       check(image.src.startsWith("/assets/optimized-demo-products/") &&
-        /_(480|960)\\.webp$/.test(image.src),
+        /_(480|960)\.webp$/.test(image.src),
         "Fallback foto belum menggunakan thumbnail WebP: " + image.src);
       check(image.responsive?.includes("_480.webp 480w") &&
         image.responsive.includes("_960.webp 960w") && Boolean(image.sizes),
