@@ -272,7 +272,7 @@ p{margin:0 0 16px;color:var(--muted)}
   background:#fff;box-shadow:var(--shadow-soft)
 }
 .result-label{color:#A94420;font-size:.62rem;font-weight:900;letter-spacing:.12em}
-.result-number{margin:10px 0 8px;color:#D88969;font-size:2.4rem;font-weight:800;line-height:1}
+.result-number{margin:10px 0 8px;color:#B94A22;font-size:2.4rem;font-weight:800;line-height:1}
 .need-result h3{font-size:1.35rem;line-height:1.2}
 .need-result p{font-size:.86rem;line-height:1.7}
 .result-link,.result-contact{display:inline-flex;min-height:44px;align-items:center;gap:5px;font-size:.82rem;font-weight:800}
