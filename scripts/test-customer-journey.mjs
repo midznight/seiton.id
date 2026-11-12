@@ -206,6 +206,34 @@ try {
       check(linkResponse.ok(), "Tautan internal demo gagal (" + linkResponse.status() + "): " + target.href);
     }
   }
+  for (const route of ["/menu-qr/", "/bot-umkm/"]) {
+    await demoPage.goto(demoBase + route, { waitUntil: "domcontentloaded" });
+    const productImages = await demoPage.locator('img[src*="/assets/dummy-products/"]').evaluateAll(async (images) => {
+      await Promise.all(images.map(async (image) => {
+        image.loading = "eager";
+        try { await image.decode(); } catch {}
+      }));
+      return images.map((image) => ({
+        src: new URL(image.currentSrc || image.src, location.href).pathname,
+        alt: image.alt,
+        complete: image.complete,
+        naturalWidth: image.naturalWidth,
+        naturalHeight: image.naturalHeight
+      }));
+    });
+    check(productImages.length === 15,
+      "Halaman " + route + " harus memuat tepat 15 foto produk demo.");
+    check(new Set(productImages.map((image) => image.src)).size === 15,
+      "Halaman " + route + " harus menampilkan 15 file foto yang unik.");
+    for (const image of productImages) {
+      check(Boolean(image.alt && image.alt.trim()),
+        "Teks alt foto produk kosong: " + image.src);
+      check(image.complete && image.naturalWidth > 0 && image.naturalHeight > 0,
+        "Foto produk gagal dimuat: " + image.src + " (" +
+          image.naturalWidth + "x" + image.naturalHeight + ").");
+    }
+  }
+
   await demoPage.goto(demoBase + "/", { waitUntil: "domcontentloaded" });
   check(await demoPage.locator('meta[name="robots"]').getAttribute("content") === "noindex, nofollow",
     "Preview demo harus diberi noindex.");
