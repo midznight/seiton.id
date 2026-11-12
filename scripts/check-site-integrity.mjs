@@ -94,7 +94,7 @@ check(read("src/demo/pages/bot-umkm/index.astro").includes("noindex={true}"), "D
 check(read("src/demo/pages/paket-combo/index.astro").includes("noindex={true}"), "Demo Combo belum noindex.");
 check(read("public/_headers").includes("https://demo.seiton.biz.id/*"), "Header noindex untuk domain demo belum tersedia.");
 const baseLayout = read("src/layouts/Base.astro");
-check(/noindex\s*\?\s*["']noindex, nofollow["']/.test(baseLayout), "Layout belum merender metadata noindex.");
+check(/noindex\s*\|\|\s*isPreviewBuild\s*\?\s*["\x27]noindex, nofollow["\x27]/.test(baseLayout), "Layout belum merender metadata noindex otomatis pada preview.");
 
 
 check(siteUrls.includes('process.env.CF_PAGES_BRANCH !== "main"'), "Pemilihan URL preview harus mengikuti branch Cloudflare Pages.");
