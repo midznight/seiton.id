@@ -24,7 +24,8 @@ const report = {
 };
 const browser = await chromium.launch({ headless: true });
 try {
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+  const page = await context.newPage();
   page.setDefaultTimeout(12000);
   for (const site of sites) {
     for (const route of site.routes) {
