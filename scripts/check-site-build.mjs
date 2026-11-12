@@ -75,4 +75,31 @@ if (!demoHome.includes("https://demo.seiton.biz.id/")) {
   process.exit(1);
 }
 
-console.log("Static output verification passed:", required.length, "paths checked.");
+
+const optimizedDemoMap = JSON.parse(fs.readFileSync("src/data/demo-images.json", "utf8"));
+for (const [sku, image] of Object.entries(optimizedDemoMap)) {
+  for (const [variant, maxBytes] of [[480, 140 * 1024], [960, 320 * 1024]]) {
+    const relative = "assets/optimized-demo-products/" + sku + "_" + variant + ".webp";
+    const file = path.resolve("dist-demo", relative);
+    if (!fs.existsSync(file)) {
+      console.error("Demo build missing optimized image:", relative);
+      process.exit(1);
+    }
+    if (fs.statSync(file).size > maxBytes) {
+      console.error("Demo build image exceeds size budget:", relative);
+      process.exit(1);
+    }
+  }
+}
+for (const [directory, label] of [
+  ["dist/assets/dummy-products", "main source uploads"],
+  ["dist/assets/optimized-demo-products", "main demo-only images"],
+  ["dist-demo/assets/dummy-products", "demo source uploads"]
+]) {
+  if (fs.existsSync(directory)) {
+    console.error("Unnecessary image files were included in deployment (" + label + "):", directory);
+    process.exit(1);
+  }
+}
+
+console.log("Static output verification passed:", required.length, "paths checked, 30 optimized demo variants, and source uploads excluded.");

@@ -35,13 +35,22 @@ for (const [sku, image] of Object.entries(demoImages)) {
   check(dataset.products.some((product) => product.sku === sku), "Pemetaan foto memiliki SKU yang tidak dikenal: " + sku);
   check(typeof image.src === "string" && image.src.startsWith("/assets/"), "Path foto demo tidak valid untuk " + sku);
   check(typeof image.alt === "string" && image.alt.trim().length > 0, "Teks alt foto belum tersedia untuk " + sku);
-  const imagePath = path.resolve("public", "." + image.src);
-  check(imagePath.startsWith(path.resolve("public") + path.sep) && fs.existsSync(imagePath), "File foto yang dipetakan tidak ditemukan untuk " + sku);
+  check(typeof image.source === "string" && image.source.startsWith("/assets/dummy-products/"), "Path foto sumber tidak valid untuk " + sku);
+  check(image.src === "/assets/optimized-demo-products/" + sku + "_480.webp", "Path thumbnail WebP tidak valid untuk " + sku);
+  check(typeof image.srcset === "string" &&
+    image.srcset.includes(sku + "_480.webp 480w") &&
+    image.srcset.includes(sku + "_960.webp 960w"), "srcset responsif 480w/960w belum lengkap untuk " + sku);
+  const sourcePath = path.resolve("public", "." + image.source);
+  check(sourcePath.startsWith(path.resolve("public") + path.sep) && fs.existsSync(sourcePath), "File foto sumber tidak ditemukan untuk " + sku);
 }
 check(fs.existsSync("public/assets/dummy-products/.gitkeep"), "Folder upload foto dummy belum tersedia.");
 check(fs.existsSync("assets.md"), "Panduan foto dan prompt Google Flow belum tersedia.");
 check(read("assets.md").includes("Master style prompt Google Flow"), "Master prompt Google Flow belum tersedia di assets.md.");
 check(JSON.parse(read("package.json")).scripts["check:assets"] === "node scripts/check-demo-assets.mjs", "Pemeriksaan aset demo belum terdaftar.");
+check(JSON.parse(read("package.json")).scripts["prepare:assets"] === "node scripts/optimize-demo-assets.mjs", "Langkah optimasi gambar belum terdaftar.");
+check(JSON.parse(read("package.json")).dependencies.sharp === "0.35.5", "Versi Sharp untuk optimasi gambar belum dipatok.");
+check(fs.existsSync("scripts/optimize-demo-assets.mjs"), "Skrip optimasi WebP responsif belum tersedia.");
+check(fs.existsSync("scripts/strip-source-demo-assets.mjs"), "Penghapusan file sumber dari output deployment belum tersedia.");
 check(dataset.products.length === 15, "Dataset demo harus memiliki 15 produk.");
 check(dataset.summary.orders === 263 && dataset.summary.units === 354 && dataset.summary.grossRevenue === 4668000, "Ringkasan dataset demo berubah dari data yang disetujui.");
 
@@ -103,6 +112,16 @@ const detail = read("src/pages/layanan/[slug].astro");
 check(detail.includes('"/bot-umkm/"'), "Halaman Sistem Bot belum memiliki tautan demo sendiri.");
 check(detail.includes('"/paket-combo/"'), "Halaman Paket Combo belum memiliki tautan demo sendiri.");
 check(read("src/demo/pages/bot-umkm/index.astro").includes("noindex={true}"), "Demo bot belum noindex.");
+for (const file of [
+  "src/demo/pages/menu-qr/index.astro",
+  "src/demo/pages/katalog-whatsapp/index.astro",
+  "src/demo/pages/website-katalog/index.astro",
+  "src/demo/pages/bot-umkm/index.astro"
+]) {
+  const content = read(file);
+  check(content.includes("srcset={image.srcset}") && content.includes('decoding="async"') && content.includes("sizes="),
+    "Gambar produk belum memakai responsive srcset, sizes, dan async decoding: " + file);
+}
 check(read("src/demo/pages/paket-combo/index.astro").includes("noindex={true}"), "Demo Combo belum noindex.");
 check(read("public/_headers").includes("https://demo.seiton.biz.id/*"), "Header noindex untuk domain demo belum tersedia.");
 const baseLayout = read("src/layouts/Base.astro");

@@ -208,7 +208,7 @@ try {
   }
   for (const route of ["/menu-qr/", "/bot-umkm/"]) {
     await demoPage.goto(demoBase + route, { waitUntil: "domcontentloaded" });
-    const productImages = await demoPage.locator('img[src*="/assets/dummy-products/"]').evaluateAll(async (images) => {
+    const productImages = await demoPage.locator('img[src*="/assets/optimized-demo-products/"]').evaluateAll(async (images) => {
       await Promise.all(images.map(async (image) => {
         image.loading = "eager";
         try { await image.decode(); } catch {}
@@ -217,8 +217,11 @@ try {
         src: new URL(image.currentSrc || image.src, location.href).pathname,
         alt: image.alt,
         complete: image.complete,
+        loading: image.loading,
         naturalWidth: image.naturalWidth,
-        naturalHeight: image.naturalHeight
+        naturalHeight: image.naturalHeight,
+        responsive: image.getAttribute("srcset"),
+        sizes: image.getAttribute("sizes")
       }));
     });
     check(productImages.length === 15,
@@ -228,8 +231,16 @@ try {
     for (const image of productImages) {
       check(Boolean(image.alt && image.alt.trim()),
         "Teks alt foto produk kosong: " + image.src);
-      check(image.complete && image.naturalWidth > 0 && image.naturalHeight > 0,
-        "Foto produk gagal dimuat: " + image.src + " (" +
+      check(image.src.startsWith("/assets/optimized-demo-products/") &&
+        /_(480|960)\\.webp$/.test(image.src),
+        "Fallback foto belum menggunakan thumbnail WebP: " + image.src);
+      check(image.responsive?.includes("_480.webp 480w") &&
+        image.responsive.includes("_960.webp 960w") && Boolean(image.sizes),
+        "srcset/sizes responsif tidak lengkap: " + image.src);
+      check(image.loading === "lazy", "Foto produk harus dimuat secara lazy: " + image.src);
+      check(image.complete && image.naturalWidth > 0 && image.naturalHeight > 0 &&
+        image.naturalWidth <= 960,
+        "Foto produk gagal dimuat atau ukurannya tidak sesuai: " + image.src + " (" +
           image.naturalWidth + "x" + image.naturalHeight + ").");
     }
   }

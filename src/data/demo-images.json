@@ -1,62 +1,92 @@
 {
   "RT-001": {
-    "src": "/assets/dummy-products/RT-001_roti-sobek-cokelat.webp",
-    "alt": "Roti sobek cokelat dengan isian cokelat"
+    "src": "/assets/optimized-demo-products/RT-001_480.webp",
+    "alt": "Roti sobek cokelat dengan isian cokelat",
+    "source": "/assets/dummy-products/RT-001_roti-sobek-cokelat.webp",
+    "srcset": "/assets/optimized-demo-products/RT-001_480.webp 480w, /assets/optimized-demo-products/RT-001_960.webp 960w"
   },
   "RT-002": {
-    "src": "/assets/dummy-products/RT-002_roti-keju-susu.webp",
-    "alt": "Roti keju susu dengan topping keju"
+    "src": "/assets/optimized-demo-products/RT-002_480.webp",
+    "alt": "Roti keju susu dengan topping keju",
+    "source": "/assets/dummy-products/RT-002_roti-keju-susu.webp",
+    "srcset": "/assets/optimized-demo-products/RT-002_480.webp 480w, /assets/optimized-demo-products/RT-002_960.webp 960w"
   },
   "RT-003": {
-    "src": "/assets/dummy-products/RT-003_roti-srikaya.webp",
-    "alt": "Roti srikaya dengan isian pandan"
+    "src": "/assets/optimized-demo-products/RT-003_480.webp",
+    "alt": "Roti srikaya dengan isian pandan",
+    "source": "/assets/dummy-products/RT-003_roti-srikaya.webp",
+    "srcset": "/assets/optimized-demo-products/RT-003_480.webp 480w, /assets/optimized-demo-products/RT-003_960.webp 960w"
   },
   "RT-004": {
-    "src": "/assets/dummy-products/RT-004_roti-pisang-cokelat.webp",
-    "alt": "Roti pisang cokelat dengan isian pisang dan cokelat"
+    "src": "/assets/optimized-demo-products/RT-004_480.webp",
+    "alt": "Roti pisang cokelat dengan isian pisang dan cokelat",
+    "source": "/assets/dummy-products/RT-004_roti-pisang-cokelat.webp",
+    "srcset": "/assets/optimized-demo-products/RT-004_480.webp 480w, /assets/optimized-demo-products/RT-004_960.webp 960w"
   },
   "RT-005": {
-    "src": "/assets/dummy-products/RT-005_roti-abon.jpg",
-    "alt": "Roti abon dengan taburan abon gurih"
+    "src": "/assets/optimized-demo-products/RT-005_480.webp",
+    "alt": "Roti abon dengan taburan abon gurih",
+    "source": "/assets/dummy-products/RT-005_roti-abon.jpg",
+    "srcset": "/assets/optimized-demo-products/RT-005_480.webp 480w, /assets/optimized-demo-products/RT-005_960.webp 960w"
   },
   "PS-001": {
-    "src": "/assets/dummy-products/PS-001_croissant-butter.jpg",
-    "alt": "Croissant butter berlapis berwarna keemasan"
+    "src": "/assets/optimized-demo-products/PS-001_480.webp",
+    "alt": "Croissant butter berlapis berwarna keemasan",
+    "source": "/assets/dummy-products/PS-001_croissant-butter.jpg",
+    "srcset": "/assets/optimized-demo-products/PS-001_480.webp 480w, /assets/optimized-demo-products/PS-001_960.webp 960w"
   },
   "PS-002": {
-    "src": "/assets/dummy-products/PS-002_donat-gula.jpg",
-    "alt": "Donat gula dengan taburan gula halus"
+    "src": "/assets/optimized-demo-products/PS-002_480.webp",
+    "alt": "Donat gula dengan taburan gula halus",
+    "source": "/assets/dummy-products/PS-002_donat-gula.jpg",
+    "srcset": "/assets/optimized-demo-products/PS-002_480.webp 480w, /assets/optimized-demo-products/PS-002_960.webp 960w"
   },
   "PS-003": {
-    "src": "/assets/dummy-products/PS-003_donat-cokelat.jpg",
-    "alt": "Donat dengan lapisan cokelat"
+    "src": "/assets/optimized-demo-products/PS-003_480.webp",
+    "alt": "Donat dengan lapisan cokelat",
+    "source": "/assets/dummy-products/PS-003_donat-cokelat.jpg",
+    "srcset": "/assets/optimized-demo-products/PS-003_480.webp 480w, /assets/optimized-demo-products/PS-003_960.webp 960w"
   },
   "PS-004": {
-    "src": "/assets/dummy-products/PS-004_brownies-potong.jpg",
-    "alt": "Brownies cokelat potong dengan tekstur fudgy"
+    "src": "/assets/optimized-demo-products/PS-004_480.webp",
+    "alt": "Brownies cokelat potong dengan tekstur fudgy",
+    "source": "/assets/dummy-products/PS-004_brownies-potong.jpg",
+    "srcset": "/assets/optimized-demo-products/PS-004_480.webp 480w, /assets/optimized-demo-products/PS-004_960.webp 960w"
   },
   "PS-005": {
-    "src": "/assets/dummy-products/PS-005_pisang-bolen.jpg",
-    "alt": "Pisang bolen dengan pastry berlapis dan isian pisang"
+    "src": "/assets/optimized-demo-products/PS-005_480.webp",
+    "alt": "Pisang bolen dengan pastry berlapis dan isian pisang",
+    "source": "/assets/dummy-products/PS-005_pisang-bolen.jpg",
+    "srcset": "/assets/optimized-demo-products/PS-005_480.webp 480w, /assets/optimized-demo-products/PS-005_960.webp 960w"
   },
   "MN-001": {
-    "src": "/assets/dummy-products/MN-001_teh-original-250ml.jpg",
-    "alt": "Teh original dalam botol bening 250 ml"
+    "src": "/assets/optimized-demo-products/MN-001_480.webp",
+    "alt": "Teh original dalam botol bening 250 ml",
+    "source": "/assets/dummy-products/MN-001_teh-original-250ml.jpg",
+    "srcset": "/assets/optimized-demo-products/MN-001_480.webp 480w, /assets/optimized-demo-products/MN-001_960.webp 960w"
   },
   "MN-002": {
-    "src": "/assets/dummy-products/MN-002_teh-lemon-250ml.jpg",
-    "alt": "Teh lemon dalam botol bening 250 ml"
+    "src": "/assets/optimized-demo-products/MN-002_480.webp",
+    "alt": "Teh lemon dalam botol bening 250 ml",
+    "source": "/assets/dummy-products/MN-002_teh-lemon-250ml.jpg",
+    "srcset": "/assets/optimized-demo-products/MN-002_480.webp 480w, /assets/optimized-demo-products/MN-002_960.webp 960w"
   },
   "MN-003": {
-    "src": "/assets/dummy-products/MN-003_teh-susu-250ml.jpg",
-    "alt": "Teh susu dalam botol bening 250 ml"
+    "src": "/assets/optimized-demo-products/MN-003_480.webp",
+    "alt": "Teh susu dalam botol bening 250 ml",
+    "source": "/assets/dummy-products/MN-003_teh-susu-250ml.jpg",
+    "srcset": "/assets/optimized-demo-products/MN-003_480.webp 480w, /assets/optimized-demo-products/MN-003_960.webp 960w"
   },
   "MN-004": {
-    "src": "/assets/dummy-products/MN-004_kopi-susu-250ml.jpg",
-    "alt": "Kopi susu dalam botol bening 250 ml"
+    "src": "/assets/optimized-demo-products/MN-004_480.webp",
+    "alt": "Kopi susu dalam botol bening 250 ml",
+    "source": "/assets/dummy-products/MN-004_kopi-susu-250ml.jpg",
+    "srcset": "/assets/optimized-demo-products/MN-004_480.webp 480w, /assets/optimized-demo-products/MN-004_960.webp 960w"
   },
   "PK-001": {
-    "src": "/assets/dummy-products/PK-001_paket-roti-teh.jpg",
-    "alt": "Paket roti dan teh original"
+    "src": "/assets/optimized-demo-products/PK-001_480.webp",
+    "alt": "Paket roti dan teh original",
+    "source": "/assets/dummy-products/PK-001_paket-roti-teh.jpg",
+    "srcset": "/assets/optimized-demo-products/PK-001_480.webp 480w, /assets/optimized-demo-products/PK-001_960.webp 960w"
   }
 }

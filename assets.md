@@ -42,10 +42,15 @@ Gunakan spesifikasi yang sama untuk seluruh produk agar katalog terlihat sebagai
 - Latar krem hangat, alas kayu atau batu berwarna netral, cahaya alami lembut dari kiri atas.
 - Produk terlihat jelas, tekstur makanan alami, warna tidak terlalu jenuh.
 - Tanpa tulisan, logo, label merek, harga, watermark, bingkai, atau elemen UI.
-- Simpan sebagai PNG bila tersedia. JPG/JPEG juga dapat digunakan; pertahankan ekstensi sesuai format file yang sebenarnya.
-- Target ukuran file sekitar 0,3–1,5 MB per foto setelah optimasi, tanpa membuat teksturnya pecah.
+- Simpan file sumber sebagai PNG, JPG/JPEG, atau WebP. Pertahankan ekstensi sesuai format aslinya.
+- File sumber akan dipertahankan di GitHub. Saat build, Seiton otomatis membuat varian WebP 480 px dan 960 px, menghapus metadata yang tidak diperlukan, dan menjaga proporsi gambar.
+- Budget hasil optimasi: maksimal 140 KB untuk varian 480 px dan 320 KB untuk 960 px. Proses build akan gagal bila file melampaui budget, sehingga foto besar tidak diam-diam kembali masuk ke situs.
 
 **Penting:** seluruh produk dan nama usaha pada halaman demo adalah data fiktif. Foto yang dibuat harus diperlakukan sebagai ilustrasi produk contoh, bukan bukti produk atau foto usaha klien nyata.
+
+### Optimasi otomatis untuk website
+
+File yang diunggah pada `public/assets/dummy-products/` berfungsi sebagai master/original. File ini tidak disajikan langsung kepada pengunjung. Build website memakai Sharp untuk membuat dua turunan WebP per SKU: 480 px untuk kartu kecil dan 960 px untuk layar beresolusi tinggi. Elemen gambar memakai `srcset` dan `sizes` agar browser memilih ukuran sesuai lebar layar, serta `loading="lazy"` dan `decoding="async"` untuk gambar katalog. File master dikeluarkan dari hasil deployment tetapi tetap tersimpan aman di GitHub.
 
 ## 3. Master style prompt Google Flow
 
@@ -225,13 +230,15 @@ Contoh satu entri:
 ```json
 {
   "RT-003": {
-    "src": "/assets/dummy-products/RT-003_roti-srikaya.webp",
+    "source": "/assets/dummy-products/RT-003_roti-srikaya.webp",
+    "src": "/assets/optimized-demo-products/RT-003_480.webp",
+    "srcset": "/assets/optimized-demo-products/RT-003_480.webp 480w, /assets/optimized-demo-products/RT-003_960.webp 960w",
     "alt": "Roti srikaya dengan isian pandan"
   }
 }
 ```
 
-Pemetaan mempertahankan relasi satu foto untuk satu SKU. Nama file dan ekstensi dipakai persis seperti yang tersimpan di GitHub; tidak ada penggantian ekstensi secara semu dan tidak diperlukan upload ulang.
+Pemetaan mempertahankan relasi satu foto master untuk satu SKU. Nama file dan ekstensi sumber dipakai persis seperti yang tersimpan di GitHub; tidak ada penggantian ekstensi secara semu dan tidak diperlukan upload ulang. Derivatif WebP dibuat saat build, bukan diunggah manual.
 
 ## 7. Pemeriksaan aset
 
@@ -241,7 +248,7 @@ Di repository tersedia perintah:
 npm run check:assets
 ```
 
-Pemeriksaan ini memverifikasi bahwa setiap gambar yang sudah dipetakan benar-benar ada di dalam `public/`, menampilkan SKU yang sudah terhubung, dan menunjukkan SKU yang belum memiliki gambar. Foto yang belum dibuat tidak akan menggagalkan build website; tetapi path gambar yang sudah dipetakan namun file-nya tidak ada akan dianggap sebagai error.
+Pemeriksaan ini memverifikasi file master, pemetaan SKU, dua varian WebP per foto, ukuran file, dan teks alt. Optimasi dijalankan sebelum Astro build. File master dikeluarkan dari folder hasil deployment agar tidak ikut menambah ukuran aset yang dipublikasikan, tetapi tetap tersimpan di GitHub.
 
 ## 8. Aset lain yang sudah digunakan
 
