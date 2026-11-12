@@ -39,7 +39,7 @@ try {
           const offenders = Array.from(document.querySelectorAll("body *")).map((element) => {
             const rect = element.getBoundingClientRect();
             const style = window.getComputedStyle(element);
-            const className = typeof element.className === "string" ? element.className.trim().replace(/\\s+/g, ".") : "";
+            const className = typeof element.className === "string" ? element.className.trim().split(" ").filter(Boolean).join(".") : "";
             return {
               selector: element.id ? "#" + element.id : element.tagName.toLowerCase() + (className ? "." + className : ""),
               left: Math.round(rect.left * 10) / 10,
