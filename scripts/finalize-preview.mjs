@@ -26,10 +26,24 @@ function collectHtml(directory) {
 }
 
 let updated = 0;
+let analyticsRemoved = 0;
+const gtmLoader = '<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3"></script>';
+const gtmInitializer = \`<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>\`;
 for (const file of collectHtml(outputDirectory)) {
-  const html = fs.readFileSync(file, "utf8");
+  const originalHtml = fs.readFileSync(file, "utf8");
+  let html = originalHtml.replace(gtmLoader, "").replace(gtmInitializer, "");
+  if (html !== originalHtml) analyticsRemoved += 1;
+
   const existingTag = html.match(/<meta\b[^>]*\bname=["']robots["'][^>]*>/i);
-  if (existingTag && /content=["']noindex,\s*nofollow["']/i.test(existingTag[0])) continue;
+  if (existingTag && /content=["']noindex,\s*nofollow["']/i.test(existingTag[0])) {
+    if (html !== originalHtml) fs.writeFileSync(file, html);
+    updated += 1;
+    continue;
+  }
 
   let nextHtml;
   if (existingTag) {
@@ -44,5 +58,6 @@ for (const file of collectHtml(outputDirectory)) {
   fs.writeFileSync(file, nextHtml);
   updated += 1;
 }
+console.log("GTM disabled on preview output; " + analyticsRemoved + " HTML document(s) had analytics removed.");
 
 console.log("Preview robots safeguard applied to " + updated + " HTML document(s) in " + outputDirectory + ".");
