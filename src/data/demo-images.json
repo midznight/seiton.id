@@ -1,5 +1,62 @@
 {
-  "RT-001": { "src": "/assets/roti-sobek-cokelat.webp", "alt": "Roti sobek cokelat" },
-  "RT-002": { "src": "/assets/roti-keju-susu.webp", "alt": "Roti keju susu" },
-  "MN-001": { "src": "/assets/es-teh-manis.webp", "alt": "Es teh manis" }
+  "RT-001": {
+    "src": "/assets/dummy-products/RT-001_roti-sobek-cokelat.webp",
+    "alt": "Roti sobek cokelat dengan isian cokelat"
+  },
+  "RT-002": {
+    "src": "/assets/dummy-products/RT-002_roti-keju-susu.webp",
+    "alt": "Roti keju susu dengan topping keju"
+  },
+  "RT-003": {
+    "src": "/assets/dummy-products/RT-003_roti-srikaya.webp",
+    "alt": "Roti srikaya dengan isian pandan"
+  },
+  "RT-004": {
+    "src": "/assets/dummy-products/RT-004_roti-pisang-cokelat.webp",
+    "alt": "Roti pisang cokelat dengan isian pisang dan cokelat"
+  },
+  "RT-005": {
+    "src": "/assets/dummy-products/RT-005_roti-abon.jpg",
+    "alt": "Roti abon dengan taburan abon gurih"
+  },
+  "PS-001": {
+    "src": "/assets/dummy-products/PS-001_croissant-butter.jpg",
+    "alt": "Croissant butter berlapis berwarna keemasan"
+  },
+  "PS-002": {
+    "src": "/assets/dummy-products/PS-002_donat-gula.jpg",
+    "alt": "Donat gula dengan taburan gula halus"
+  },
+  "PS-003": {
+    "src": "/assets/dummy-products/PS-003_donat-cokelat.jpg",
+    "alt": "Donat dengan lapisan cokelat"
+  },
+  "PS-004": {
+    "src": "/assets/dummy-products/PS-004_brownies-potong.jpg",
+    "alt": "Brownies cokelat potong dengan tekstur fudgy"
+  },
+  "PS-005": {
+    "src": "/assets/dummy-products/PS-005_pisang-bolen.jpg",
+    "alt": "Pisang bolen dengan pastry berlapis dan isian pisang"
+  },
+  "MN-001": {
+    "src": "/assets/dummy-products/MN-001_teh-original-250ml.jpg",
+    "alt": "Teh original dalam botol bening 250 ml"
+  },
+  "MN-002": {
+    "src": "/assets/dummy-products/MN-002_teh-lemon-250ml.jpg",
+    "alt": "Teh lemon dalam botol bening 250 ml"
+  },
+  "MN-003": {
+    "src": "/assets/dummy-products/MN-003_teh-susu-250ml.jpg",
+    "alt": "Teh susu dalam botol bening 250 ml"
+  },
+  "MN-004": {
+    "src": "/assets/dummy-products/MN-004_kopi-susu-250ml.jpg",
+    "alt": "Kopi susu dalam botol bening 250 ml"
+  },
+  "PK-001": {
+    "src": "/assets/dummy-products/PK-001_paket-roti-teh.jpg",
+    "alt": "Paket roti dan teh original"
+  }
 }
