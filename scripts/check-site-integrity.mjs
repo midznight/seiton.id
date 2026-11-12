@@ -69,7 +69,7 @@ check(servicesPage.includes("service-directory-grid"), "Daftar layanan belum mem
 check(examplesPage.includes("demo-grid") && (examplesPage.match(/<article class="card">/g) || []).length === 6, "Halaman contoh harus menampilkan enam kartu demo dalam grid.");
 check(!examplesPage.includes('href="/tentang/"'), "Tautan internal masih mengarah ke halaman Tentang lama.");
 check(examplesPage.includes('href="/cerita/"'), "Halaman contoh belum mengarah ke Cerita Seiton.");
-check(uiStyles.includes("--font-ui") && uiStyles.includes("--font-heading"), "Sistem font utama belum didefinisikan secara konsisten.");
+check(uiStyles.includes("--font-ui") && uiStyles.includes("font-family:var(--font-ui)"), "Sistem font utama belum didefinisikan secara konsisten.");
 check(uiStyles.includes(":focus-visible"), "Indikator fokus keyboard belum tersedia.");
 check(homePage.includes('role="tablist"') && homePage.includes("activateTab"), "Interaksi tab pratinjau beranda tidak lengkap.");
 const tabIds = [...homePage.matchAll(/data-showcase-tab="([^"]+)"/g)].map((match) => match[1]);
