@@ -149,7 +149,14 @@ const collectHtmlDocuments = (directory) => {
 const expectedGtmSource = "https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3";
 const mainHtmlDocuments = collectHtmlDocuments(path.resolve("dist"));
 const demoHtmlDocuments = collectHtmlDocuments(path.resolve("dist-demo"));
-const missingGtm = mainHtmlDocuments.filter((file) => !fs.readFileSync(file, "utf8").includes(expectedGtmSource));
+const isRedirectDocument = (html) =>
+  /<meta[^>]+http-equiv=["']refresh["']/i.test(html) ||
+  /window\\.location(?:\\.href)?\\s*=/.test(html) ||
+  /location\\.replace\\(/.test(html);
+const missingGtm = mainHtmlDocuments.filter((file) => {
+  const html = fs.readFileSync(file, "utf8");
+  return !isRedirectDocument(html) && !html.includes(expectedGtmSource);
+});
 if (missingGtm.length) {
   console.error("Main-site HTML pages missing the Google Tag Manager container:", missingGtm.map((file) => path.relative("dist", file)).join(", "));
   process.exit(1);
