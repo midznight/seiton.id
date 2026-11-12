@@ -34,11 +34,30 @@ try {
       assert.ok(response && response.ok(), "Page failed to load: " + url);
       for (const width of widths) {
         await page.setViewportSize({ width, height: 844 });
-        const dimensions = await page.evaluate(() => ({
-          viewport: document.documentElement.clientWidth,
-          document: document.documentElement.scrollWidth,
-          body: document.body.scrollWidth
-        }));
+        const dimensions = await page.evaluate(() => {
+          const viewport = document.documentElement.clientWidth;
+          const offenders = Array.from(document.querySelectorAll("body *")).map((element) => {
+            const rect = element.getBoundingClientRect();
+            const style = window.getComputedStyle(element);
+            const className = typeof element.className === "string" ? element.className.trim().replace(/\\s+/g, ".") : "";
+            return {
+              selector: element.id ? "#" + element.id : element.tagName.toLowerCase() + (className ? "." + className : ""),
+              left: Math.round(rect.left * 10) / 10,
+              right: Math.round(rect.right * 10) / 10,
+              width: Math.round(rect.width * 10) / 10,
+              scrollWidth: element.scrollWidth,
+              clientWidth: element.clientWidth,
+              overflowX: style.overflowX
+            };
+          }).filter((item) => item.right > viewport + 1 || item.left < -1)
+            .sort((a, b) => b.right - a.right).slice(0, 30);
+          return {
+            viewport,
+            document: document.documentElement.scrollWidth,
+            body: document.body.scrollWidth,
+            offenders
+          };
+        });
         if (dimensions.document > dimensions.viewport + 1 || dimensions.body > dimensions.viewport + 1) {
           report.overflow.push({ site: site.name, route, width, ...dimensions });
         }
