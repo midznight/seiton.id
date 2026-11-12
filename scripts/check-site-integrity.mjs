@@ -30,6 +30,18 @@ check(site.contacts.some((item) => item.label === "Instagram" && item.url === "h
 check(site.founderProfileUrl === "", "Tautan profil pendiri harus tetap kosong sampai alamat website terpisah tersedia.");
 
 check(dataset.period.fictional === true, "Dataset demo harus ditandai fiktif.");
+const demoImages = json("src/data/demo-images.json");
+for (const [sku, image] of Object.entries(demoImages)) {
+  check(dataset.products.some((product) => product.sku === sku), "Pemetaan foto memiliki SKU yang tidak dikenal: " + sku);
+  check(typeof image.src === "string" && image.src.startsWith("/assets/"), "Path foto demo tidak valid untuk " + sku);
+  check(typeof image.alt === "string" && image.alt.trim().length > 0, "Teks alt foto belum tersedia untuk " + sku);
+  const imagePath = path.resolve("public", "." + image.src);
+  check(imagePath.startsWith(path.resolve("public") + path.sep) && fs.existsSync(imagePath), "File foto yang dipetakan tidak ditemukan untuk " + sku);
+}
+check(fs.existsSync("public/assets/dummy-products/.gitkeep"), "Folder upload foto dummy belum tersedia.");
+check(fs.existsSync("assets.md"), "Panduan foto dan prompt Google Flow belum tersedia.");
+check(read("assets.md").includes("Master style prompt Google Flow"), "Master prompt Google Flow belum tersedia di assets.md.");
+check(JSON.parse(read("package.json")).scripts["check:assets"] === "node scripts/check-demo-assets.mjs", "Pemeriksaan aset demo belum terdaftar.");
 check(dataset.products.length === 15, "Dataset demo harus memiliki 15 produk.");
 check(dataset.summary.orders === 263 && dataset.summary.units === 354 && dataset.summary.grossRevenue === 4668000, "Ringkasan dataset demo berubah dari data yang disetujui.");
 
@@ -130,4 +142,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log("Source integrity check passed: services, contacts, dataset, sitemap, legal text, pricing source, and demo indexing.");
+console.log("Source integrity check passed: services, contacts, dataset, demo image mappings, asset upload guide, sitemap, legal text, pricing source, and demo indexing.");
