@@ -118,6 +118,7 @@ for (const legalPath of ["public/ketentuan/index.html", "public/privasi/index.ht
   check(!legalHtml.includes('href="/portofolio/"'), "Navigasi legal masih mengarah ke rute Portofolio yang tidak tersedia: " + legalPath);
   check(!legalHtml.includes('href="/tentang/"'), "Navigasi legal masih memakai menu Tentang lama: " + legalPath);
   check(legalHtml.includes('href="/contoh/">Contoh</a>') && legalHtml.includes('href="/cerita/">Cerita</a>'), "Navigasi legal belum mengikuti menu Contoh dan Cerita: " + legalPath);
+  check(legalHtml.includes('href="/kontak/" class="button button-orange nav-cta">Konsultasi</a>'), "CTA Konsultasi halaman legal harus menuju halaman Kontak seperti halaman lain: " + legalPath);
 }
 
 if (errors.length) {
