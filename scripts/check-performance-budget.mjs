@@ -47,13 +47,15 @@ for (const output of outputs) {
     return [...html.matchAll(/<link\b[^>]*rel=["'][^"']*stylesheet[^"']*["'][^>]*href=["']https?:/gi)]
       .map(() => path.relative(root, file));
   });
+  const approvedGtm = "https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3";
   const externalScripts = htmlFiles.flatMap((file) => {
     const html = fs.readFileSync(file, "utf8");
-    return [...html.matchAll(/<script\b[^>]*src=["']https?:/gi)]
+    return [...html.matchAll(/<script\b[^>]*src=["'](https?:[^"']+)["'][^>]*>/gi)]
+      .filter((match) => !(output === "dist" && match[1] === approvedGtm))
       .map(() => path.relative(root, file));
   });
   if (externalStylesheets.length) errors.push("Stylesheet eksternal ditemukan di " + output + ": " + externalStylesheets.join(", "));
-  if (externalScripts.length) errors.push("JavaScript eksternal ditemukan di " + output + ": " + externalScripts.join(", "));
+  if (externalScripts.length) errors.push("JavaScript eksternal yang tidak diizinkan ditemukan di " + output + ": " + externalScripts.join(", "));
 }
 
 if (errors.length) {
@@ -61,4 +63,4 @@ if (errors.length) {
   for (const error of errors) console.error(" - " + error);
   process.exit(1);
 }
-console.log("Performance budget passed: no third-party font/style/script requests; CSS and JavaScript stay within budget.");
+console.log("Performance budget passed: no third-party fonts/styles, only the approved GTM container on main pages, and CSS/JavaScript within budget.");
