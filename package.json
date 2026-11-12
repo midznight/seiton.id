@@ -10,7 +10,9 @@
     "test:journey": "node scripts/test-customer-journey.mjs",
     "check:assets": "node scripts/check-demo-assets.mjs",
     "prepare:assets": "node scripts/optimize-demo-assets.mjs",
-    "check:performance": "node scripts/check-performance-budget.mjs"
+    "check:performance": "node scripts/check-performance-budget.mjs",
+    "audit:mobile": "node scripts/test-mobile-accessibility.mjs",
+    "audit:lighthouse": "node scripts/run-lighthouse.mjs"
   },
   "dependencies": {
     "astro": "7.4.8",

@@ -35,9 +35,9 @@ jobs:
         run: npm run check:performance
       - name: Check demo image assets
         run: npm run check:assets
-      - name: Install Playwright and Chromium
+      - name: Install audit tooling and Chromium
         run: |
-          npm install --no-save --package-lock=false playwright
+          npm install --no-save --package-lock=false playwright @axe-core/playwright lighthouse
           npx playwright install --with-deps chromium
       - name: Start local preview servers
         run: |
@@ -45,3 +45,15 @@ jobs:
           python3 -m http.server 4322 --directory dist-demo >/tmp/seiton-demo.log 2>&1 &
       - name: Test customer journey and responsive layouts
         run: npm run test:journey
+      - name: Audit mobile accessibility (axe WCAG)
+        run: npm run audit:mobile
+      - name: Measure mobile Lighthouse metrics
+        run: npm run audit:lighthouse
+      - name: Upload audit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seiton-mobile-audit-${{ github.sha }}
+          path: audit-results/
+          if-no-files-found: warn
+          retention-days: 30
