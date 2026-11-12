@@ -31,6 +31,8 @@ jobs:
         run: npm run build:demo
       - name: Verify static output
         run: node scripts/check-site-build.mjs
+      - name: Check performance budget
+        run: npm run check:performance
       - name: Check demo image assets
         run: npm run check:assets
       - name: Install Playwright and Chromium

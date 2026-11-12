@@ -175,6 +175,25 @@ try {
     }
   }
 
+
+  const fontAuditPage = await browser.newPage();
+  const thirdPartyFontRequests = [];
+  fontAuditPage.on("request", (request) => {
+    if (/fonts\.(googleapis|gstatic)\.com/i.test(request.url())) {
+      thirdPartyFontRequests.push(request.url());
+    }
+  });
+  for (const route of ["/ketentuan/", "/privasi/"]) {
+    await fontAuditPage.goto(mainBase + route, { waitUntil: "networkidle" });
+    check(await fontAuditPage.locator('link[href*="fonts.googleapis.com"], link[href*="fonts.gstatic.com"]').count() === 0,
+      "Halaman legal tidak boleh memuat stylesheet font pihak ketiga: " + route);
+    check(await fontAuditPage.locator('link[href="/favicon-32.png"], link[href="/favicon-180.png"]').count() === 0,
+      "Halaman legal tidak boleh meminta favicon yang tidak tersedia: " + route);
+  }
+  check(thirdPartyFontRequests.length === 0,
+    "Permintaan font pihak ketiga masih terjadi: " + thirdPartyFontRequests.join(", "));
+  await fontAuditPage.close();
+
   await page.goto(mainBase + "/contoh/", { waitUntil: "domcontentloaded" });
   const demoLinks = await page.locator(".demo-grid a[href]").evaluateAll((items) => items.map((item) => item.href));
   check(demoLinks.length === 6 && demoLinks.every((href) => href.startsWith(demoBase + "/")),
@@ -206,7 +225,7 @@ try {
       check(linkResponse.ok(), "Tautan internal demo gagal (" + linkResponse.status() + "): " + target.href);
     }
   }
-  for (const route of ["/menu-qr/", "/bot-umkm/"]) {
+  for (const route of ["/menu-qr/", "/website-katalog/katalog/", "/bot-umkm/"]) {
     await demoPage.goto(demoBase + route, { waitUntil: "domcontentloaded" });
     const productImages = await demoPage.locator('img[src*="/assets/optimized-demo-products/"]').evaluateAll(async (images) => {
       return await Promise.all(images.map(async (image) => {

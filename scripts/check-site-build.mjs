@@ -23,7 +23,6 @@ const required = [
   "dist/ketentuan/index.html",
   "dist/privasi/index.html",
   "dist/logo-horizontal.png",
-  "dist/assets/foto-profil-terang.png",
   "dist-demo/index.html",
   "dist-demo/katalog-whatsapp/index.html",
   "dist-demo/menu-qr/index.html",
@@ -102,4 +101,26 @@ for (const [directory, label] of [
   }
 }
 
-console.log("Static output verification passed:", required.length, "paths checked, 30 optimized demo variants, and source uploads excluded.");
+
+const forbiddenDeploymentAssets = [
+  ["dist", "assets/dummy-products", "main source uploads"],
+  ["dist", "assets/optimized-demo-products", "demo-only WebP variants"],
+  ["dist", "assets/menu-demo-qr.svg", "demo QR artwork"],
+  ["dist", "assets/foto-profil-terang.png", "unused profile photograph"],
+  ["dist", "assets/es-teh-manis.webp", "unused legacy drink photograph"],
+  ["dist", "assets/roti-keju-susu.webp", "unused legacy bread photograph"],
+  ["dist", "assets/roti-sobek-cokelat.webp", "demo-only hero photograph"],
+  ["dist-demo", "assets/dummy-products", "original Google Flow uploads"],
+  ["dist-demo", "assets/foto-profil-terang.png", "unused profile photograph"],
+  ["dist-demo", "assets/es-teh-manis.webp", "unused legacy drink photograph"],
+  ["dist-demo", "assets/roti-keju-susu.webp", "unused legacy bread photograph"],
+  ["dist-demo", "assets/roti-sobek-cokelat.webp", "replaced legacy hero photograph"]
+];
+for (const [output, relative, label] of forbiddenDeploymentAssets) {
+  if (fs.existsSync(path.resolve(output, relative))) {
+    console.error("Unnecessary asset remains in " + output + " (" + label + "): " + relative);
+    process.exit(1);
+  }
+}
+
+console.log("Static output verification passed:", required.length, "paths checked, 30 optimized demo variants, and unused/source uploads excluded.");

@@ -51,6 +51,8 @@ check(JSON.parse(read("package.json")).scripts["prepare:assets"] === "node scrip
 check(JSON.parse(read("package.json")).dependencies.sharp === "0.35.5", "Versi Sharp untuk optimasi gambar belum dipatok.");
 check(fs.existsSync("scripts/optimize-demo-assets.mjs"), "Skrip optimasi WebP responsif belum tersedia.");
 check(fs.existsSync("scripts/strip-source-demo-assets.mjs"), "Penghapusan file sumber dari output deployment belum tersedia.");
+check(fs.existsSync("scripts/check-performance-budget.mjs"), "Audit budget CSS/JS belum tersedia.");
+check(json("package.json").scripts["check:performance"] === "node scripts/check-performance-budget.mjs", "Perintah audit performa belum terdaftar.");
 check(dataset.products.length === 15, "Dataset demo harus memiliki 15 produk.");
 check(dataset.summary.orders === 263 && dataset.summary.units === 354 && dataset.summary.grossRevenue === 4668000, "Ringkasan dataset demo berubah dari data yang disetujui.");
 
@@ -73,6 +75,13 @@ check(terms.includes("BERLAKU MULAI 5 NOVEMBER 2026"), "Tanggal Ketentuan Layana
 check(terms.includes("uang muka yang telah dibayarkan dianggap hangus dan tidak dapat diminta kembali atau dikembalikan"), "Aturan pembatalan DP pada Ketentuan tidak ditemukan.");
 check(privacy.includes("BERLAKU MULAI 4 NOVEMBER 2026"), "Tanggal Kebijakan Privasi berubah.");
 check(privacy.includes("Informasi konsultasi dan komunikasi disimpan paling lama 24 bulan"), "Aturan retensi pada Kebijakan Privasi tidak ditemukan.");
+for (const [file, content] of [["public/ketentuan/index.html", terms], ["public/privasi/index.html", privacy]]) {
+  check(!content.includes("fonts.googleapis.com") && !content.includes("fonts.gstatic.com"),
+    "Halaman legal masih memuat font pihak ketiga: " + file);
+  check(!content.includes("favicon-32.png") && !content.includes("favicon-180.png"),
+    "Halaman legal masih merujuk ikon yang tidak tersedia: " + file);
+}
+check(!read("public/site.css").includes("Poppins"), "Legacy legal CSS belum memakai system font stack.");
 check(fs.existsSync("public/logo-horizontal.png"), "Logo halaman legal belum tersedia di folder publik.");
 check(fs.existsSync("public/assets/logo-horizontal-transparan.png"), "Logo horizontal resmi Seiton belum tersedia di folder publik.");
 check(read("public/_redirects").includes("/tentang/ /cerita/ 301"), "URL Tentang lama belum diarahkan ke halaman Cerita.");
@@ -116,6 +125,7 @@ for (const file of [
   "src/demo/pages/menu-qr/index.astro",
   "src/demo/pages/katalog-whatsapp/index.astro",
   "src/demo/pages/website-katalog/index.astro",
+  "src/demo/pages/website-katalog/katalog/index.astro",
   "src/demo/pages/bot-umkm/index.astro"
 ]) {
   const content = read(file);
