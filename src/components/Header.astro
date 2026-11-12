@@ -18,7 +18,7 @@ const isCurrent = (href) => !demoSite && (
       <span class="brand-tagline">Tata Usahamu, Mudahkan Pelanggan</span>
     </a>
     <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="primary-nav">
-      <span aria-hidden="true">☰</span>
+      <span></span><span></span><span></span>
     </button>
     <nav class="primary-nav" id="primary-nav" aria-label="Navigasi utama">
       {site.navigation.map((item) => (
@@ -37,19 +37,26 @@ const isCurrent = (href) => !demoSite && (
       menuButton.setAttribute("aria-expanded", "false");
       menuButton.setAttribute("aria-label", "Buka menu");
     };
+    const openMenu = () => {
+      navigation.classList.add("is-open");
+      menuButton.setAttribute("aria-expanded", "true");
+      menuButton.setAttribute("aria-label", "Tutup menu");
+    };
     menuButton.addEventListener("click", () => {
-      const open = menuButton.getAttribute("aria-expanded") === "true";
-      if (open) {
-        closeMenu();
-      } else {
-        navigation.classList.add("is-open");
-        menuButton.setAttribute("aria-expanded", "true");
-        menuButton.setAttribute("aria-label", "Tutup menu");
-      }
+      menuButton.getAttribute("aria-expanded") === "true" ? closeMenu() : openMenu();
     });
     navigation.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    document.addEventListener("click", (event) => {
+      if (!navigation.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
+    });
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closeMenu();
+      if (event.key === "Escape") {
+        closeMenu();
+        menuButton.focus();
+      }
+    });
+    window.addEventListener("resize", () => {
+      if (window.matchMedia("(min-width: 1021px)").matches) closeMenu();
     });
   }
 </script>
