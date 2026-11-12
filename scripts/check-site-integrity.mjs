@@ -110,6 +110,14 @@ check(pricing.includes("new AbortController()") && pricing.includes("clearTimeou
 check(fs.existsSync("scripts/test-customer-journey.mjs"), "Pengujian perjalanan pelanggan belum tersedia.");
 check(json("package.json").scripts["test:journey"] === "node scripts/test-customer-journey.mjs", "Perintah test:journey belum terdaftar.");
 
+
+for (const legalPath of ["public/ketentuan/index.html", "public/privasi/index.html"]) {
+  const legalHtml = read(legalPath);
+  check(!legalHtml.includes('href="/portofolio/"'), "Navigasi legal masih mengarah ke rute Portofolio yang tidak tersedia: " + legalPath);
+  check(!legalHtml.includes('href="/tentang/"'), "Navigasi legal masih memakai menu Tentang lama: " + legalPath);
+  check(legalHtml.includes('href="/contoh/">Contoh</a>') && legalHtml.includes('href="/cerita/">Cerita</a>'), "Navigasi legal belum mengikuti menu Contoh dan Cerita: " + legalPath);
+}
+
 if (errors.length) {
   console.error("Source integrity check failed:");
   for (const error of errors) console.error(" - " + error);

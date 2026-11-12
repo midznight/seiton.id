@@ -69,6 +69,14 @@ try {
   for (const route of mainRoutes) {
     const response = await page.goto(mainBase + route, { waitUntil: "domcontentloaded" });
     check(Boolean(response && response.ok()), "Halaman utama gagal dimuat: " + route);
+    if (route === "/ketentuan/" || route === "/privasi/") {
+      const legalNav = await page.locator("#primary-nav a").evaluateAll((items) => items.map((item) => ({
+        label: item.textContent.trim(),
+        href: item.getAttribute("href")
+      })));
+      check(JSON.stringify(legalNav) === JSON.stringify(expectedNav.map(([label, href]) => ({ label, href }))),
+        "Navigasi halaman legal tidak konsisten dengan navigasi utama: " + route);
+    }
   }
 
   await page.goto(mainBase + "/", { waitUntil: "domcontentloaded" });
