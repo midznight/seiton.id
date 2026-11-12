@@ -2,7 +2,7 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import site from "../data/site.json";
-import { isPreviewBuild } from "../utils/site-urls.js";
+import { isPreviewBuild, isProductionBuild } from "../utils/site-urls.js";
 import "../styles/site.css";
 import "../styles/pages.css";
 const { title="Seiton.id — Tata Usahamu, Mudahkan Pelanggan", description=site.brand.description, canonical, noindex=false, demoSite=false }=Astro.props;
@@ -10,8 +10,8 @@ const canonicalUrl=canonical||new URL(Astro.url.pathname,demoSite?site.brand.dem
 ---
 <!doctype html><html lang="id"><head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-{!demoSite && !isPreviewBuild && <script is:inline async src="https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3"></script>}
-{!demoSite && !isPreviewBuild && <script is:inline>
+{!demoSite && isProductionBuild && <script is:inline async src="https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3"></script>}
+{!demoSite && isProductionBuild && <script is:inline>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());

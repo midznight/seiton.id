@@ -5,8 +5,10 @@ const trimTrailingSlash = (value) => {
   return text.endsWith("/") ? text.slice(0, -1) : text;
 };
 const pagesPreview = process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH !== "main";
+const pagesProduction = process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH === "main";
 
 export const isPreviewBuild = pagesPreview;
+export const isProductionBuild = pagesProduction;
 
 export const siteUrls = {
   main: pagesPreview

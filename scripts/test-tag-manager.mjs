@@ -13,7 +13,7 @@ const legalSources = [
   fs.readFileSync("public/privasi/index.html", "utf8")
 ];
 assert.ok(baseSource.includes(containerId), "Production layout must retain the GTM container ID.");
-assert.ok(baseSource.includes("!demoSite && !isPreviewBuild"), "Main production layout must suppress GTM in preview and demo builds.");
+assert.ok(baseSource.includes("!demoSite && isProductionBuild"), "GTM must load only in an explicit Cloudflare production build.");
 for (const source of legalSources) {
   assert.ok(source.includes(scriptUrl), "Main legal source must retain the GTM container loader.");
 }

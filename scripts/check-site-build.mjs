@@ -155,15 +155,8 @@ const isRedirectDocument = (html) => {
     normalized.includes("window.location") ||
     normalized.includes("location.replace(");
 };
-const previewOutput = process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH !== "main";
-if (previewOutput) {
-  const mainWithGtm = mainHtmlDocuments.filter((file) => fs.readFileSync(file, "utf8").includes("GTM-K3LKMTF3"));
-  if (mainWithGtm.length) {
-    console.error("Preview output must not send Analytics traffic:", mainWithGtm.map((file) => path.relative("dist", file)).join(", "));
-    process.exit(1);
-  }
-  console.log("Google Tag Manager correctly suppressed from preview HTML.");
-} else {
+const productionOutput = process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH === "main";
+if (productionOutput) {
   const missingGtm = mainHtmlDocuments.filter((file) => {
     const html = fs.readFileSync(file, "utf8");
     return !isRedirectDocument(html) && !html.includes(expectedGtmSource);
@@ -173,6 +166,13 @@ if (previewOutput) {
     process.exit(1);
   }
   console.log("Google Tag Manager source present in production main-site HTML.");
+} else {
+  const mainWithGtm = mainHtmlDocuments.filter((file) => fs.readFileSync(file, "utf8").includes("GTM-K3LKMTF3"));
+  if (mainWithGtm.length) {
+    console.error("Non-production output must not send Analytics traffic:", mainWithGtm.map((file) => path.relative("dist", file)).join(", "));
+    process.exit(1);
+  }
+  console.log("Google Tag Manager correctly suppressed from non-production HTML.");
 }
 const demoWithGtm = demoHtmlDocuments.filter((file) => fs.readFileSync(file, "utf8").includes("GTM-K3LKMTF3"));
 if (demoWithGtm.length) {
