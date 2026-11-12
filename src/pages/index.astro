@@ -25,7 +25,6 @@ const featured = services.filter((service) => service.featured);
       </div>
 
       <div class="hero-visual">
-        <div class="showcase-float showcase-float-top"><span class="float-dot"></span> Lebih mudah ditemukan</div>
         <div class="showcase-shell" data-showcase>
           <div class="showcase-topbar">
             <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -39,7 +38,7 @@ const featured = services.filter((service) => service.featured);
           </div>
 
           <div class="showcase-screen">
-            <div class="showcase-panel" id="showcase-panel-katalog" role="tabpanel" aria-labelledby="showcase-tab-katalog" data-showcase-panel="katalog">
+            <div class="showcase-panel" id="showcase-panel-katalog" role="tabpanel" aria-labelledby="showcase-tab-katalog" tabindex="0" data-showcase-panel="katalog">
               <div class="mock-browser-heading"><div><span class="mock-eyebrow">ETALASE DIGITAL</span><strong>Temukan yang kamu cari</strong><small>Informasi usaha dalam satu tempat.</small></div><span class="mock-round-icon" aria-hidden="true">↗</span></div>
               <div class="mock-search"><span aria-hidden="true">⌕</span> Cari produk atau layanan <kbd>⌕</kbd></div>
               <div class="mock-product-row">
@@ -50,7 +49,7 @@ const featured = services.filter((service) => service.featured);
               <div class="mock-browser-foot"><span>Profil usaha</span><span>Produk</span><span>Hubungi kami</span></div>
             </div>
 
-            <div class="showcase-panel" id="showcase-panel-menu" role="tabpanel" aria-labelledby="showcase-tab-menu" data-showcase-panel="menu" hidden>
+            <div class="showcase-panel" id="showcase-panel-menu" role="tabpanel" aria-labelledby="showcase-tab-menu" tabindex="0" data-showcase-panel="menu" hidden>
               <div class="mock-menu-heading"><span class="mock-eyebrow">MENU DIGITAL</span><strong>Pilih dengan lebih nyaman</strong><small>Tampilan menu yang mudah dibuka dari ponsel.</small></div>
               <div class="mock-menu-categories"><span class="active">Semua</span><span>Makanan</span><span>Minuman</span></div>
               <div class="mock-menu-item"><span class="menu-thumb menu-thumb-one"></span><span><strong>Menu pilihan</strong><small>Deskripsi singkat produk</small></span><b>•••</b></div>
@@ -58,7 +57,7 @@ const featured = services.filter((service) => service.featured);
               <div class="mock-menu-foot"><span>Dipindai melalui QR</span><span class="mock-qr">▦</span></div>
             </div>
 
-            <div class="showcase-panel" id="showcase-panel-pesanan" role="tabpanel" aria-labelledby="showcase-tab-pesanan" data-showcase-panel="pesanan" hidden>
+            <div class="showcase-panel" id="showcase-panel-pesanan" role="tabpanel" aria-labelledby="showcase-tab-pesanan" tabindex="0" data-showcase-panel="pesanan" hidden>
               <div class="mock-chat-heading"><span class="mock-chat-avatar">S</span><span><strong>Alur pemesanan</strong><small>Contoh percakapan otomatis</small></span><span class="mock-chat-status">● Aktif</span></div>
               <div class="mock-chat-body">
                 <div class="chat-bubble chat-customer">Halo, saya ingin melihat pilihan produk.</div>
@@ -69,9 +68,8 @@ const featured = services.filter((service) => service.featured);
               <div class="mock-chat-input"><span>Tulis pesan...</span><b>➤</b></div>
             </div>
           </div>
-          <p class="showcase-caption">Ilustrasi antarmuka. Bentuk akhir disesuaikan dengan kebutuhan usaha.</p>
+          <p class="showcase-caption">Pilih tab untuk melihat contoh katalog, menu digital, dan alur pemesanan.</p>
         </div>
-        <div class="showcase-float showcase-float-bottom"><span class="float-check">✓</span> Teknologi yang terasa sederhana</div>
       </div>
     </div>
   </section>
