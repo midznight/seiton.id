@@ -209,19 +209,20 @@ try {
   for (const route of ["/menu-qr/", "/bot-umkm/"]) {
     await demoPage.goto(demoBase + route, { waitUntil: "domcontentloaded" });
     const productImages = await demoPage.locator('img[src*="/assets/optimized-demo-products/"]').evaluateAll(async (images) => {
-      await Promise.all(images.map(async (image) => {
+      return await Promise.all(images.map(async (image) => {
+        const declaredLoading = image.getAttribute("loading");
         image.loading = "eager";
         try { await image.decode(); } catch {}
-      }));
-      return images.map((image) => ({
-        src: new URL(image.currentSrc || image.src, location.href).pathname,
-        alt: image.alt,
-        complete: image.complete,
-        loading: image.getAttribute('loading'),
-        naturalWidth: image.naturalWidth,
-        naturalHeight: image.naturalHeight,
-        responsive: image.getAttribute("srcset"),
-        sizes: image.getAttribute("sizes")
+        return {
+          src: new URL(image.currentSrc || image.src, location.href).pathname,
+          alt: image.alt,
+          complete: image.complete,
+          loading: declaredLoading,
+          naturalWidth: image.naturalWidth,
+          naturalHeight: image.naturalHeight,
+          responsive: image.getAttribute("srcset"),
+          sizes: image.getAttribute("sizes")
+        };
       }));
     });
     check(productImages.length === 15,
