@@ -32,7 +32,29 @@ const walk = async (directory) => {
     else if (/\.(html|css|js|mjs)$/i.test(entry.name)) textFiles.push(fullPath);
   }
 };
+
 await walk(root);
+
+if (outputMode === "demo") {
+  const legalPages = ["ketentuan/index.html", "privasi/index.html"];
+  const loader = '<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3"></script>';
+  const initializer = `<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>`;
+  for (const relative of legalPages) {
+    const file = path.resolve(root, relative);
+    if (!file.startsWith(root + path.sep)) throw new Error("Path demo legal tidak valid: " + relative);
+    const html = await fs.readFile(file, "utf8").catch(() => null);
+    if (html === null) continue;
+    const cleaned = html.replace(loader, "").replace(initializer, "");
+    if (cleaned !== html) {
+      await fs.writeFile(file, cleaned);
+      console.log("Main-site analytics excluded from demo legal copy: /" + relative);
+    }
+  }
+}
 
 let removedBytes = 0;
 for (const relative of candidates) {
