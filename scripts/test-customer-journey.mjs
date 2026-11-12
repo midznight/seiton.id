@@ -217,7 +217,7 @@ try {
         src: new URL(image.currentSrc || image.src, location.href).pathname,
         alt: image.alt,
         complete: image.complete,
-        loading: image.loading,
+        loading: image.getAttribute('loading'),
         naturalWidth: image.naturalWidth,
         naturalHeight: image.naturalHeight,
         responsive: image.getAttribute("srcset"),
