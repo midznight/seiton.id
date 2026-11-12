@@ -12,7 +12,8 @@
     "prepare:assets": "node scripts/optimize-demo-assets.mjs",
     "check:performance": "node scripts/check-performance-budget.mjs",
     "audit:mobile": "node scripts/test-mobile-accessibility.mjs",
-    "audit:lighthouse": "node scripts/run-lighthouse.mjs"
+    "audit:lighthouse": "node scripts/run-lighthouse.mjs",
+    "test:tag-manager": "node scripts/test-tag-manager.mjs"
   },
   "dependencies": {
     "astro": "7.4.8",

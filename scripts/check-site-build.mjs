@@ -133,4 +133,36 @@ for (const [output, relative, label] of forbiddenDeploymentAssets) {
   }
 }
 
+
+const collectHtmlDocuments = (directory) => {
+  const documents = [];
+  const visit = (folder) => {
+    for (const entry of fs.readdirSync(folder, { withFileTypes: true })) {
+      const fullPath = path.join(folder, entry.name);
+      if (entry.isDirectory()) visit(fullPath);
+      else if (entry.isFile() && entry.name.toLowerCase().endsWith(".html")) documents.push(fullPath);
+    }
+  };
+  visit(directory);
+  return documents;
+};
+const expectedGtmSource = "https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3";
+const mainHtmlDocuments = collectHtmlDocuments(path.resolve("dist"));
+const demoHtmlDocuments = collectHtmlDocuments(path.resolve("dist-demo"));
+const missingGtm = mainHtmlDocuments.filter((file) => !fs.readFileSync(file, "utf8").includes(expectedGtmSource));
+if (missingGtm.length) {
+  console.error("Main-site HTML pages missing the Google Tag Manager container:", missingGtm.map((file) => path.relative("dist", file)).join(", "));
+  process.exit(1);
+}
+const demoWithGtm = demoHtmlDocuments.filter((file) => fs.readFileSync(file, "utf8").includes("GTM-K3LKMTF3"));
+if (demoWithGtm.length) {
+  console.error("Fictional demo pages must not load the Seiton analytics container:", demoWithGtm.map((file) => path.relative("dist-demo", file)).join(", "));
+  process.exit(1);
+}
+if (!mainHtmlDocuments.length || !demoHtmlDocuments.length) {
+  console.error("Could not verify GTM coverage because one of the build targets has no HTML documents.");
+  process.exit(1);
+}
+console.log("Google Tag Manager markup verified on " + mainHtmlDocuments.length + " main pages; excluded from " + demoHtmlDocuments.length + " demo pages.");
+
 console.log("Static output verification passed:", required.length, "paths checked, 30 optimized demo variants, and unused/source uploads excluded.");
