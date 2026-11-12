@@ -1,9 +1,10 @@
 ---
 import site from "../data/site.json";
+import { siteUrls } from "../utils/site-urls.js";
 
 const { demoSite = false } = Astro.props;
 const currentPath = Astro.url.pathname;
-const path = (href) => demoSite ? site.brand.website + href : href;
+const path = (href) => demoSite ? siteUrls.main + href : href;
 const isCurrent = (href) => !demoSite && (
   href === "/"
     ? currentPath === "/"

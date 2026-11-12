@@ -6,7 +6,8 @@
     "build:site": "astro build",
     "build:demo": "SITE_TARGET=demo astro build",
     "check": "node scripts/check-site-integrity.mjs",
-    "check:build": "npm run build:site && npm run build:demo && node scripts/check-site-build.mjs"
+    "check:build": "npm run build:site && npm run build:demo && node scripts/check-site-build.mjs",
+    "test:journey": "node scripts/test-customer-journey.mjs"
   },
   "dependencies": {
     "astro": "7.4.8"

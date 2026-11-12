@@ -1,7 +1,8 @@
 ---
 import site from "../data/site.json";
+import { siteUrls } from "../utils/site-urls.js";
 const {demoSite=false}=Astro.props;
-const root=demoSite?site.brand.website:"";
+const root=demoSite?siteUrls.main:"";
 ---
 <footer class="site-footer"><div class="container">
   <div class="footer-grid">

@@ -1,5 +1,6 @@
 ---
 import Base from "../../../layouts/Base.astro";
+import { siteUrls } from "../../../utils/site-urls.js";
 import DemoLabel from "../../../components/DemoLabel.astro";
 ---
 <Base title="Demo Paket Combo Website + Bot — Seiton.id" description="Demonstrasi gabungan website profil dan katalog dengan sistem bot UMKM." noindex={true} demoSite={true}>
@@ -11,7 +12,7 @@ import DemoLabel from "../../../components/DemoLabel.astro";
       <article class="combo-stage"><span>02</span><p class="eyebrow">ALUR PEMESANAN</p><h2>Sistem Bot UMKM</h2><p>Setelah memilih produk, pelanggan dapat mencoba contoh keranjang dan alur pemesanan. Pemilik dapat meninjau status dan ringkasan penjualan.</p><ul><li>Katalog dan keranjang</li><li>Konfirmasi pembayaran simulasi</li><li>Panel pemilik dan status</li><li>Rekap penjualan contoh</li></ul><a class="button button-primary" href="/bot-umkm/">Coba simulasi bot</a></article>
     </div>
   </div></section>
-  <section class="section"><div class="container band"><p class="eyebrow">INTEGRASI DALAM PROYEK NYATA</p><h2>Ruang lingkup ditentukan sebelum pengerjaan.</h2><p>Koneksi data, kanal pesan, pembayaran, autentikasi admin, domain, dan layanan pihak ketiga memerlukan pembahasan dan konfigurasi terpisah. Halaman demo ini tidak membuktikan integrasi produksi telah aktif.</p><a class="button button-primary" href="https://seiton.biz.id/kontak/">Konsultasikan Paket Combo</a></div></section>
+  <section class="section"><div class="container band"><p class="eyebrow">INTEGRASI DALAM PROYEK NYATA</p><h2>Ruang lingkup ditentukan sebelum pengerjaan.</h2><p>Koneksi data, kanal pesan, pembayaran, autentikasi admin, domain, dan layanan pihak ketiga memerlukan pembahasan dan konfigurasi terpisah. Halaman demo ini tidak membuktikan integrasi produksi telah aktif.</p><a class="button button-primary" href={siteUrls.main + "/kontak/"}>Konsultasikan Paket Combo</a></div></section>
 </Base>
 <style>
 .combo-flow{display:grid;grid-template-columns:minmax(0,1fr) 50px minmax(0,1fr);align-items:stretch;gap:16px}

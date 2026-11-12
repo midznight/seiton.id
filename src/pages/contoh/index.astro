@@ -1,6 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import site from "../../data/site.json";
+import { siteUrls } from "../../utils/site-urls.js";
 import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
 ---
 <Base title="Contoh dan Demonstrasi — Seiton.id" description="Contoh alur katalog, website profil usaha, Google Business Profile, dan sistem bot dalam demonstrasi fiktif.">
@@ -10,19 +10,19 @@ import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
       <h1>Lihat cara kerja sebelum menentukan layanan.</h1>
       <p class="lead">Semua contoh di halaman demo menggunakan usaha dan data fiktif. Tidak ada transaksi, pelanggan, maupun klaim proyek klien nyata.</p>
       <div class="actions">
-        <a class="button button-primary" href={site.brand.demo + "/"}>Buka pusat demonstrasi</a>
+        <a class="button button-primary" href={siteUrls.demo + "/"}>Buka pusat demonstrasi</a>
         <WhatsAppCTA/>
       </div>
     </div>
   </section>
   <section class="section section-white">
     <div class="container card-grid demo-grid">
-      <article class="card"><p class="card-kicker">DEMO 01</p><h3>Katalog WhatsApp</h3><p>Contoh struktur kategori dan katalog produk untuk dibagikan.</p><a href={site.brand.demo + "/katalog-whatsapp/"}>Buka contoh →</a></article>
-      <article class="card"><p class="card-kicker">DEMO 02</p><h3>Menu QR</h3><p>Contoh halaman menu digital untuk dibuka melalui QR.</p><a href={site.brand.demo + "/menu-qr/"}>Buka contoh →</a></article>
-      <article class="card"><p class="card-kicker">DEMO 03</p><h3>Google Business Profile</h3><p>Materi dan checklist persiapan. Tidak ada profil bisnis fiktif yang dibuat.</p><a href={site.brand.demo + "/google-business-profile/"}>Buka panduan →</a></article>
-      <article class="card"><p class="card-kicker">DEMO 04</p><h3>Website Profil dan Katalog</h3><p>Website usaha fiktif dengan halaman profil dan katalog produk.</p><a href={site.brand.demo + "/website-katalog/"}>Buka contoh →</a></article>
-      <article class="card"><p class="card-kicker">DEMO 05</p><h3>Sistem Bot UMKM</h3><p>Simulasi keranjang, pemesanan, status pembayaran, bantuan, dan laporan.</p><a href={site.brand.demo + "/bot-umkm/"}>Coba simulasi →</a></article>
-      <article class="card"><p class="card-kicker">DEMO 06</p><h3>Paket Combo</h3><p>Website informasi usaha yang dipadukan dengan simulasi alur pemesanan bot.</p><a href={site.brand.demo + "/paket-combo/"}>Buka contoh →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 01</p><h3>Katalog WhatsApp</h3><p>Contoh struktur kategori dan katalog produk untuk dibagikan.</p><a href={siteUrls.demo + "/katalog-whatsapp/"}>Buka contoh →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 02</p><h3>Menu QR</h3><p>Contoh halaman menu digital untuk dibuka melalui QR.</p><a href={siteUrls.demo + "/menu-qr/"}>Buka contoh →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 03</p><h3>Google Business Profile</h3><p>Materi dan checklist persiapan. Tidak ada profil bisnis fiktif yang dibuat.</p><a href={siteUrls.demo + "/google-business-profile/"}>Buka panduan →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 04</p><h3>Website Profil dan Katalog</h3><p>Website usaha fiktif dengan halaman profil dan katalog produk.</p><a href={siteUrls.demo + "/website-katalog/"}>Buka contoh →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 05</p><h3>Sistem Bot UMKM</h3><p>Simulasi keranjang, pemesanan, status pembayaran, bantuan, dan laporan.</p><a href={siteUrls.demo + "/bot-umkm/"}>Coba simulasi →</a></article>
+      <article class="card"><p class="card-kicker">DEMO 06</p><h3>Paket Combo</h3><p>Website informasi usaha yang dipadukan dengan simulasi alur pemesanan bot.</p><a href={siteUrls.demo + "/paket-combo/"}>Buka contoh →</a></article>
 
     </div>
     <div class="container"><aside class="demo-notice"><span aria-hidden="true">ⓘ</span><p><strong>Catatan demonstrasi</strong> Semua contoh merupakan demonstrasi produk internal dengan usaha dan data fiktif, bukan proyek atau testimoni klien.</p><a href="/cerita/">Kenali Seiton.id →</a></aside></div>

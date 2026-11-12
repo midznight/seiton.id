@@ -61,6 +61,7 @@ const servicesPage = read("src/pages/layanan/index.astro");
 const examplesPage = read("src/pages/contoh/index.astro");
 const uiStyles = read("src/styles/site.css");
 const pageStyles = read("src/styles/pages.css");
+const siteUrls = read("src/utils/site-urls.js");
 check(homePage.includes('class="card-grid service-grid"'), "Grid layanan unggulan beranda belum memakai layout khusus.");
 check(!homePage.includes("showcase-float"), "Label mengambang yang berpotensi menimpa pratinjau harus dihapus.");
 check(!uiStyles.includes("showcase-float"), "CSS label mengambang yang sudah tidak digunakan masih tersisa.");
@@ -71,7 +72,7 @@ check(!examplesPage.includes('href="/tentang/"'), "Tautan internal masih mengara
 check(examplesPage.includes('href="/cerita/"'), "Halaman contoh belum mengarah ke Cerita Seiton.");
 check(uiStyles.includes("--font-ui") && uiStyles.includes("font-family:var(--font-ui)"), "Sistem font utama belum didefinisikan secara konsisten.");
 check(uiStyles.includes(":focus-visible"), "Indikator fokus keyboard belum tersedia.");
-check(homePage.includes('role="tablist"') && homePage.includes("activateTab"), "Interaksi tab pratinjau beranda tidak lengkap.");
+check(homePage.includes('role="tablist" aria-orientation="horizontal"') && homePage.includes("activateTab") && homePage.includes('event.key === "Home"') && homePage.includes('event.key === "End"'), "Interaksi tab pratinjau beranda tidak lengkap.");
 const tabIds = [...homePage.matchAll(/data-showcase-tab="([^"]+)"/g)].map((match) => match[1]);
 const panelIds = [...homePage.matchAll(/data-showcase-panel="([^"]+)"/g)].map((match) => match[1]);
 check(tabIds.length === 3 && [...tabIds].sort().join(",") === [...panelIds].sort().join(","), "Setiap tab pratinjau harus memiliki satu panel yang sesuai.");
@@ -94,6 +95,20 @@ check(read("src/demo/pages/paket-combo/index.astro").includes("noindex={true}"),
 check(read("public/_headers").includes("https://demo.seiton.biz.id/*"), "Header noindex untuk domain demo belum tersedia.");
 const baseLayout = read("src/layouts/Base.astro");
 check(/noindex\s*\?\s*["']noindex, nofollow["']/.test(baseLayout), "Layout belum merender metadata noindex.");
+
+
+check(siteUrls.includes('process.env.CF_PAGES_BRANCH !== "main"'), "Pemilihan URL preview harus mengikuti branch Cloudflare Pages.");
+check(siteUrls.includes("https://rebuild.seiton-main-preview.pages.dev") && siteUrls.includes("https://rebuild.seiton-demo-preview.pages.dev"), "Alias preview kedua project belum ditetapkan.");
+check(read("src/components/Header.astro").includes("siteUrls.main"), "Header demo harus menggunakan URL utama sesuai environment.");
+check(read("src/components/Footer.astro").includes("siteUrls.main"), "Footer demo harus menggunakan URL utama sesuai environment.");
+check(read("src/pages/contoh/index.astro").includes("siteUrls.demo"), "Kartu demo harus menggunakan URL demo sesuai environment.");
+check(detail.includes("siteUrls.demo"), "Tautan demo pada detail layanan harus menggunakan URL sesuai environment.");
+check(read("src/demo/pages/paket-combo/index.astro").includes("siteUrls.main"), "CTA Paket Combo harus menggunakan URL utama sesuai environment.");
+check(baseLayout.includes("isPreviewBuild") && baseLayout.includes("noindex, nofollow"), "Preview harus diberi metadata noindex secara otomatis.");
+check(homePage.includes('data-need-contact target="_blank" rel="noopener noreferrer"'), "CTA pemilih kebutuhan harus memakai perilaku tautan yang aman.");
+check(pricing.includes("new AbortController()") && pricing.includes("clearTimeout(timeoutId)") && pricing.includes("grid.replaceChildren()"), "Loader harga harus memiliki timeout dan mengganti kartu secara atomik.");
+check(fs.existsSync("scripts/test-customer-journey.mjs"), "Pengujian perjalanan pelanggan belum tersedia.");
+check(json("package.json").scripts["test:journey"] === "node scripts/test-customer-journey.mjs", "Perintah test:journey belum terdaftar.");
 
 if (errors.length) {
   console.error("Source integrity check failed:");

@@ -31,7 +31,7 @@ const featured = services.filter((service) => service.featured);
             <span>Gambaran solusi digital</span>
             <span class="showcase-live"><i></i> INTERAKTIF</span>
           </div>
-          <div class="showcase-tabs" role="tablist" aria-label="Pilih contoh solusi">
+          <div class="showcase-tabs" role="tablist" aria-orientation="horizontal" aria-label="Pilih contoh solusi">
             <button type="button" role="tab" id="showcase-tab-katalog" aria-controls="showcase-panel-katalog" aria-selected="true" data-showcase-tab="katalog">Katalog</button>
             <button type="button" role="tab" id="showcase-tab-menu" aria-controls="showcase-panel-menu" aria-selected="false" data-showcase-tab="menu" tabindex="-1">Menu QR</button>
             <button type="button" role="tab" id="showcase-tab-pesanan" aria-controls="showcase-panel-pesanan" aria-selected="false" data-showcase-tab="pesanan" tabindex="-1">Pesanan</button>
@@ -113,7 +113,7 @@ const featured = services.filter((service) => service.featured);
           <h3 data-need-title>Mulai dengan katalog produk.</h3>
           <p data-need-description>Susun informasi produk dalam katalog digital agar pelanggan bisa melihat pilihan dan detail dengan lebih mudah.</p>
           <a class="result-link" data-need-link href="/layanan/katalog-produk/">Pelajari layanan katalog <span aria-hidden="true">→</span></a>
-          <a class="result-contact" data-need-contact href="https://wa.me/6285117557133?text=Halo%20Seiton.id%2C%20saya%20ingin%20berdiskusi%20tentang%20katalog%20produk%20untuk%20usaha%20saya." target="_blank" rel="noopener noreferrer">Diskusikan kebutuhan ini ↗</a>
+          <a class="result-contact" data-need-contact target="_blank" rel="noopener noreferrer" href="https://wa.me/6285117557133?text=Halo%20Seiton.id%2C%20saya%20ingin%20berdiskusi%20tentang%20katalog%20produk%20untuk%20usaha%20saya." target="_blank" rel="noopener noreferrer">Diskusikan kebutuhan ini ↗</a>
         </div>
       </div>
     </div>
@@ -168,10 +168,13 @@ const featured = services.filter((service) => service.featured);
       tabs.forEach((tab, index) => {
         tab.addEventListener("click", () => activateTab(tab.dataset.showcaseTab));
         tab.addEventListener("keydown", (event) => {
-          if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+          let next = index;
+          if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
+          else if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = tabs.length - 1;
+          else return;
           event.preventDefault();
-          const direction = event.key === "ArrowRight" ? 1 : -1;
-          const next = (index + direction + tabs.length) % tabs.length;
           activateTab(tabs[next].dataset.showcaseTab, true);
         });
       });

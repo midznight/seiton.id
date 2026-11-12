@@ -2,7 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
 import services from "../../data/services.json";
-import site from "../../data/site.json";
+import { siteUrls } from "../../utils/site-urls.js";
 
 export function getStaticPaths() {
   return services.map((service) => ({
@@ -49,7 +49,7 @@ const demoText = service.slug === "sistem-bot-umkm"
         <h3>Pastikan lingkupnya jelas.</h3>
         <p>Rincian akhir mengikuti penawaran tertulis. Biaya pihak ketiga, domain, API, dan langganan tidak termasuk kecuali tertulis dalam penawaran.</p>
         <WhatsAppCTA message={"Halo Seiton.id, saya ingin meminta rincian penawaran untuk " + service.name + "."}/>
-        {demoPath ? <a class="aside-demo-link" href={site.brand.demo + demoPath}>{demoText} →</a> : null}
+        {demoPath ? <a class="aside-demo-link" href={siteUrls.demo + demoPath}>{demoText} →</a> : null}
       </aside>
     </div>
   </section>
