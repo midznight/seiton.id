@@ -28,11 +28,13 @@ function collectHtml(directory) {
 let updated = 0;
 let analyticsRemoved = 0;
 const gtmLoader = '<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3"></script>';
-const gtmInitializer = \`<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-</script>\`;
+const gtmInitializer = [
+  "<script>",
+  "  window.dataLayer = window.dataLayer || [];",
+  "  function gtag(){dataLayer.push(arguments);}",
+  "  gtag('js', new Date());",
+  "</script>"
+].join("\n");
 for (const file of collectHtml(outputDirectory)) {
   const originalHtml = fs.readFileSync(file, "utf8");
   let html = originalHtml.replace(gtmLoader, "").replace(gtmInitializer, "");
