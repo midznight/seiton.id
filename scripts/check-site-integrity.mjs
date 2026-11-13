@@ -236,6 +236,8 @@ check(otpWrangler.includes('binding = "OTP_KV"') && otpWrangler.includes('bindin
 check(ownerWorker.includes("async function activeSession") && ownerWorker.includes("function sameOriginAdmin") &&
   ownerWorker.includes("function callOtpBackend") && ownerWorker.includes("function otpPage()"),
   "Panel pemilik harus mempertahankan autentikasi live dan memiliki UI/backend Portal OTP.");
+check(ownerWorker.includes('origin==="https://admin.seiton.biz.id"||origin==="https://owner.seiton.biz.id"'),
+  "Panel pemilik harus mengizinkan hanya dua origin admin yang terhubung ke Worker yang sama.");
 check(ownerWorker.includes('u.pathname==="/api/admin/otp/mailboxes"') &&
   ownerWorker.includes('u.pathname==="/api/admin/otp/mailboxes/rotate"') &&
   ownerWorker.includes('u.pathname==="/api/admin/otp/mailboxes/revoke"') &&
