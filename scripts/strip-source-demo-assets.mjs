@@ -98,7 +98,7 @@ for (const relative of candidates) {
 
 if (outputMode === "demo") {
   const demoRobots = path.join(root, "robots.txt");
-  await fs.writeFile(demoRobots, "User-agent: *\\nAllow: /\\n", "utf8");
+  await fs.writeFile(demoRobots, "User-agent: *\nAllow: /\n", "utf8");
   console.log("Demo robots.txt kept crawlable for noindex headers; main-site sitemap excluded.");
 }
 
