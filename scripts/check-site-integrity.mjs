@@ -241,6 +241,8 @@ check(ownerWorker.includes("async function activeSession") && ownerWorker.includ
   "Panel pemilik harus mempertahankan autentikasi live dan memiliki UI/backend Portal OTP.");
 check(ownerWorker.includes('origin==="https://admin.seiton.biz.id"||origin==="https://owner.seiton.biz.id"'),
   "Panel pemilik harus mengizinkan hanya dua origin admin yang terhubung ke Worker yang sama.");
+check(ownerWorker.includes('"https://rebuild.seiton-main-preview.pages.dev"'),
+  "CORS endpoint harga harus mengizinkan hanya origin staging Seiton yang spesifik.");
 check(ownerWorker.includes('u.pathname==="/api/admin/otp/mailboxes"') &&
   ownerWorker.includes('u.pathname==="/api/admin/otp/mailboxes/rotate"') &&
   ownerWorker.includes('u.pathname==="/api/admin/otp/mailboxes/revoke"') &&
