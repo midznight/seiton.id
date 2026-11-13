@@ -76,8 +76,8 @@ for (const relative of candidates) {
   const reference = "/" + relative.replace(/\\/g, "/");
   const matches = [];
   for (const file of textFiles) {
-    const content = await fs.readFile(file, "utf8");
-    if (content.includes(reference)) matches.push(path.relative(root, file));
+    const content = await fs.readFile(file, "utf8").catch(() => null);
+    if (content !== null && content.includes(reference)) matches.push(path.relative(root, file));
   }
   if (matches.length) {
     throw new Error("Aset tidak boleh dihapus karena masih direferensikan: " +
