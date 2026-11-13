@@ -3,10 +3,11 @@ name: Site integrity
 on:
   push:
     branches:
-      - "**"
+      - rebuild
   pull_request:
     branches:
-      - main
+      - rebuild
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,5 +22,5 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Validate public site content
+      - name: Validate Astro source content
         run: node scripts/check-site-integrity.mjs

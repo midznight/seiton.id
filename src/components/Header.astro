@@ -1,0 +1,63 @@
+---
+import site from "../data/site.json";
+import { siteUrls } from "../utils/site-urls.js";
+
+const { demoSite = false } = Astro.props;
+const currentPath = Astro.url.pathname;
+const path = (href) => demoSite ? siteUrls.main + href : href;
+const isCurrent = (href) => !demoSite && (
+  href === "/"
+    ? currentPath === "/"
+    : currentPath === href || currentPath.startsWith(href)
+);
+---
+<a class="skip-link" href="#main-content">Lewati ke konten</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={path("/")} aria-label="Seiton.id — Beranda. Tata Usahamu, Mudahkan Pelanggan">
+      <img class="brand-logo" src="/assets/optimized-brand/logo-horizontal-540.webp" alt="Seiton.id" width="540" height="176" />
+      <span class="brand-tagline">Tata Usahamu, Mudahkan Pelanggan</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="primary-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="primary-nav" id="primary-nav" aria-label="Navigasi utama">
+      {site.navigation.map((item) => (
+        <a href={path(item.href)} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>
+      ))}
+      <a class="nav-cta" href={path("/kontak/")}>Konsultasi</a>
+    </nav>
+  </div>
+</header>
+<script>
+  const menuButton = document.querySelector(".menu-toggle");
+  const navigation = document.querySelector("#primary-nav");
+  if (menuButton && navigation) {
+    const closeMenu = () => {
+      navigation.classList.remove("is-open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Buka menu");
+    };
+    const openMenu = () => {
+      navigation.classList.add("is-open");
+      menuButton.setAttribute("aria-expanded", "true");
+      menuButton.setAttribute("aria-label", "Tutup menu");
+    };
+    menuButton.addEventListener("click", () => {
+      menuButton.getAttribute("aria-expanded") === "true" ? closeMenu() : openMenu();
+    });
+    navigation.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    document.addEventListener("click", (event) => {
+      if (!navigation.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenu();
+        menuButton.focus();
+      }
+    });
+    window.addEventListener("resize", () => {
+      if (window.matchMedia("(min-width: 1021px)").matches) closeMenu();
+    });
+  }
+</script>

@@ -1,0 +1,8 @@
+---
+import site from "../data/site.json";
+const { message = "Halo Seiton.id, saya ingin konsultasi mengenai layanan digitalisasi usaha." } = Astro.props;
+const whatsappContact = site.contacts.find((contact) => contact.label === "WhatsApp");
+if (!whatsappContact) throw new Error("Kontak WhatsApp resmi belum dikonfigurasi.");
+const href = whatsappContact.url + "?text=" + encodeURIComponent(message);
+---
+<a class="button button-primary" href={href} target="_blank" rel="noopener noreferrer">Konsultasi melalui WhatsApp</a>

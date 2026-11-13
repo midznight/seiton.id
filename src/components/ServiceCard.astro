@@ -1,0 +1,9 @@
+---
+const { service } = Astro.props;
+---
+<article class="card">
+  <p class="card-kicker">{service.slugLabel}</p>
+  <h3>{service.name}</h3>
+  <p>{service.short}</p>
+  <a href={"/layanan/" + service.slug + "/"} aria-label={"Pelajari layanan: " + service.name}>Pelajari layanan <span aria-hidden="true">→</span></a>
+</article>

@@ -1,0 +1,23 @@
+Folder ini disediakan untuk hasil foto dummy produk yang dibuat menggunakan Google Flow.
+
+Upload file ke branch `rebuild` dengan nama file sesuai inventaris dan prompt di root `assets.md`.
+Jangan upload langsung ke branch `main`.
+
+File yang diharapkan:
+RT-001_roti-sobek-cokelat.png
+RT-002_roti-keju-susu.png
+RT-003_roti-srikaya.png
+RT-004_roti-pisang-cokelat.png
+RT-005_roti-abon.png
+PS-001_croissant-butter.png
+PS-002_donat-gula.png
+PS-003_donat-cokelat.png
+PS-004_brownies-potong.png
+PS-005_pisang-bolen.png
+MN-001_teh-original-250ml.png
+MN-002_teh-lemon-250ml.png
+MN-003_teh-susu-250ml.png
+MN-004_kopi-susu-250ml.png
+PK-001_paket-roti-teh.png
+
+File gambar belum dipetakan ke katalog sampai src/data/demo-images.json diperbarui.

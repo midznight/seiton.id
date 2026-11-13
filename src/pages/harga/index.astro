@@ -1,0 +1,93 @@
+---
+import Base from "../../layouts/Base.astro";
+import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
+---
+<Base title="Harga Layanan Seiton.id" description="Informasi harga layanan Seiton.id. Harga layanan yang sudah ditetapkan dimuat dari sumber data harga resmi.">
+  <section class="page-hero"><div class="container"><p class="eyebrow">HARGA DAN PENAWARAN</p><h1>Ketahui ruang lingkup dan biayanya sebelum mulai.</h1><p class="lead">Harga layanan yang sudah ditetapkan ditampilkan dari sumber data harga resmi. Untuk layanan baru, biaya dan kebutuhan teknis dibahas dalam penawaran agar tidak ada angka perkiraan yang dianggap sebagai harga final.</p></div></section>
+  <section class="section section-white"><div class="container">
+    <div class="pricing-callout"><div><p class="eyebrow">LAYANAN LANJUTAN</p><h2>Sistem Bot UMKM dan Paket Combo</h2><p>Ruang lingkup serta biaya disepakati setelah konsultasi kebutuhan kanal, alur pesanan, pembayaran, laporan, dan integrasi pihak ketiga.</p></div><WhatsAppCTA message="Halo Seiton.id, saya ingin meminta penawaran Sistem Bot UMKM atau Paket Combo Website + Bot."/></div>
+    <div class="section-heading price-heading"><div><p class="eyebrow">DAFTAR HARGA</p><h2>Harga layanan yang telah tersedia.</h2></div><p>Angka dimuat langsung dari API harga resmi. Jika sumber tidak dapat diakses, halaman tidak menampilkan angka cadangan.</p></div>
+    <p id="price-status" class="price-status" role="status" aria-live="polite">Memuat daftar harga terbaru…</p><div id="price-grid" class="card-grid price-grid"></div><div id="price-addons" class="price-addon-grid"></div>
+    <div class="pricing-notes"><h3>Ketentuan umum</h3><ul><li>Konsultasi awal tidak dikenakan biaya.</li><li>Pekerjaan dimulai setelah ruang lingkup dan biaya disetujui.</li><li>Ketentuan pembayaran standar: DP 50% dan pelunasan 50% setelah pekerjaan selesai, sebelum serah terima akhir.</li><li>Biaya domain, hosting, API, dan layanan pihak ketiga tidak termasuk kecuali tertulis dalam penawaran.</li><li>Harga dan ruang lingkup final mengikuti penawaran tertulis.</li></ul></div>
+  </div></section>
+</Base>
+<script>
+  const statusNode=document.querySelector("#price-status");
+  const grid=document.querySelector("#price-grid");
+  const addonsNode=document.querySelector("#price-addons");
+  const rupiah=new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0});
+  function node(tag,value,className){const el=document.createElement(tag);el.textContent=String(value??"");if(className)el.className=className;return el;}
+  function cardFor(item, packageParts, packagePartsReady){
+    const card=node("article","","card price-card");card.id=item.id||"";
+    card.append(node("p",item.unggulan?"Paket gabungan":"Layanan Seiton","card-kicker"));
+    card.append(node("h3",item.nama));
+    if(item.tersedia===false){card.append(node("p","Belum tersedia sementara","price-unavailable"));card.append(node("p",item.deskripsi||""));return card;}
+    const amount=Number(item.harga);if(!Number.isFinite(amount)||amount<0)return null;
+    let description=item.deskripsi||"";
+    let features=Array.isArray(item.fitur)?item.fitur:[];
+    if(item.id==="paket-website-telegram"){
+      if(packagePartsReady){
+        const unitTotal=packageParts.reduce((total,product)=>total+Number(product.harga),0);
+        const difference=Math.abs(amount-unitTotal);
+        description=difference===0
+          ?"Harga paket sama dengan total harga ketiga layanan satuan. Domain tidak termasuk."
+          :"Harga paket "+(amount>unitTotal?"lebih tinggi ":"lebih rendah ")+rupiah.format(difference)+" dibanding total harga satuan. Perbandingan dihitung otomatis dari harga layanan terkini; domain tidak termasuk.";
+        features=packageParts.map((product)=>product.nama+" — "+rupiah.format(Number(product.harga)));
+      }else{
+        description="Paket menggabungkan tiga layanan. Rincian perbandingan harga satuan belum dapat dimuat; silakan konfirmasi melalui WhatsApp.";
+        features=[];
+      }
+    }
+    card.append(node("p",description));
+    card.append(node("strong",rupiah.format(amount),"price-amount"));
+    const list=document.createElement("ul");features.forEach((feature)=>list.append(node("li",feature)));
+    card.append(list);
+    const link=node("a","Tanya layanan","button button-primary");link.href="https://wa.me/6285117557133?text="+encodeURIComponent(item.pesan||"Halo Seiton.id, saya ingin bertanya tentang layanan.");link.target="_blank";link.rel="noopener noreferrer";card.append(link);return card;
+  }
+  async function loadPrices(){
+    const controller=new AbortController();
+    const timeoutId=window.setTimeout(()=>controller.abort(),12000);
+    try{
+      const response=await fetch("https://admin.seiton.biz.id/api/pricing",{method:"GET",mode:"cors",cache:"no-store",signal:controller.signal});
+      if(!response.ok)throw new Error("Sumber harga tidak dapat diakses.");
+      const data=await response.json();
+      if(!Array.isArray(data.produk)||!Array.isArray(data.tambahan)||data.produk.length===0)throw new Error("Format data harga tidak sesuai.");
+
+      const productById=new Map(data.produk.filter((item)=>item&&typeof item==="object").map((product)=>[product.id,product]));
+      const packageParts=["katalog","profile","telegram"].map((id)=>productById.get(id));
+      const packagePartsReady=packageParts.every((product)=>product&&Number.isFinite(Number(product.harga))&&Number(product.harga)>=0);
+      const productFragment=document.createDocumentFragment();
+      data.produk.forEach((item)=>{
+        if(!item||typeof item!=="object")return;
+        const card=cardFor(item,packageParts,packagePartsReady);
+        if(card)productFragment.append(card);
+      });
+      if(productFragment.childElementCount===0)throw new Error("Tidak ada data harga yang valid.");
+
+      const addonFragment=document.createDocumentFragment();
+      data.tambahan.forEach((item)=>{
+        if(!item||typeof item!=="object")return;
+        const card=node("article","","price-addon");
+        card.append(node("h3",item.nama));
+        const amount=Number(item.harga);
+        if(Number.isFinite(amount)&&amount>=0)card.append(node("strong",rupiah.format(amount)));
+        card.append(node("p",[item.satuan,item.catatan].filter(Boolean).join(". ")));
+        addonFragment.append(card);
+      });
+      grid.replaceChildren(productFragment);
+      addonsNode.replaceChildren(addonFragment);
+      statusNode.hidden=true;
+      statusNode.removeAttribute("data-state");
+    }catch(error){
+      grid.replaceChildren();
+      addonsNode.replaceChildren();
+      statusNode.hidden=false;
+      statusNode.dataset.state="error";
+      statusNode.textContent="Sumber data harga belum dapat diakses. Silakan hubungi Seiton.id untuk mendapatkan rincian harga terbaru.";
+      console.warn("Harga tidak dimuat; angka cadangan tidak ditampilkan.",error);
+    }finally{
+      window.clearTimeout(timeoutId);
+    }
+  }
+  loadPrices();
+</script>

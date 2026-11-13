@@ -1,90 +1,207 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 
 const errors = [];
-const read = path => readFileSync(join(process.cwd(), path), "utf8");
-const sitemap = read("sitemap.xml");
-const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
+const read = (file) => fs.readFileSync(path.resolve(file), "utf8");
+const json = (file) => JSON.parse(read(file));
+const check = (condition, message) => { if (!condition) errors.push(message); };
 
-if (urls.length !== 14) errors.push("Expected 14 public URLs in sitemap.xml; found " + urls.length);
+const site = json("src/data/site.json");
+const services = json("src/data/services.json");
+const dataset = json("src/data/demo-dataset.json");
+const slugs = services.map((service) => service.slug);
+const requiredServices = [
+  "paket-etalase", "katalog-produk", "menu-qr", "profil-google",
+  "website-katalog", "website-profile", "paket-template", "bot-telegram",
+  "sistem-bot-umkm", "paket-combo"
+];
 
-const pages = urls.map(url => {
-  const pathname = new URL(url).pathname;
-  const file = pathname === "/" ? "index.html" : pathname.replace(/^\/+|\/+$/g, "") + "/index.html";
-  try {
-    return { file, html: read(file) };
-  } catch {
-    errors.push("Sitemap page has no matching file: " + file);
-    return null;
-  }
-}).filter(Boolean);
+check(new Set(slugs).size === slugs.length, "Slug layanan harus unik.");
+for (const slug of requiredServices) check(slugs.includes(slug), "Layanan hilang: " + slug);
+check(!site.navigation.some((item) => item.href === "/kontak/"), "Navigasi Kontak tidak boleh menduplikasi tombol Konsultasi.");
+check(read("src/components/Header.astro").includes('href={path("/kontak/")}>Konsultasi</a>'), "Aksi Konsultasi utama belum mengarah ke kontak.");
+check(site.navigation.some((item) => item.href === "/cerita/"), "Navigasi Cerita belum tersedia.");
+check(!site.navigation.some((item) => item.href === "/pendiri/"), "Navigasi Pendiri pribadi tidak boleh berada pada website company.");
+check(!site.navigation.some((item) => item.href === "/tentang/"), "Informasi perusahaan sudah digabung ke halaman Cerita.");
+check(site.navigation.length === 5, "Navigasi utama harus memiliki lima menu dan satu aksi Konsultasi.");
+check(site.contacts.some((item) => item.label === "WhatsApp" && item.url === "https://wa.me/6285117557133"), "Kontak WhatsApp resmi tidak sesuai.");
+check(site.contacts.some((item) => item.label === "Email" && item.url === "mailto:seiton.id@gmail.com"), "Kontak email resmi tidak sesuai.");
+check(site.contacts.some((item) => item.label === "Instagram" && item.value === "@seiton.id" && item.url === "https://www.instagram.com/seiton.id"), "Kontak Instagram resmi tidak sesuai.");
+check(site.contacts.some((item) => item.label === "TikTok" && item.value === "@seiton.id" && item.url === "https://www.tiktok.com/@seiton.id"), "Kontak TikTok resmi tidak sesuai.");
+check(site.contacts.some((item) => item.label === "Threads" && item.value === "@seiton.id" && item.url === "https://www.threads.com/@seiton.id"), "Kontak Threads resmi tidak sesuai.");
+check(site.contacts.length === 5, "Kontak resmi harus memiliki lima kanal yang terdaftar.");
+const footerComponent = read("src/components/Footer.astro");
+const contactBlock = read("src/components/ContactBlock.astro");
+const whatsappCta = read("src/components/WhatsAppCTA.astro");
+check(footerComponent.includes('import ContactBlock from "./ContactBlock.astro";') &&
+  footerComponent.includes('class="footer-contact-heading"') && footerComponent.includes("<ContactBlock/>"),
+  "Footer harus menampilkan ContactBlock dengan label Kontak Seiton.id.");
+check(contactBlock.includes("site.contacts.map") && contactBlock.includes('class="contact-item"'),
+  "ContactBlock harus merender kanal dari satu sumber site.json.");
+check(whatsappCta.includes('import site from "../data/site.json";') &&
+  whatsappCta.includes('site.contacts.find((contact) => contact.label === "WhatsApp")') &&
+  !whatsappCta.includes("6285117557133"),
+  "WhatsApp CTA harus menggunakan satu sumber kontak pada site.json, tanpa nomor hard-coded.");
+check(read("src/styles/site.css").includes(".footer-contact-block .contact-item{min-height:48px"),
+  "Tautan kontak di footer harus memiliki target sentuh minimal 44 piksel.");
+check(site.founderProfileUrl === "", "Tautan profil pendiri harus tetap kosong sampai alamat website terpisah tersedia.");
 
-for (const page of pages) {
-  if (!/<meta\b[^>]*name=["']theme-color["'][^>]*content=["']#F5F5F4["']/.test(page.html)) {
-    errors.push(page.file + ": theme-color must match the page background");
-  }
-  if (!/<main\b/.test(page.html)) errors.push(page.file + ": main landmark is missing");
-  if (!/<a\b[^>]*href=["']#main["']/.test(page.html)) errors.push(page.file + ": skip link is missing");
+check(dataset.period.fictional === true, "Dataset demo harus ditandai fiktif.");
+const demoImages = json("src/data/demo-images.json");
+for (const [sku, image] of Object.entries(demoImages)) {
+  check(dataset.products.some((product) => product.sku === sku), "Pemetaan foto memiliki SKU yang tidak dikenal: " + sku);
+  check(typeof image.src === "string" && image.src.startsWith("/assets/"), "Path foto demo tidak valid untuk " + sku);
+  check(typeof image.alt === "string" && image.alt.trim().length > 0, "Teks alt foto belum tersedia untuk " + sku);
+  check(typeof image.source === "string" && image.source.startsWith("/assets/dummy-products/"), "Path foto sumber tidak valid untuk " + sku);
+  check(image.src === "/assets/optimized-demo-products/" + sku + "_480.webp", "Path thumbnail WebP tidak valid untuk " + sku);
+  check(typeof image.srcset === "string" &&
+    image.srcset.includes(sku + "_480.webp 480w") &&
+    image.srcset.includes(sku + "_960.webp 960w"), "srcset responsif 480w/960w belum lengkap untuk " + sku);
+  const sourcePath = path.resolve("public", "." + image.source);
+  check(sourcePath.startsWith(path.resolve("public") + path.sep) && fs.existsSync(sourcePath), "File foto sumber tidak ditemukan untuk " + sku);
+}
+check(fs.existsSync("public/assets/dummy-products/.gitkeep"), "Folder upload foto dummy belum tersedia.");
+check(fs.existsSync("assets.md"), "Panduan foto dan prompt Google Flow belum tersedia.");
+check(read("assets.md").includes("Master style prompt Google Flow"), "Master prompt Google Flow belum tersedia di assets.md.");
+check(JSON.parse(read("package.json")).scripts["check:assets"] === "node scripts/check-demo-assets.mjs", "Pemeriksaan aset demo belum terdaftar.");
+check(JSON.parse(read("package.json")).scripts["prepare:assets"] === "node scripts/optimize-demo-assets.mjs", "Langkah optimasi gambar belum terdaftar.");
+check(JSON.parse(read("package.json")).dependencies.sharp === "0.35.5", "Versi Sharp untuk optimasi gambar belum dipatok.");
+check(fs.existsSync("scripts/optimize-demo-assets.mjs"), "Skrip optimasi WebP responsif belum tersedia.");
+check(fs.existsSync("scripts/strip-source-demo-assets.mjs"), "Penghapusan file sumber dari output deployment belum tersedia.");
+check(read("scripts/strip-source-demo-assets.mjs").includes("/analytics-consent.js") &&
+  read("scripts/strip-source-demo-assets.mjs").includes("/analytics-consent.css"),
+  "Pusat demonstrasi harus menghapus controller dan stylesheet Analytics milik website utama.");
+check(fs.existsSync("scripts/check-performance-budget.mjs"), "Audit budget CSS/JS belum tersedia.");
+check(json("package.json").scripts["check:performance"] === "node scripts/check-performance-budget.mjs", "Perintah audit performa belum terdaftar.");
+check(dataset.products.length === 15, "Dataset demo harus memiliki 15 produk.");
+check(dataset.summary.orders === 263 && dataset.summary.units === 354 && dataset.summary.grossRevenue === 4668000, "Ringkasan dataset demo berubah dari data yang disetujui.");
+
+const botService = services.find((item) => item.slug === "sistem-bot-umkm");
+const comboService = services.find((item) => item.slug === "paket-combo");
+check(botService?.features.some((feature) => feature.toLowerCase().includes("menambah, mengubah, dan menghapus produk")), "Ruang lingkup panel admin Sistem Bot UMKM belum disebutkan.");
+check(comboService?.features.some((feature) => feature.toLowerCase().includes("website profil")), "Paket Combo belum mencakup website profil.");
+
+const sitemap = read("public/sitemap.xml");
+for (const slug of requiredServices) {
+  check(sitemap.includes("https://seiton.biz.id/layanan/" + slug + "/"), "Sitemap belum mencantumkan layanan " + slug + ".");
+}
+for (const route of ["/", "/layanan/", "/harga/", "/contoh/", "/cerita/", "/kontak/", "/ketentuan/", "/privasi/"]) {
+  check(sitemap.includes("<loc>https://seiton.biz.id" + route + "</loc>"), "Sitemap belum mencantumkan " + route);
 }
 
-const home = read("index.html");
-const services = read("layanan/index.html");
-const prices = read("harga/index.html");
-const catalogue = read("layanan/website-katalog/index.html");
-const about = read("tentang/index.html");
-const portfolio = read("portofolio/index.html");
-const terms = read("ketentuan/index.html");
-const pricingSeed = read("workers/site-admin/migrations/0001_initial.sql");
+const terms = read("public/ketentuan/index.html");
+const privacy = read("public/privasi/index.html");
+check(terms.includes("BERLAKU MULAI 5 NOVEMBER 2026"), "Tanggal Ketentuan Layanan berubah.");
+check(terms.includes("uang muka yang telah dibayarkan dianggap hangus dan tidak dapat diminta kembali atau dikembalikan"), "Aturan pembatalan DP pada Ketentuan tidak ditemukan.");
+check(privacy.includes("BERLAKU MULAI 13 NOVEMBER 2026"), "Tanggal Kebijakan Privasi berubah.");
+check(privacy.includes("Informasi konsultasi dan komunikasi disimpan paling lama 24 bulan"), "Aturan retensi pada Kebijakan Privasi tidak ditemukan.");
+for (const [file, content] of [["public/ketentuan/index.html", terms], ["public/privasi/index.html", privacy]]) {
+  check(!content.includes("fonts.googleapis.com") && !content.includes("fonts.gstatic.com"),
+    "Halaman legal masih memuat font pihak ketiga: " + file);
+  check(!content.includes("favicon-32.png") && !content.includes("favicon-180.png"),
+    "Halaman legal masih merujuk ikon yang tidak tersedia: " + file);
+}
+check(!read("public/site.css").includes("Poppins"), "Legacy legal CSS belum memakai system font stack.");
+check(fs.existsSync("public/logo-horizontal.png"), "Logo halaman legal belum tersedia di folder publik.");
+check(fs.existsSync("public/assets/logo-horizontal-transparan.png"), "Logo horizontal resmi Seiton belum tersedia di folder publik.");
+check(read("public/_redirects").includes("/tentang/ /cerita/ 301"), "URL Tentang lama belum diarahkan ke halaman Cerita.");
 
-for (const [label, source, href, name] of [
-  ["homepage", home, "/harga/#profile", "Website Profile Usaha"],
-  ["homepage", home, "/harga/#telegram", "Bot Pesanan Telegram"],
-  ["homepage", home, "/harga/#paket-website-telegram", "Paket Website &amp; Telegram"],
-  ["service index", services, "/harga/#profile", "Website Profile Usaha"],
-  ["service index", services, "/harga/#telegram", "Bot Pesanan Telegram"],
-  ["service index", services, "/harga/#paket-website-telegram", "Paket Website &amp; Telegram"]
+const homePage = read("src/pages/index.astro");
+const servicesPage = read("src/pages/layanan/index.astro");
+const examplesPage = read("src/pages/contoh/index.astro");
+const uiStyles = read("src/styles/site.css");
+const pageStyles = read("src/styles/pages.css");
+const siteUrls = read("src/utils/site-urls.js");
+check(homePage.includes('class="card-grid service-grid"'), "Grid layanan unggulan beranda belum memakai layout khusus.");
+check(!homePage.includes("showcase-float"), "Label mengambang yang berpotensi menimpa pratinjau harus dihapus.");
+check(!uiStyles.includes("showcase-float"), "CSS label mengambang yang sudah tidak digunakan masih tersisa.");
+check(!uiStyles.includes(".split{") && !uiStyles.includes(".pill{"), "Aturan layout lama yang tidak terpakai masih tersisa.");
+check(servicesPage.includes("service-directory-grid"), "Daftar layanan belum memakai grid katalog yang seimbang.");
+check(examplesPage.includes("demo-grid") && (examplesPage.match(/<article class="card">/g) || []).length === 6, "Halaman contoh harus menampilkan enam kartu demo dalam grid.");
+check(!examplesPage.includes('href="/tentang/"'), "Tautan internal masih mengarah ke halaman Tentang lama.");
+check(examplesPage.includes('href="/cerita/"'), "Halaman contoh belum mengarah ke Cerita Seiton.");
+check(uiStyles.includes("--font-ui") && uiStyles.includes("font-family:var(--font-ui)"), "Sistem font utama belum didefinisikan secara konsisten.");
+check(uiStyles.includes(":focus-visible"), "Indikator fokus keyboard belum tersedia.");
+check(homePage.includes('role="tablist" aria-orientation="horizontal"') && homePage.includes("activateTab") && homePage.includes('event.key === "Home"') && homePage.includes('event.key === "End"'), "Interaksi tab pratinjau beranda tidak lengkap.");
+const tabIds = [...homePage.matchAll(/data-showcase-tab="([^"]+)"/g)].map((match) => match[1]);
+const panelIds = [...homePage.matchAll(/data-showcase-panel="([^"]+)"/g)].map((match) => match[1]);
+check(tabIds.length === 3 && [...tabIds].sort().join(",") === [...panelIds].sort().join(","), "Setiap tab pratinjau harus memiliki satu panel yang sesuai.");
+check(uiStyles.includes("font-size:16px"), "Ukuran teks dasar belum memenuhi ukuran baca yang nyaman.");
+check(uiStyles.includes(".service-grid{grid-template-columns:repeat(4"), "Grid layanan unggulan desktop belum memiliki empat kolom.");
+check(uiStyles.includes(".service-directory-grid{grid-template-columns:repeat(2"), "Grid daftar layanan belum memakai dua kolom.");
+check(pageStyles.includes(".demo-notice{"), "Keterangan demonstrasi belum dipisahkan dari grid demo.");
+
+
+const pricing = read("src/pages/harga/index.astro");
+check(pricing.includes("https://admin.seiton.biz.id/api/pricing"), "Sumber harga lama harus tetap digunakan.");
+check(pricing.includes("angka cadangan") && pricing.includes("tidak menampilkan angka"), "Halaman harga harus menghindari angka fallback.");
+check(pricing.includes("Sistem Bot UMKM dan Paket Combo"), "Penawaran layanan lanjutan belum ada.");
+
+const detail = read("src/pages/layanan/[slug].astro");
+check(detail.includes('"/bot-umkm/"'), "Halaman Sistem Bot belum memiliki tautan demo sendiri.");
+check(detail.includes('"/paket-combo/"'), "Halaman Paket Combo belum memiliki tautan demo sendiri.");
+check(read("src/demo/pages/bot-umkm/index.astro").includes("noindex={true}"), "Demo bot belum noindex.");
+for (const file of [
+  "src/demo/pages/menu-qr/index.astro",
+  "src/demo/pages/katalog-whatsapp/index.astro",
+  "src/demo/pages/website-katalog/index.astro",
+  "src/demo/pages/website-katalog/katalog/index.astro",
+  "src/demo/pages/bot-umkm/index.astro"
 ]) {
-  if (!source.includes('href="' + href + '"') || !source.includes(name)) {
-    errors.push(label + ": missing catalogue entry " + name);
-  }
+  const content = read(file);
+  check(content.includes("srcset={image.srcset}") && content.includes('decoding="async"') && content.includes("sizes="),
+    "Gambar produk belum memakai responsive srcset, sizes, dan async decoding: " + file);
+}
+check(read("src/demo/pages/paket-combo/index.astro").includes("noindex={true}"), "Demo Combo belum noindex.");
+check(read("public/_headers").includes("https://demo.seiton.biz.id/*"), "Header noindex untuk domain demo belum tersedia.");
+const baseLayout = read("src/layouts/Base.astro");
+const analyticsConsent = read("public/analytics-consent.js");
+check(baseLayout.includes('src="/analytics-consent.js"') && baseLayout.includes("!demoSite"),
+  "Main layout harus memuat pengelola persetujuan Analytics dan mengecualikan demo.");
+check(!baseLayout.includes("googletagmanager.com/gtm.js"), "GTM tidak boleh dimuat langsung sebelum persetujuan.");
+check(analyticsConsent.includes("GTM-K3LKMTF3") && analyticsConsent.includes("seiton.biz.id") &&
+  analyticsConsent.includes("analytics_storage") && analyticsConsent.includes('"denied"'),
+  "Kontrol GTM produksi dan status consent default denied harus tersedia.");
+check(privacy.includes("Google Analytics 4") && privacy.includes("G-9Z02GKBZQX") &&
+  privacy.includes("14 bulan") && privacy.includes("persetujuan eksplisit"),
+  "Kebijakan Privasi harus mengidentifikasi GA4, retensi, dan persetujuan.");
+check(terms.includes("/analytics-consent.js") && privacy.includes("/analytics-consent.js"),
+  "Halaman legal harus memuat pengelola persetujuan Analytics.");
+
+check(/noindex\s*\|\|\s*isPreviewBuild\s*\?\s*["\x27]noindex, nofollow["\x27]/.test(baseLayout), "Layout belum merender metadata noindex otomatis pada preview.");
+
+
+check(siteUrls.includes('process.env.CF_PAGES_BRANCH !== "main"'), "Pemilihan URL preview harus mengikuti branch Cloudflare Pages.");
+check(siteUrls.includes("https://rebuild.seiton-main-preview.pages.dev") && siteUrls.includes("https://rebuild.seiton-demo-preview.pages.dev"), "Alias preview kedua project belum ditetapkan.");
+check(read("src/components/Header.astro").includes("siteUrls.main"), "Header demo harus menggunakan URL utama sesuai environment.");
+check(read("src/components/Footer.astro").includes("siteUrls.main"), "Footer demo harus menggunakan URL utama sesuai environment.");
+check(read("src/pages/contoh/index.astro").includes("siteUrls.demo"), "Kartu demo harus menggunakan URL demo sesuai environment.");
+check(detail.includes("siteUrls.demo"), "Tautan demo pada detail layanan harus menggunakan URL sesuai environment.");
+check(read("src/demo/pages/paket-combo/index.astro").includes("siteUrls.main"), "CTA Paket Combo harus menggunakan URL utama sesuai environment.");
+check(baseLayout.includes("isPreviewBuild") && baseLayout.includes("noindex, nofollow"), "Preview harus diberi metadata noindex secara otomatis.");
+const needContactAnchor = homePage.match(/<a class="result-contact"[^>]*>/)?.[0] || "";
+check(needContactAnchor.includes('data-need-contact href=') && needContactAnchor.includes('target="_blank" rel="noopener noreferrer"'), "CTA pemilih kebutuhan harus memakai perilaku tautan yang aman.");
+check((needContactAnchor.match(/target="_blank"/g) || []).length === 1 && (needContactAnchor.match(/rel="noopener noreferrer"/g) || []).length === 1, "CTA pemilih kebutuhan tidak boleh memiliki atribut tautan ganda.");
+check(pricing.includes("new AbortController()") && pricing.includes("clearTimeout(timeoutId)") && pricing.includes("grid.replaceChildren()"), "Loader harga harus memiliki timeout dan mengganti kartu secara atomik.");
+check(fs.existsSync("scripts/test-customer-journey.mjs"), "Pengujian perjalanan pelanggan belum tersedia.");
+check(json("package.json").scripts["test:journey"] === "node scripts/test-customer-journey.mjs", "Perintah test:journey belum terdaftar.");
+
+
+for (const legalPath of ["public/ketentuan/index.html", "public/privasi/index.html"]) {
+  const legalHtml = read(legalPath);
+  check(!legalHtml.includes('href="/portofolio/"'), "Navigasi legal masih mengarah ke rute Portofolio yang tidak tersedia: " + legalPath);
+  check(!legalHtml.includes('href="/tentang/"'), "Navigasi legal masih memakai menu Tentang lama: " + legalPath);
+  check(legalHtml.includes('href="/contoh/">Contoh</a>') && legalHtml.includes('href="/cerita/">Cerita</a>'), "Navigasi legal belum mengikuti menu Contoh dan Cerita: " + legalPath);
+  check(legalHtml.includes('href="/kontak/" class="button button-orange nav-cta">Konsultasi</a>'), "CTA Konsultasi halaman legal harus menuju halaman Kontak seperti halaman lain: " + legalPath);
 }
 
-if (!/id="' \+ cardId \+ '"/.test(prices) ||
-    !prices.includes("const unitTotal = packageParts.reduce") ||
-    !prices.includes("Harga paket")) {
-  errors.push("harga/index.html: dynamic product anchors or package comparison are missing");
-}
-if (prices.includes("Rp299.000") || prices.includes("DEFAULT_HARGA_SEITON")) {
-  errors.push("harga/index.html: outdated hard-coded price fallback remains");
-}
-if (!catalogue.includes("Panel admin untuk menambah, mengubah, atau menghapus produk dan harga tidak termasuk")) {
-  errors.push("Website Katalog page: admin CRUD exclusion is not explicit");
-}
-if (!about.includes("berbasis di Jember, Jawa Timur") ||
-    !about.includes("Bot Pesanan WhatsApp belum tersedia")) {
-  errors.push("About page: operating context or WhatsApp availability note is missing");
-}
-if (!portfolio.includes('id="telegram-order-bot"') ||
-    !portfolio.includes("Demo publik belum ditampilkan")) {
-  errors.push("Portfolio page: Telegram workflow illustration or honest demo disclaimer is missing");
-}
-if (!terms.includes("Pembatalan oleh pembeli dan uang muka") ||
-    !terms.includes("uang muka yang telah dibayarkan dianggap hangus dan tidak dapat diminta kembali atau dikembalikan")) {
-  errors.push("Terms page: buyer DP forfeiture rule is missing");
-}
-if (!read("harga/index.html").includes("uang DP hangus dan tidak dikembalikan")) {
-  errors.push("Pricing page: buyer DP forfeiture notice is missing");
-}
-if (!pricingSeed.includes("'Paket Website & Telegram',1107000") ||
-    !pricingSeed.includes("'Website Katalog UMKM',259000") ||
-    pricingSeed.includes("1147000") || pricingSeed.includes("299000") || pricingSeed.includes("Rp299.000")) {
-  errors.push("D1 seed migration: package or catalogue prices are stale");
-}
+check(fs.existsSync("scripts/finalize-preview.mjs"), "Langkah pengamanan indeks preview belum tersedia.");
+check(json("package.json").scripts["build:site"].includes("finalize-preview.mjs dist") && json("package.json").scripts["build:demo"].includes("finalize-preview.mjs dist-demo"), "Kedua target build harus menjalankan pengamanan indeks preview.");
 
 if (errors.length) {
-  console.error("Site integrity check failed:");
+  console.error("Source integrity check failed:");
   for (const error of errors) console.error(" - " + error);
-  process.exitCode = 1;
-} else {
-  console.log("Site integrity check passed for " + pages.length + " sitemap pages and service/pricing consistency.");
+  process.exit(1);
 }
+
+console.log("Source integrity check passed: services, contacts, dataset, demo image mappings, asset upload guide, sitemap, legal text, pricing source, and demo indexing.");

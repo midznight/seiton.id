@@ -1,0 +1,10 @@
+---
+import Base from "../../layouts/Base.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import services from "../../data/services.json";
+import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
+---
+<Base title="Layanan Digitalisasi UMKM — Seiton.id" description="Katalog WhatsApp, menu QR, profil bisnis, website, template operasional, dan sistem bot UMKM.">
+  <section class="page-hero"><div class="container"><p class="eyebrow">LAYANAN</p><h1>Pilih solusi sesuai kebutuhan operasional.</h1><p class="lead">Setiap layanan memiliki ruang lingkup berbeda. Konsultasi membantu menentukan kebutuhan, hasil pekerjaan, biaya, dan akses yang diperlukan.</p><div class="actions"><WhatsAppCTA message="Halo Seiton.id, saya ingin konsultasi layanan yang sesuai untuk usaha saya."/></div></div></section>
+  <section class="section section-white"><div class="container"><div class="card-grid service-directory-grid">{services.map((service)=><ServiceCard service={service}/>)}</div></div></section>
+</Base>

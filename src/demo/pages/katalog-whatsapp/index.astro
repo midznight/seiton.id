@@ -1,0 +1,18 @@
+---
+import Base from "../../../layouts/Base.astro";
+import DemoLabel from "../../../components/DemoLabel.astro";
+import dataset from "../../../data/demo-dataset.json";
+import demoImages from "../../../data/demo-images.json";
+const groups=["Roti","Pastry & Camilan","Minuman","Paket"].map((category)=>({category,products:dataset.products.filter((product)=>product.category===category)})).filter((group)=>group.products.length);
+const rupiah=(value)=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(value);
+---
+<Base title="Demo Katalog WhatsApp — Seiton.id" description="Contoh katalog produk fiktif untuk WhatsApp Business." noindex={true} demoSite={true}>
+  <section class="page-hero"><div class="container"><p class="eyebrow">DEMO PRODUK 01</p><h1>Katalog produk yang lebih tertata.</h1><p class="lead">Contoh susunan katalog untuk usaha fiktif. Harga dan deskripsi digunakan untuk demonstrasi, bukan penawaran toko sungguhan.</p><DemoLabel/></div></section>
+  <section class="section section-white"><div class="container">
+    <div class="catalog-business-head"><div><h2>Kedai Roti &amp; Teh Contoh</h2><p>15 produk · Data simulasi</p></div><span class="pill">CONTOH FIKTIF</span></div>
+    {groups.map((group)=><section class="catalog-group"><div class="section-heading"><h2>{group.category}</h2><span>{group.products.length} item</span></div><div class="catalog-grid">{group.products.map((product)=>{const image=demoImages[product.sku];return <article class="card catalog-item"><div class="catalog-image">{image?<img src={image.src} srcset={image.srcset} sizes="(max-width: 500px) calc(100vw - 48px), (max-width: 760px) calc(50vw - 36px), 340px" width="640" height="640" alt={image.alt} loading="lazy" decoding="async"/>:<span>Foto belum tersedia</span>}</div><div><p class="card-kicker">{product.sku}</p><h3>{product.name}</h3><p>{product.description}</p><strong>{rupiah(product.price)}</strong></div></article>;})}</div></section>)}
+  </div></section>
+</Base>
+<style>
+.catalog-business-head{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:20px;border:1px solid #D1D5DB;border-radius:14px;background:#F5F5F4}.catalog-business-head h2{margin-bottom:4px}.catalog-business-head p{margin:0;font-size:.8rem}.catalog-group{margin-top:34px}.catalog-group .section-heading{align-items:baseline}.catalog-group .section-heading h2{font-size:1.5rem}.catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.catalog-item{overflow:hidden;padding:0}.catalog-image{aspect-ratio:16/10;background:#E7E5E4}.catalog-image img{width:100%;height:100%;object-fit:cover}.catalog-image span{display:grid;height:100%;place-items:center;color:#6B7280;font-size:.8rem}.catalog-item>div:last-child{padding:15px}.catalog-item h3{font-size:1rem}.catalog-item p:not(.card-kicker){font-size:.8rem}.catalog-item strong{font-size:.9rem}@media(max-width:760px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:500px){.catalog-grid{grid-template-columns:1fr}}
+</style>

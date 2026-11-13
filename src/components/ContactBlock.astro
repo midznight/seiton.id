@@ -1,0 +1,11 @@
+---
+import site from "../data/site.json";
+---
+<div class="contact-list">
+  {site.contacts.map((contact) => (
+    <a class="contact-item" href={contact.url} target={contact.url.startsWith("http") ? "_blank" : undefined} rel={contact.url.startsWith("http") ? "noopener noreferrer" : undefined}>
+      <div><strong>{contact.label}</strong><span>{contact.value}</span></div>
+      <span aria-hidden="true">↗</span>
+    </a>
+  ))}
+</div>

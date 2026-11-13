@@ -1,0 +1,133 @@
+[
+  {
+    "slug": "paket-etalase",
+    "name": "Paket Etalase",
+    "short": "Satukan katalog, menu QR, dan profil bisnis agar pelanggan lebih mudah mengenal usaha.",
+    "description": "Paket penataan etalase digital untuk usaha yang melayani pelanggan secara langsung.",
+    "audience": "UMKM kuliner, toko, dan usaha lokal yang ingin menata informasi digital dasar.",
+    "features": ["Katalog WhatsApp Business", "Menu QR", "Pendampingan Google Business Profile sesuai kelayakan usaha"],
+    "deliverables": ["Katalog dan daftar produk yang tertata", "Tautan menu QR yang siap dibagikan", "Panduan pengelolaan profil bisnis"],
+    "slugLabel": "Etalase digital",
+    "featured": true
+  },
+  {
+    "slug": "katalog-produk",
+    "name": "Katalog Produk WhatsApp Business",
+    "short": "Susun foto, nama, deskripsi, dan harga produk dalam katalog WhatsApp Business.",
+    "description": "Bantuan penataan katalog produk agar pelanggan dapat mengenali pilihan barang atau menu dengan lebih jelas.",
+    "audience": "Usaha yang menerima pertanyaan dan pesanan melalui WhatsApp Business.",
+    "features": ["Struktur kategori produk", "Foto dan informasi produk", "Tautan katalog untuk dibagikan"],
+    "deliverables": ["Daftar katalog sesuai materi dari pemilik", "Panduan pembaruan produk"],
+    "slugLabel": "Katalog WhatsApp",
+    "featured": false
+  },
+  {
+    "slug": "menu-qr",
+    "name": "Menu QR",
+    "short": "Buat menu digital yang dapat dibuka pelanggan melalui pemindaian QR.",
+    "description": "Menu digital untuk membantu pelanggan melihat daftar menu dari ponsel tanpa harus mencari lembar menu fisik.",
+    "audience": "Kedai, kafe, warung makan, restoran, dan usaha yang memiliki menu.",
+    "features": ["Halaman menu responsif", "Kode QR untuk dibagikan atau dicetak", "Kategori dan harga sesuai data pemilik"],
+    "deliverables": ["Halaman menu digital", "Berkas QR untuk kebutuhan cetak"],
+    "slugLabel": "Menu digital",
+    "featured": false
+  },
+  {
+    "slug": "profil-google",
+    "name": "Google Business Profile",
+    "short": "Bantu calon pelanggan menemukan informasi lokasi usaha yang memenuhi persyaratan Google.",
+    "description": "Pendampingan pengisian dan perapian informasi profil bisnis Google. Kelayakan harus diperiksa sebelum pembuatan atau pengelolaan profil.",
+    "audience": "Usaha yang berinteraksi langsung dengan pelanggan di lokasi usaha atau area layanan sesuai kebijakan Google.",
+    "features": ["Pemeriksaan kategori dan kelayakan", "Penyusunan informasi usaha", "Panduan foto dan pembaruan profil"],
+    "deliverables": ["Rangkuman informasi profil", "Panduan pengelolaan dan pembaruan"],
+    "slugLabel": "Profil Google",
+    "featured": false
+  },
+  {
+    "slug": "website-katalog",
+    "name": "Website Katalog UMKM",
+    "short": "Website katalog ringan untuk menampilkan profil usaha, foto, dan daftar produk.",
+    "description": "Website statis yang menampilkan identitas usaha dan katalog produk. Pengelolaan produk mengikuti ruang lingkup proyek yang disepakati.",
+    "audience": "UMKM yang membutuhkan alamat website sendiri untuk memperkenalkan usaha dan produknya.",
+    "features": ["Halaman profil usaha", "Katalog produk dengan foto", "Tautan kontak dan pemesanan"],
+    "deliverables": ["Website statis responsif", "Panduan perubahan konten sesuai ruang lingkup"],
+    "slugLabel": "Website katalog",
+    "featured": true
+  },
+  {
+    "slug": "website-profile",
+    "name": "Website Profile Usaha",
+    "short": "Website profil untuk menjelaskan usaha, layanan, identitas, dan kontak.",
+    "description": "Website profil yang menyajikan informasi utama usaha dalam struktur halaman yang jelas.",
+    "audience": "UMKM, penyedia jasa, dan usaha yang membutuhkan profil digital.",
+    "features": ["Beranda", "Tentang usaha", "Layanan atau produk", "Kontak dan tautan komunikasi"],
+    "deliverables": ["Website profil responsif", "Dua kali revisi sesuai ruang lingkup awal"],
+    "slugLabel": "Website profil",
+    "featured": false
+  },
+  {
+    "slug": "paket-template",
+    "name": "Paket Template Operasional",
+    "short": "Template praktis untuk membantu pencatatan sederhana dan respons pelanggan.",
+    "description": "Paket template kerja untuk membantu pemilik usaha merapikan kegiatan operasional yang masih dilakukan secara manual.",
+    "audience": "UMKM yang membutuhkan alat bantu administrasi sederhana.",
+    "features": ["Template balasan cepat", "Template pencatatan sederhana", "Petunjuk penggunaan"],
+    "deliverables": ["Berkas template sesuai kesepakatan", "Panduan pengisian manual"],
+    "slugLabel": "Template usaha",
+    "featured": false
+  },
+  {
+    "slug": "bot-telegram",
+    "name": "Bot Pesanan Telegram",
+    "short": "Bot Telegram untuk membantu alur pemesanan berdasarkan ruang lingkup layanan yang tersedia.",
+    "description": "Layanan bot Telegram yang terpisah dari sistem bot UMKM lanjutan. Ketersediaan fitur dan integrasi harus diperiksa dalam penawaran.",
+    "audience": "Usaha yang bersedia menggunakan Telegram sebagai kanal pemesanan.",
+    "features": ["Alur percakapan dan pemesanan", "Informasi produk", "Pengiriman notifikasi sesuai ruang lingkup"],
+    "deliverables": ["Bot Telegram sesuai penawaran", "Panduan penggunaan dan serah terima"],
+    "slugLabel": "Bot Telegram",
+    "featured": false
+  },
+  {
+    "slug": "sistem-bot-umkm",
+    "name": "Sistem Bot UMKM",
+    "short": "Katalog, pemesanan, konfirmasi pembayaran, bantuan pelanggan, dan laporan dalam satu alur.",
+    "description": "Sistem operasional UMKM yang menghubungkan pengalaman pelanggan dengan pengelolaan usaha. Kanal pesan, metode pembayaran, integrasi, dan kebutuhan legal pihak ketiga ditentukan setelah pemeriksaan kesiapan serta kesepakatan ruang lingkup.",
+    "audience": "UMKM yang ingin mengurangi pencatatan pesanan manual dan mengelola produk, pesanan, serta ringkasan penjualan dari satu alur.",
+    "features": [
+      "Katalog produk yang dapat ditelusuri melalui kanal pesan yang disepakati",
+      "Keranjang dan pencatatan pesanan",
+      "Konfirmasi pembayaran dan pembaruan status oleh admin",
+      "Panel admin untuk menambah, mengubah, dan menghapus produk serta harga",
+      "Dashboard dan laporan penjualan serta ringkasan produk",
+      "Respons bantuan otomatis sesuai skenario usaha"
+    ],
+    "deliverables": [
+      "Sistem pemesanan sesuai kanal dan ruang lingkup tertulis",
+      "Panel admin sesuai fitur yang disepakati",
+      "Dokumentasi konfigurasi, penggunaan, dan serah terima"
+    ],
+    "slugLabel": "Otomasi pesanan",
+    "featured": true
+  },
+  {
+    "slug": "paket-combo",
+    "name": "Paket Combo Website + Bot UMKM",
+    "short": "Satukan website profil dan katalog dengan alur pemesanan serta pengelolaan pesanan melalui bot.",
+    "description": "Paket terpadu yang memisahkan fungsi website sebagai media informasi publik dan sistem bot sebagai alur pemesanan. Integrasi data, kanal, autentikasi admin, metode pembayaran, dan layanan pihak ketiga diperjelas dalam penawaran.",
+    "audience": "UMKM yang ingin memiliki media informasi publik sekaligus alur pemesanan yang lebih terstruktur.",
+    "features": [
+      "Website profil dan katalog produk",
+      "Informasi produk yang diselaraskan antara website dan sistem pemesanan",
+      "Alur pemesanan melalui kanal bot yang disepakati",
+      "Panel admin dan konfirmasi pembayaran sesuai ruang lingkup",
+      "Dashboard dan laporan penjualan sesuai kebutuhan"
+    ],
+    "deliverables": [
+      "Website usaha responsif",
+      "Sistem bot dan panel pengelolaan sesuai ruang lingkup",
+      "Dokumentasi, panduan pengelolaan, dan serah terima"
+    ],
+    "slugLabel": "Website + bot",
+    "featured": true
+  }
+]

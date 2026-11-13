@@ -1,0 +1,24 @@
+---
+import site from "../data/site.json";
+import ContactBlock from "./ContactBlock.astro";
+import { siteUrls } from "../utils/site-urls.js";
+const {demoSite=false}=Astro.props;
+const root=demoSite?siteUrls.main:"";
+---
+<footer class="site-footer"><div class="container">
+  <div class="footer-grid">
+    <div class="footer-brand-block">
+      <a class="footer-logo-wrap" href={root + "/"} aria-label="Seiton.id — Beranda">
+        <img src="/assets/optimized-brand/logo-horizontal-540.webp" alt="Seiton.id" width="540" height="176" />
+      </a>
+      <p class="footer-brand-copy">{site.brand.tagline}. {site.brand.description}</p>
+    </div>
+    <div><strong>Jelajahi</strong><div class="footer-links"><a href={root + "/layanan/"}>Layanan</a><a href={root + "/harga/"}>Harga</a><a href={root + "/contoh/"}>Contoh produk</a></div></div>
+    <div><strong>Informasi</strong><div class="footer-links"><a href={root + "/cerita/"}>Cerita Seiton</a><a href={root + "/kontak/"}>Kontak</a><a href={root + "/ketentuan/"}>Ketentuan</a><a href={root + "/privasi/"}>Privasi</a></div></div>
+    <section class="footer-contact-block" aria-labelledby="footer-contact-heading">
+      <h2 class="footer-contact-heading" id="footer-contact-heading">Kontak Seiton.id</h2>
+      <ContactBlock/>
+    </section>
+  </div>
+  <div class="footer-bottom"><span>© {new Date().getFullYear()} Seiton.id</span><span>Tersedia secara online di seluruh Indonesia.</span></div>
+</div></footer>

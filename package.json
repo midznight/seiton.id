@@ -1,0 +1,25 @@
+{
+  "name": "seiton-id-site-rebuild",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:site": "npm run prepare:assets && astro build && node scripts/finalize-preview.mjs dist && node scripts/strip-source-demo-assets.mjs dist main",
+    "build:demo": "npm run prepare:assets && SITE_TARGET=demo astro build && node scripts/finalize-preview.mjs dist-demo && node scripts/strip-source-demo-assets.mjs dist-demo demo",
+    "check": "node scripts/check-site-integrity.mjs",
+    "check:build": "npm run build:site && npm run build:demo && node scripts/check-site-build.mjs",
+    "test:journey": "node scripts/test-customer-journey.mjs",
+    "check:assets": "node scripts/check-demo-assets.mjs",
+    "prepare:assets": "node scripts/optimize-demo-assets.mjs",
+    "check:performance": "node scripts/check-performance-budget.mjs",
+    "audit:mobile": "node scripts/test-mobile-accessibility.mjs",
+    "audit:lighthouse": "node scripts/run-lighthouse.mjs",
+    "test:tag-manager": "node scripts/test-tag-manager.mjs"
+  },
+  "dependencies": {
+    "astro": "7.4.8",
+    "sharp": "0.35.5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
