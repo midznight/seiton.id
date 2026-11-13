@@ -208,6 +208,43 @@ for (const legalPath of ["public/ketentuan/index.html", "public/privasi/index.ht
 check(fs.existsSync("scripts/finalize-preview.mjs"), "Langkah pengamanan indeks preview belum tersedia.");
 check(json("package.json").scripts["build:site"].includes("finalize-preview.mjs dist") && json("package.json").scripts["build:demo"].includes("finalize-preview.mjs dist-demo"), "Kedua target build harus menjalankan pengamanan indeks preview.");
 
+
+const otpWorker = read("workers/otp-portal/src/index.js");
+const otpParser = read("workers/otp-portal/src/email-parser.js");
+const otpTests = read("workers/otp-portal/test/otp-portal.test.js");
+const otpWrangler = read("workers/otp-portal/wrangler.toml");
+const ownerWorker = read("workers/site-admin/worker.js");
+const ownerWrangler = read("workers/site-admin/wrangler.toml");
+check(otpWorker.includes("ensureLegacyMailbox") && otpWorker.includes("OTP_KV.get(\"mailbox:\" + mailboxId)"),
+  "Portal OTP harus mempertahankan dan memigrasikan link mailbox legacy dari bot Telegram.");
+check(otpWorker.includes("encryptOtpRecord(this.env, body.record)") && otpWorker.includes("decryptOtpRecord(this.env, value)") &&
+  otpWorker.includes("MESSAGE_TTL_SECONDS = 3600") && otpWorker.includes("MAX_MESSAGES_PER_MAILBOX = 5"),
+  "Isi email OTP harus dienkripsi AES-GCM dan dibatasi lima pesan dengan TTL satu jam.");
+check(otpWorker.includes("OTP_EMAIL_ENCRYPTION_KEY_MISSING") && otpWorker.includes("OTP_EMAIL_ENCRYPTION_KEY_INVALID"),
+  "Worker OTP harus menolak konfigurasi kunci enkripsi yang hilang atau tidak valid.");
+check(otpWorker.includes("async email(message, env)") && otpWorker.includes("MAILBOX_INDEX") &&
+  otpWorker.includes("HttpOnly") && otpWorker.includes("SameSite=Strict"),
+  "Worker OTP harus memiliki Email Routing handler, Durable Object, dan sesi cookie yang aman.");
+check(otpParser.includes("export function parseEmail") && otpParser.includes("quoted-printable"),
+  "Parser MIME lokal harus tersedia tanpa dependency runtime eksternal.");
+check(otpTests.includes("legacy Telegram mailbox links migrate") && otpTests.includes("encrypted.ciphertext") &&
+  otpTests.includes("OTP_EMAIL_ENCRYPTION_KEY"),
+  "Tes portal harus meliputi link legacy dan enkripsi pesan OTP.");
+check(otpWrangler.includes('binding = "OTP_KV"') && otpWrangler.includes('binding = "MUSE_KV"') &&
+  otpWrangler.includes('class_name = "MailboxIndex"'),
+  "Binding portal OTP, MUSE_KV, dan Durable Object harus tercantum pada konfigurasi.");
+check(ownerWorker.includes("async function activeSession") && ownerWorker.includes("function sameOriginAdmin") &&
+  ownerWorker.includes("function callOtpBackend") && ownerWorker.includes("function otpPage()"),
+  "Panel pemilik harus mempertahankan autentikasi live dan memiliki UI/backend Portal OTP.");
+check(ownerWorker.includes('u.pathname==="/api/admin/otp/mailboxes"') &&
+  ownerWorker.includes('u.pathname==="/api/admin/otp/mailboxes/rotate"') &&
+  ownerWorker.includes('u.pathname==="/api/admin/otp/mailboxes/revoke"') &&
+  ownerWorker.includes("OTP_INTERNAL_SECRET") && ownerWorker.includes("href='/otp/'"),
+  "Panel pemilik harus menyediakan endpoint provision/list/rotate/revoke Portal OTP.");
+check(ownerWrangler.includes('binding = "OTP_BACKEND"') &&
+  ownerWrangler.includes('service = "seiton-otp-portal"'),
+  "Site admin harus menggunakan service binding OTP_BACKEND.");
+
 if (errors.length) {
   console.error("Source integrity check failed:");
   for (const error of errors) console.error(" - " + error);
