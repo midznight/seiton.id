@@ -1,7 +1,3 @@
-ccbfa2aac2e8c65d32cb41c6481b197c7342dc07c950d8e96cafaf4690b
-Content-Disposition: form-data; name="worker.js"; filename="worker.js"
-Content-Type: application/javascript+module
-
 const COOKIE="site_owner_session",TTL=28800;
 const ORIGINS=new Set(["https://seiton.biz.id","https://www.seiton.biz.id"]);
 function j(d,s=200,h={}){return new Response(JSON.stringify(d),{status:s,headers:Object.assign({"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store"},h)});}
@@ -40,7 +36,7 @@ async function activeSession(req,env){
   }
 }
 async function auth(req,env){return Boolean(await activeSession(req,env));}
-function sameOriginAdmin(req){const origin=req.headers.get("Origin");return origin==="https://admin.seiton.biz.id"||origin==="https://owner.seiton.biz.id";}
+function sameOriginAdmin(req){return req.headers.get("Origin")==="https://admin.seiton.biz.id";}
 function newAuditStatement(env,{action,resource,summary,clientHash,now=Date.now(),actor="owner"}){
   return env.SITE_DB.prepare("INSERT INTO site_admin_audit(audit_id,actor_id,action,resource,summary_json,client_hash,created_at_ms) VALUES(?,?,?,?,?,?,?)")
     .bind(crypto.randomUUID(),actor,action,resource,JSON.stringify(summary||{}),clientHash||null,now);
@@ -303,4 +299,3 @@ if(u.pathname==="/api/admin/pricing"&&req.method==="PUT"){if(!sameOriginAdmin(re
 if(u.pathname==="/"||u.pathname==="/index.html")return secure(new Response(page(),{headers:{"Content-Type":"text/html; charset=utf-8","Cache-Control":"no-store"}}));
 return secure(j({ok:false,error:"Not found."},404));
 }catch(e){console.error(JSON.stringify({event:"owner_admin_error",message:String(e&&e.message||e)}));return secure(j({ok:false,error:"Kesalahan server."},500));}}};
---4511bf7c2300ed9cb4ab0a9091028717771619057db91545cbc21309e322--
