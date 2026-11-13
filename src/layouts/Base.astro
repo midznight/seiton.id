@@ -10,12 +10,8 @@ const canonicalUrl=canonical||new URL(Astro.url.pathname,demoSite?site.brand.dem
 ---
 <!doctype html><html lang="id"><head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-{!demoSite && isProductionBuild && <script is:inline async src="https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3"></script>}
-{!demoSite && isProductionBuild && <script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-</script>}
+{!demoSite && <link rel="stylesheet" href="/analytics-consent.css"/>}
+{!demoSite && <script is:inline src="/analytics-consent.js" defer data-analytics-enabled={isProductionBuild ? "true" : "false"}></script>}
 <title>{title}</title><meta name="description" content={description}/><meta name="theme-color" content="#F7F5EF"/>
 <link rel="canonical" href={canonicalUrl}/><meta name="robots" content={noindex || isPreviewBuild ? "noindex, nofollow" : "index, follow"}/>
 <meta property="og:type" content="website"/><meta property="og:site_name" content="Seiton.id"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonicalUrl}/><meta property="og:image" content="https://seiton.biz.id/og-seiton.svg"/>

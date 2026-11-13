@@ -68,6 +68,9 @@ check(JSON.parse(read("package.json")).scripts["prepare:assets"] === "node scrip
 check(JSON.parse(read("package.json")).dependencies.sharp === "0.35.5", "Versi Sharp untuk optimasi gambar belum dipatok.");
 check(fs.existsSync("scripts/optimize-demo-assets.mjs"), "Skrip optimasi WebP responsif belum tersedia.");
 check(fs.existsSync("scripts/strip-source-demo-assets.mjs"), "Penghapusan file sumber dari output deployment belum tersedia.");
+check(read("scripts/strip-source-demo-assets.mjs").includes("/analytics-consent.js") &&
+  read("scripts/strip-source-demo-assets.mjs").includes("/analytics-consent.css"),
+  "Pusat demonstrasi harus menghapus controller dan stylesheet Analytics milik website utama.");
 check(fs.existsSync("scripts/check-performance-budget.mjs"), "Audit budget CSS/JS belum tersedia.");
 check(json("package.json").scripts["check:performance"] === "node scripts/check-performance-budget.mjs", "Perintah audit performa belum terdaftar.");
 check(dataset.products.length === 15, "Dataset demo harus memiliki 15 produk.");
@@ -90,7 +93,7 @@ const terms = read("public/ketentuan/index.html");
 const privacy = read("public/privasi/index.html");
 check(terms.includes("BERLAKU MULAI 5 NOVEMBER 2026"), "Tanggal Ketentuan Layanan berubah.");
 check(terms.includes("uang muka yang telah dibayarkan dianggap hangus dan tidak dapat diminta kembali atau dikembalikan"), "Aturan pembatalan DP pada Ketentuan tidak ditemukan.");
-check(privacy.includes("BERLAKU MULAI 4 NOVEMBER 2026"), "Tanggal Kebijakan Privasi berubah.");
+check(privacy.includes("BERLAKU MULAI 13 NOVEMBER 2026"), "Tanggal Kebijakan Privasi berubah.");
 check(privacy.includes("Informasi konsultasi dan komunikasi disimpan paling lama 24 bulan"), "Aturan retensi pada Kebijakan Privasi tidak ditemukan.");
 for (const [file, content] of [["public/ketentuan/index.html", terms], ["public/privasi/index.html", privacy]]) {
   check(!content.includes("fonts.googleapis.com") && !content.includes("fonts.gstatic.com"),
@@ -152,6 +155,19 @@ for (const file of [
 check(read("src/demo/pages/paket-combo/index.astro").includes("noindex={true}"), "Demo Combo belum noindex.");
 check(read("public/_headers").includes("https://demo.seiton.biz.id/*"), "Header noindex untuk domain demo belum tersedia.");
 const baseLayout = read("src/layouts/Base.astro");
+const analyticsConsent = read("public/analytics-consent.js");
+check(baseLayout.includes('src="/analytics-consent.js"') && baseLayout.includes("!demoSite"),
+  "Main layout harus memuat pengelola persetujuan Analytics dan mengecualikan demo.");
+check(!baseLayout.includes("googletagmanager.com/gtm.js"), "GTM tidak boleh dimuat langsung sebelum persetujuan.");
+check(analyticsConsent.includes("GTM-K3LKMTF3") && analyticsConsent.includes("seiton.biz.id") &&
+  analyticsConsent.includes("analytics_storage") && analyticsConsent.includes('"denied"'),
+  "Kontrol GTM produksi dan status consent default denied harus tersedia.");
+check(privacy.includes("Google Analytics 4") && privacy.includes("G-9Z02GKBZQX") &&
+  privacy.includes("14 bulan") && privacy.includes("persetujuan eksplisit"),
+  "Kebijakan Privasi harus mengidentifikasi GA4, retensi, dan persetujuan.");
+check(terms.includes("/analytics-consent.js") && privacy.includes("/analytics-consent.js"),
+  "Halaman legal harus memuat pengelola persetujuan Analytics.");
+
 check(/noindex\s*\|\|\s*isPreviewBuild\s*\?\s*["\x27]noindex, nofollow["\x27]/.test(baseLayout), "Layout belum merender metadata noindex otomatis pada preview.");
 
 

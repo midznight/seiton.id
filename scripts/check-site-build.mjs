@@ -147,6 +147,7 @@ const collectHtmlDocuments = (directory) => {
   return documents;
 };
 const expectedGtmSource = "https://www.googletagmanager.com/gtm.js?id=GTM-K3LKMTF3";
+const expectedConsentController = "/analytics-consent.js";
 const mainHtmlDocuments = collectHtmlDocuments(path.resolve("dist"));
 const demoHtmlDocuments = collectHtmlDocuments(path.resolve("dist-demo"));
 const isRedirectDocument = (html) => {
@@ -156,33 +157,57 @@ const isRedirectDocument = (html) => {
     normalized.includes("location.replace(");
 };
 const productionOutput = process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH === "main";
+const controllerEnabled = (html) => /<script\b[^>]*src=["']\/analytics-consent\.js["'][^>]*data-analytics-enabled=["']true["'][^>]*><\/script>/i.test(html);
+const controllerDisabled = (html) => /<script\b[^>]*src=["']\/analytics-consent\.js["'][^>]*data-analytics-enabled=["']false["'][^>]*><\/script>/i.test(html);
+const mainHtml = mainHtmlDocuments.map((file) => ({file,html:fs.readFileSync(file,"utf8")}));
+const demoHtml = demoHtmlDocuments.map((file) => ({file,html:fs.readFileSync(file,"utf8")}));
+
 if (productionOutput) {
-  const missingGtm = mainHtmlDocuments.filter((file) => {
-    const html = fs.readFileSync(file, "utf8");
-    return !isRedirectDocument(html) && !html.includes(expectedGtmSource);
-  });
-  if (missingGtm.length) {
-    console.error("Production main-site HTML pages missing the Google Tag Manager container:", missingGtm.map((file) => path.relative("dist", file)).join(", "));
+  const missingController = mainHtml.filter(({html}) =>
+    !isRedirectDocument(html) && !controllerEnabled(html)
+  );
+  if (missingController.length) {
+    console.error("Production main-site pages missing the consent controller:", missingController.map(({file}) => path.relative("dist",file)).join(", "));
     process.exit(1);
   }
-  console.log("Google Tag Manager source present in production main-site HTML.");
+  const eagerGtm = mainHtml.filter(({html}) => html.includes(expectedGtmSource));
+  if (eagerGtm.length) {
+    console.error("GTM must not load before explicit user consent:", eagerGtm.map(({file}) => path.relative("dist",file)).join(", "));
+    process.exit(1);
+  }
+  console.log("Production main-site consent controller present; GTM is loaded dynamically only after explicit consent.");
 } else {
-  const mainWithGtm = mainHtmlDocuments.filter((file) => fs.readFileSync(file, "utf8").includes("GTM-K3LKMTF3"));
-  if (mainWithGtm.length) {
-    console.error("Non-production output must not send Analytics traffic:", mainWithGtm.map((file) => path.relative("dist", file)).join(", "));
+  const enabledPreview = mainHtml.filter(({html}) => controllerEnabled(html));
+  if (enabledPreview.length) {
+    console.error("Preview HTML must disable the production Analytics controller:", enabledPreview.map(({file}) => path.relative("dist",file)).join(", "));
     process.exit(1);
   }
-  console.log("Google Tag Manager correctly suppressed from non-production HTML.");
+  const previewMissingController = mainHtml.filter(({html}) =>
+    !isRedirectDocument(html) && !controllerDisabled(html)
+  );
+  if (previewMissingController.length) {
+    console.error("Preview main-site pages must contain a disabled Analytics controller:", previewMissingController.map(({file}) => path.relative("dist",file)).join(", "));
+    process.exit(1);
+  }
+  const eagerGtm = mainHtml.filter(({html}) => html.includes(expectedGtmSource));
+  if (eagerGtm.length) {
+    console.error("Preview output must not load Google Tag Manager:", eagerGtm.map(({file}) => path.relative("dist",file)).join(", "));
+    process.exit(1);
+  }
+  console.log("Preview Analytics controller explicitly disabled; no GTM loader in main-site HTML.");
 }
-const demoWithGtm = demoHtmlDocuments.filter((file) => fs.readFileSync(file, "utf8").includes("GTM-K3LKMTF3"));
-if (demoWithGtm.length) {
-  console.error("Fictional demo pages must not load the Seiton analytics container:", demoWithGtm.map((file) => path.relative("dist-demo", file)).join(", "));
+
+const demoWithAnalytics = demoHtml.filter(({html}) =>
+  html.includes(expectedGtmSource) || html.includes(expectedConsentController) || html.includes("google-analytics.com/g/collect")
+);
+if (demoWithAnalytics.length) {
+  console.error("Fictional demo pages must not load the main-site Analytics integration:", demoWithAnalytics.map(({file}) => path.relative("dist-demo",file)).join(", "));
   process.exit(1);
 }
 if (!mainHtmlDocuments.length || !demoHtmlDocuments.length) {
-  console.error("Could not verify GTM coverage because one of the build targets has no HTML documents.");
+  console.error("Could not verify Analytics coverage because one of the build targets has no HTML documents.");
   process.exit(1);
 }
-console.log("Google Tag Manager markup verified on " + mainHtmlDocuments.length + " main pages; excluded from " + demoHtmlDocuments.length + " demo pages.");
+console.log("Analytics integration verified on " + mainHtmlDocuments.length + " main pages; excluded from " + demoHtmlDocuments.length + " demo pages.");
 
 console.log("Static output verification passed:", required.length, "paths checked, 30 optimized demo variants, and unused/source uploads excluded.");
