@@ -64,6 +64,49 @@ export async function sha256(value) {
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
+function encodeBase64(bytes) {
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary);
+}
+
+function decodeBase64(value) {
+  const binary = atob(String(value || ""));
+  return Uint8Array.from(binary, (character) => character.charCodeAt(0));
+}
+
+async function otpEncryptionKey(env) {
+  if (!env.OTP_EMAIL_ENCRYPTION_KEY) throw new Error("OTP_EMAIL_ENCRYPTION_KEY_MISSING");
+  const raw = decodeBase64(env.OTP_EMAIL_ENCRYPTION_KEY);
+  if (raw.length !== 32) throw new Error("OTP_EMAIL_ENCRYPTION_KEY_INVALID");
+  return crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["encrypt", "decrypt"]);
+}
+
+async function encryptOtpRecord(env, record) {
+  const key = await otpEncryptionKey(env);
+  const nonce = crypto.getRandomValues(new Uint8Array(12));
+  const ciphertext = await crypto.subtle.encrypt(
+    { name: "AES-GCM", iv: nonce },
+    key,
+    new TextEncoder().encode(JSON.stringify(record))
+  );
+  return {
+    ciphertext: encodeBase64(new Uint8Array(ciphertext)),
+    nonce: encodeBase64(nonce)
+  };
+}
+
+async function decryptOtpRecord(env, envelope) {
+  if (!envelope || !envelope.ciphertext || !envelope.nonce) throw new Error("OTP_MESSAGE_ENVELOPE_INVALID");
+  const key = await otpEncryptionKey(env);
+  const plaintext = await crypto.subtle.decrypt(
+    { name: "AES-GCM", iv: decodeBase64(envelope.nonce) },
+    key,
+    decodeBase64(envelope.ciphertext)
+  );
+  return JSON.parse(new TextDecoder().decode(plaintext));
+}
+
 export function normalizeAddress(value, allowedDomains = ["seiton.biz.id"]) {
   const email = String(value ?? "").trim().toLowerCase();
   if (email.length > 254 || !EMAIL_RE.test(email)) throw new Error("Format alamat email tidak valid.");
@@ -430,7 +473,8 @@ export class MailboxIndex {
     }
     const key = "mail:" + body.mailboxId + ":" + body.id;
     if (!valid.some((item) => item.id === body.id)) {
-      await this.env.OTP_KV.put(key, JSON.stringify(body.record), { expirationTtl: MESSAGE_TTL_SECONDS });
+      const encrypted = await encryptOtpRecord(this.env, body.record);
+      await this.env.OTP_KV.put(key, JSON.stringify(encrypted), { expirationTtl: MESSAGE_TTL_SECONDS });
       valid.push({ id: body.id, key, receivedAt: body.record.receivedAt, expiresAt: now + MESSAGE_TTL_MS });
     }
     valid.sort((a, b) => Date.parse(a.receivedAt) - Date.parse(b.receivedAt));
@@ -452,7 +496,13 @@ export class MailboxIndex {
     const records = [];
     for (const item of [...valid].sort((a, b) => Date.parse(b.receivedAt) - Date.parse(a.receivedAt))) {
       const value = await this.env.OTP_KV.get(item.key, "json");
-      if (value) records.push(value);
+      if (value) {
+        try { records.push(await decryptOtpRecord(this.env, value)); }
+        catch (error) {
+          console.warn(JSON.stringify({ event: "otp_message_decrypt_failed", mailboxId: this.state.id.toString() }));
+          await this.env.OTP_KV.delete(item.key);
+        }
+      }
     }
     return records;
   }
