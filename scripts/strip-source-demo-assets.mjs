@@ -23,7 +23,7 @@ if (outputMode === "main") {
     "assets/menu-demo-qr.svg"
   );
 } else {
-  candidates.push("analytics-consent.js", "analytics-consent.css");
+  candidates.push("analytics-consent.js", "analytics-consent.css", "sitemap.xml");
 }
 
 const textFiles = [];
@@ -94,6 +94,12 @@ for (const relative of candidates) {
   removedBytes += await measure(target);
   await fs.rm(target, { recursive: true, force: true });
   console.log("Unused deployment asset removed: " + reference);
+}
+
+if (outputMode === "demo") {
+  const demoRobots = path.join(root, "robots.txt");
+  await fs.writeFile(demoRobots, "User-agent: *\\nAllow: /\\n", "utf8");
+  console.log("Demo robots.txt kept crawlable for noindex headers; main-site sitemap excluded.");
 }
 
 console.log(outputMode + " deployment: " +
