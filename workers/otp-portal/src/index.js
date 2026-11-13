@@ -1,4 +1,4 @@
-import PostalMime from "postal-mime";
+import { parseEmail } from "./email-parser.js";
 
 const MESSAGE_TTL_SECONDS = 3600;
 const MESSAGE_TTL_MS = MESSAGE_TTL_SECONDS * 1000;
@@ -220,11 +220,14 @@ footer{margin-top:28px;color:#738096;font-size:12px}
  }
  try{
   if(token){
+   const email=new URLSearchParams(location.search).get("email")||"";
    history.replaceState(null,"",location.pathname+location.search);
    const split=token.indexOf(".");
-   if(split<1)throw new Error("Tautan akses tidak valid. Minta pemilik mailbox menerbitkan tautan baru.");
-   const mailboxId=token.slice(0,split),accessToken=token.slice(split+1);
-   await api("/api/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mailboxId,accessToken})});
+   let payload;
+   if(split>0)payload={mailboxId:token.slice(0,split),accessToken:token.slice(split+1)};
+   else if(email)payload={email,accessToken:token};
+   else throw new Error("Tautan akses tidak valid. Minta pemilik mailbox menerbitkan tautan baru.");
+   await api("/api/session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
   }
   await refresh();
   status.classList.add("hidden");content.classList.remove("hidden");
@@ -235,6 +238,40 @@ footer{margin-top:28px;color:#738096;font-size:12px}
 })();
 </script>
 </body></html>`;
+}
+
+async function ensureLegacyMailbox(env, email, mailboxId) {
+  const stub = mailboxStub(env, mailboxId);
+  const current = await doJson(stub, "/status", undefined, "GET");
+  if (current.active) return { stub, active: true, legacy: false };
+  const raw = await env.OTP_KV.get("mailbox:" + mailboxId);
+  if (!raw) throw new Error("MAILBOX_NOT_PROVISIONED");
+  let legacy;
+  try { legacy = JSON.parse(raw); } catch { throw new Error("LEGACY_MAILBOX_INVALID"); }
+  if (legacy.email !== email || !HEX_64_RE.test(String(legacy.token_hash || ""))) {
+    throw new Error("LEGACY_MAILBOX_INVALID");
+  }
+  const createdAt = legacy.created_at || new Date().toISOString();
+  try {
+    await doJson(stub, "/provision", {
+      email,
+      tokenHash: legacy.token_hash,
+      ownerLabel: "",
+      createdAt
+    });
+  } catch (error) {
+    const latest = await doJson(stub, "/status", undefined, "GET");
+    if (!latest.active) throw error;
+  }
+  await env.MUSE_KV.put("otp:mailbox:" + mailboxId, JSON.stringify({
+    mailboxId,
+    email,
+    ownerLabel: "",
+    active: true,
+    createdAt,
+    legacyMigratedAt: new Date().toISOString()
+  }));
+  return { stub, active: true, legacy: true };
 }
 
 async function internalRequest(request, env, url) {
@@ -465,18 +502,27 @@ export default {
         if (!sameOrigin(request)) return json({ ok: false, error: "Origin tidak diizinkan." }, 403);
         let body;
         try { body = await request.json(); } catch { return json({ ok: false, error: "JSON tidak valid." }, 400); }
-        if (!HEX_64_RE.test(String(body.mailboxId || "")) || String(body.accessToken || "").length < 32) {
+        const accessToken = String(body.accessToken || "");
+        if (accessToken.length < 32) return json({ ok: false, error: "Tautan akses tidak valid." }, 400);
+        let mailboxId = String(body.mailboxId || "");
+        if (body.email) {
+          let email;
+          try { email = normalizeAddress(body.email, allowedDomains(env)); }
+          catch { return json({ ok: false, error: "Alamat mailbox tidak valid." }, 400); }
+          mailboxId = await mailboxIdFor(email);
+          await ensureLegacyMailbox(env, email, mailboxId);
+        } else if (!HEX_64_RE.test(mailboxId)) {
           return json({ ok: false, error: "Tautan akses tidak valid." }, 400);
         }
         const sessionToken = randomToken();
         const sessionHash = await sha256(sessionToken);
         const expiresAt = Date.now() + SESSION_TTL_SECONDS * 1000;
-        const result = await doJson(mailboxStub(env, body.mailboxId), "/session", {
-          tokenHash: await sha256(body.accessToken),
+        const result = await doJson(mailboxStub(env, mailboxId), "/session", {
+          tokenHash: await sha256(accessToken),
           sessionHash,
           expiresAt
         });
-        const cookie = body.mailboxId + "." + sessionToken;
+        const cookie = mailboxId + "." + sessionToken;
         return json({ ok: true, ownerLabel: result.ownerLabel, email: result.email }, 200, {
           "Set-Cookie": sessionCookie(cookie)
         });
@@ -525,26 +571,17 @@ export default {
     }
     const mailboxId = await mailboxIdFor(email);
     const stub = mailboxStub(env, mailboxId);
-    const status = await doJson(stub, "/status", undefined, "GET");
-    if (!status.active) {
-      message.setReject("This mailbox has not been provisioned.");
-      return;
-    }
     try {
-      const parsed = await PostalMime.parse(message.raw, {
-        maxNestingDepth: 12,
-        maxPartCount: 80,
-        maxHeadersSize: 65536
-      });
-      const plain = sanitizeText(parsed.text || "", 1600);
-      const fallback = sanitizeText(String(parsed.html || "").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<[^>]+>/g, " "), 1600);
-      const textPreview = plain || fallback;
+      await ensureLegacyMailbox(env, email, mailboxId);
+      const raw = await new Response(message.raw).text();
+      const parsed = parseEmail(raw);
+      const textPreview = sanitizeText(parsed.text || "", 1600);
       const messageId = sanitizeText(parsed.messageId || "", 220);
-      const stableId = await sha256(messageId || [recipient, parsed.subject || "", parsed.date || "", crypto.randomUUID()].join("|"));
+      const stableId = await sha256(messageId || [recipient, parsed.subject || "", crypto.randomUUID()].join("|"));
       const receivedAt = new Date().toISOString();
       const record = {
         id: stableId,
-        from: sanitizeText(message.from || parsed.from?.address || "", 180),
+        from: sanitizeText(message.from || parsed.from || "", 180),
         subject: sanitizeText(parsed.subject || "(Tanpa subjek)", 180),
         receivedAt,
         textPreview,
