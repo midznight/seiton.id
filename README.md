@@ -71,3 +71,12 @@ Dua project preview terpisah disiapkan dengan Git integration dari repository ya
 | `seiton-demo-preview` | `npm run build:demo` | `dist-demo` | `rebuild` |
 
 Project Pages produksi yang telah ada (`seiton-biz-id`) tidak diubah. Domain `seiton.biz.id` dan `demo.seiton.biz.id` belum dipindahkan atau ditautkan ke project preview.
+
+
+## Fase 1 — ekspansi produk digital (draft katalog)
+
+Dua halaman jasa baru disiapkan pada branch `feat/fase-1-digital-services`:
+- Setup AI Gateway & Bot Asisten 24/7.
+- Setup Portal OTP & Email Custom Domain.
+
+Nama akun Muse Starter dan rincian penjualan akun mentah tidak dimasukkan ke katalog publik. Kedua layanan masih berstatus persiapan sampai backend, akses domain, keamanan, dan QA Fase 1 selesai. Worker bot production dan Email Routing belum diubah pada commit website ini.

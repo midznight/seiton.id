@@ -13,7 +13,7 @@ const slugs = services.map((service) => service.slug);
 const requiredServices = [
   "paket-etalase", "katalog-produk", "menu-qr", "profil-google",
   "website-katalog", "website-profile", "paket-template", "bot-telegram",
-  "sistem-bot-umkm", "paket-combo"
+  "sistem-bot-umkm", "paket-combo", "setup-ai-gateway-bot", "setup-portal-otp"
 ];
 
 check(new Set(slugs).size === slugs.length, "Slug layanan harus unik.");
@@ -23,6 +23,9 @@ check(read("src/components/Header.astro").includes('href={path("/kontak/")}>Kons
 check(site.navigation.some((item) => item.href === "/cerita/"), "Navigasi Cerita belum tersedia.");
 check(!site.navigation.some((item) => item.href === "/pendiri/"), "Navigasi Pendiri pribadi tidak boleh berada pada website company.");
 check(!site.navigation.some((item) => item.href === "/tentang/"), "Informasi perusahaan sudah digabung ke halaman Cerita.");
+check(!services.some((service) => /muse_starter|akun muse starter|akun polosan/i.test(JSON.stringify(service))), "Produk akun mentah tidak boleh tampil di katalog layanan publik.");
+check(services.find((service) => service.slug === "setup-ai-gateway-bot")?.name === "Setup AI Gateway & Bot Asisten 24/7", "Layanan Setup AI Gateway belum tercantum dengan nama publik yang disetujui.");
+check(services.find((service) => service.slug === "setup-portal-otp")?.name === "Setup Portal OTP & Email Custom Domain", "Layanan Setup Portal OTP belum tercantum dengan nama publik yang disetujui.");
 check(site.navigation.length === 5, "Navigasi utama harus memiliki lima menu dan satu aksi Konsultasi.");
 check(site.contacts.some((item) => item.label === "WhatsApp" && item.url === "https://wa.me/6285117557133"), "Kontak WhatsApp resmi tidak sesuai.");
 check(site.contacts.some((item) => item.label === "Email" && item.url === "mailto:seiton.id@gmail.com"), "Kontak email resmi tidak sesuai.");

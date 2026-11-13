@@ -5,8 +5,16 @@
     "short": "Satukan katalog, menu QR, dan profil bisnis agar pelanggan lebih mudah mengenal usaha.",
     "description": "Paket penataan etalase digital untuk usaha yang melayani pelanggan secara langsung.",
     "audience": "UMKM kuliner, toko, dan usaha lokal yang ingin menata informasi digital dasar.",
-    "features": ["Katalog WhatsApp Business", "Menu QR", "Pendampingan Google Business Profile sesuai kelayakan usaha"],
-    "deliverables": ["Katalog dan daftar produk yang tertata", "Tautan menu QR yang siap dibagikan", "Panduan pengelolaan profil bisnis"],
+    "features": [
+      "Katalog WhatsApp Business",
+      "Menu QR",
+      "Pendampingan Google Business Profile sesuai kelayakan usaha"
+    ],
+    "deliverables": [
+      "Katalog dan daftar produk yang tertata",
+      "Tautan menu QR yang siap dibagikan",
+      "Panduan pengelolaan profil bisnis"
+    ],
     "slugLabel": "Etalase digital",
     "featured": true
   },
@@ -16,8 +24,15 @@
     "short": "Susun foto, nama, deskripsi, dan harga produk dalam katalog WhatsApp Business.",
     "description": "Bantuan penataan katalog produk agar pelanggan dapat mengenali pilihan barang atau menu dengan lebih jelas.",
     "audience": "Usaha yang menerima pertanyaan dan pesanan melalui WhatsApp Business.",
-    "features": ["Struktur kategori produk", "Foto dan informasi produk", "Tautan katalog untuk dibagikan"],
-    "deliverables": ["Daftar katalog sesuai materi dari pemilik", "Panduan pembaruan produk"],
+    "features": [
+      "Struktur kategori produk",
+      "Foto dan informasi produk",
+      "Tautan katalog untuk dibagikan"
+    ],
+    "deliverables": [
+      "Daftar katalog sesuai materi dari pemilik",
+      "Panduan pembaruan produk"
+    ],
     "slugLabel": "Katalog WhatsApp",
     "featured": false
   },
@@ -27,8 +42,15 @@
     "short": "Buat menu digital yang dapat dibuka pelanggan melalui pemindaian QR.",
     "description": "Menu digital untuk membantu pelanggan melihat daftar menu dari ponsel tanpa harus mencari lembar menu fisik.",
     "audience": "Kedai, kafe, warung makan, restoran, dan usaha yang memiliki menu.",
-    "features": ["Halaman menu responsif", "Kode QR untuk dibagikan atau dicetak", "Kategori dan harga sesuai data pemilik"],
-    "deliverables": ["Halaman menu digital", "Berkas QR untuk kebutuhan cetak"],
+    "features": [
+      "Halaman menu responsif",
+      "Kode QR untuk dibagikan atau dicetak",
+      "Kategori dan harga sesuai data pemilik"
+    ],
+    "deliverables": [
+      "Halaman menu digital",
+      "Berkas QR untuk kebutuhan cetak"
+    ],
     "slugLabel": "Menu digital",
     "featured": false
   },
@@ -38,8 +60,15 @@
     "short": "Bantu calon pelanggan menemukan informasi lokasi usaha yang memenuhi persyaratan Google.",
     "description": "Pendampingan pengisian dan perapian informasi profil bisnis Google. Kelayakan harus diperiksa sebelum pembuatan atau pengelolaan profil.",
     "audience": "Usaha yang berinteraksi langsung dengan pelanggan di lokasi usaha atau area layanan sesuai kebijakan Google.",
-    "features": ["Pemeriksaan kategori dan kelayakan", "Penyusunan informasi usaha", "Panduan foto dan pembaruan profil"],
-    "deliverables": ["Rangkuman informasi profil", "Panduan pengelolaan dan pembaruan"],
+    "features": [
+      "Pemeriksaan kategori dan kelayakan",
+      "Penyusunan informasi usaha",
+      "Panduan foto dan pembaruan profil"
+    ],
+    "deliverables": [
+      "Rangkuman informasi profil",
+      "Panduan pengelolaan dan pembaruan"
+    ],
     "slugLabel": "Profil Google",
     "featured": false
   },
@@ -49,8 +78,15 @@
     "short": "Website katalog ringan untuk menampilkan profil usaha, foto, dan daftar produk.",
     "description": "Website statis yang menampilkan identitas usaha dan katalog produk. Pengelolaan produk mengikuti ruang lingkup proyek yang disepakati.",
     "audience": "UMKM yang membutuhkan alamat website sendiri untuk memperkenalkan usaha dan produknya.",
-    "features": ["Halaman profil usaha", "Katalog produk dengan foto", "Tautan kontak dan pemesanan"],
-    "deliverables": ["Website statis responsif", "Panduan perubahan konten sesuai ruang lingkup"],
+    "features": [
+      "Halaman profil usaha",
+      "Katalog produk dengan foto",
+      "Tautan kontak dan pemesanan"
+    ],
+    "deliverables": [
+      "Website statis responsif",
+      "Panduan perubahan konten sesuai ruang lingkup"
+    ],
     "slugLabel": "Website katalog",
     "featured": true
   },
@@ -60,8 +96,16 @@
     "short": "Website profil untuk menjelaskan usaha, layanan, identitas, dan kontak.",
     "description": "Website profil yang menyajikan informasi utama usaha dalam struktur halaman yang jelas.",
     "audience": "UMKM, penyedia jasa, dan usaha yang membutuhkan profil digital.",
-    "features": ["Beranda", "Tentang usaha", "Layanan atau produk", "Kontak dan tautan komunikasi"],
-    "deliverables": ["Website profil responsif", "Dua kali revisi sesuai ruang lingkup awal"],
+    "features": [
+      "Beranda",
+      "Tentang usaha",
+      "Layanan atau produk",
+      "Kontak dan tautan komunikasi"
+    ],
+    "deliverables": [
+      "Website profil responsif",
+      "Dua kali revisi sesuai ruang lingkup awal"
+    ],
     "slugLabel": "Website profil",
     "featured": false
   },
@@ -71,8 +115,15 @@
     "short": "Template praktis untuk membantu pencatatan sederhana dan respons pelanggan.",
     "description": "Paket template kerja untuk membantu pemilik usaha merapikan kegiatan operasional yang masih dilakukan secara manual.",
     "audience": "UMKM yang membutuhkan alat bantu administrasi sederhana.",
-    "features": ["Template balasan cepat", "Template pencatatan sederhana", "Petunjuk penggunaan"],
-    "deliverables": ["Berkas template sesuai kesepakatan", "Panduan pengisian manual"],
+    "features": [
+      "Template balasan cepat",
+      "Template pencatatan sederhana",
+      "Petunjuk penggunaan"
+    ],
+    "deliverables": [
+      "Berkas template sesuai kesepakatan",
+      "Panduan pengisian manual"
+    ],
     "slugLabel": "Template usaha",
     "featured": false
   },
@@ -82,8 +133,15 @@
     "short": "Bot Telegram untuk membantu alur pemesanan berdasarkan ruang lingkup layanan yang tersedia.",
     "description": "Layanan bot Telegram yang terpisah dari sistem bot UMKM lanjutan. Ketersediaan fitur dan integrasi harus diperiksa dalam penawaran.",
     "audience": "Usaha yang bersedia menggunakan Telegram sebagai kanal pemesanan.",
-    "features": ["Alur percakapan dan pemesanan", "Informasi produk", "Pengiriman notifikasi sesuai ruang lingkup"],
-    "deliverables": ["Bot Telegram sesuai penawaran", "Panduan penggunaan dan serah terima"],
+    "features": [
+      "Alur percakapan dan pemesanan",
+      "Informasi produk",
+      "Pengiriman notifikasi sesuai ruang lingkup"
+    ],
+    "deliverables": [
+      "Bot Telegram sesuai penawaran",
+      "Panduan penggunaan dan serah terima"
+    ],
     "slugLabel": "Bot Telegram",
     "featured": false
   },
@@ -129,5 +187,47 @@
     ],
     "slugLabel": "Website + bot",
     "featured": true
+  },
+  {
+    "slug": "setup-ai-gateway-bot",
+    "name": "Setup AI Gateway & Bot Asisten 24/7",
+    "short": "Integrasikan gateway AI dan bot asisten untuk membantu operasional serta respons pelanggan.",
+    "description": "Penyiapan gateway model AI dan bot asisten sesuai infrastruktur yang dimiliki atau diotorisasi pelanggan. Komponen 9Router, Muse Bridge, dan Hermes dipasang setelah pemeriksaan kompatibilitas dan kebutuhan server. Integrasi Telegram menggunakan bot milik pelanggan. Integrasi WhatsApp hanya dilakukan bila jalur resmi dan akses yang sah tersedia. Biaya API, model AI, server, dan layanan pihak ketiga tidak termasuk kecuali tertulis dalam penawaran.",
+    "audience": "Usaha yang ingin menambahkan asisten AI untuk informasi produk, respons pelanggan, dan alur operasional dengan kontrol atas akun serta kredensialnya sendiri.",
+    "features": [
+      "Pemeriksaan kebutuhan model, provider, dan kesiapan infrastruktur",
+      "Konfigurasi AI Gateway dan routing model sesuai akses pelanggan",
+      "Integrasi bot Telegram milik pelanggan",
+      "Custom prompt dan alur respons CS sesuai materi usaha",
+      "Pengujian dasar, dokumentasi konfigurasi, dan serah terima"
+    ],
+    "deliverables": [
+      "Gateway AI dan bot asisten sesuai ruang lingkup tertulis",
+      "Konfigurasi prompt dan kanal yang disepakati",
+      "Dokumentasi pengelolaan serta daftar layanan pihak ketiga yang dibutuhkan"
+    ],
+    "slugLabel": "AI Gateway & Bot",
+    "featured": false
+  },
+  {
+    "slug": "setup-portal-otp",
+    "name": "Setup Portal OTP & Email Custom Domain",
+    "short": "Siapkan email domain dan portal privat untuk melihat pesan masuk pada mailbox yang dikelola pemilik domain.",
+    "description": "Konfigurasi Cloudflare Email Routing dan portal mailbox privat pada domain yang dimiliki atau secara tertulis diotorisasi pelanggan. Setiap mailbox didaftarkan dan diverifikasi pemiliknya; akses portal menggunakan tautan privat yang dapat dicabut. Sistem hanya menampilkan pesan untuk mailbox yang diizinkan dan tidak ditujukan untuk mengambil kode verifikasi dari akun atau layanan pihak ketiga yang bukan milik pelanggan. Masa simpan dan aturan penanganan email dijelaskan sebelum aktivasi.",
+    "audience": "Pemilik domain yang membutuhkan penerimaan email custom-domain serta akses terkontrol ke mailbox yang mereka kelola.",
+    "features": [
+      "Pemeriksaan kepemilikan dan kesiapan DNS domain",
+      "Konfigurasi Cloudflare Email Routing pada domain pelanggan",
+      "Pendaftaran mailbox dan akses portal privat per mailbox",
+      "Pengaturan retensi pesan dan prosedur pencabutan akses",
+      "Pengujian pengiriman dan penerimaan email serta dokumentasi"
+    ],
+    "deliverables": [
+      "Email routing dan portal mailbox sesuai domain yang diotorisasi",
+      "Akses privat per mailbox terdaftar",
+      "Dokumentasi DNS, retensi, keamanan, dan pengelolaan mailbox"
+    ],
+    "slugLabel": "Email & Portal OTP",
+    "featured": false
   }
 ]
