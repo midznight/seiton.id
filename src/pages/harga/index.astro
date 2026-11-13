@@ -21,7 +21,19 @@ import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
     const card=node("article","","card price-card");card.id=item.id||"";
     card.append(node("p",item.unggulan?"Paket gabungan":"Layanan Seiton","card-kicker"));
     card.append(node("h3",item.nama));
-    if(item.tersedia===false){card.append(node("p","Belum tersedia sementara","price-unavailable"));card.append(node("p",item.deskripsi||""));return card;}
+    if(item.tersedia===false){
+      if(["setup-ai-gateway-bot","setup-portal-otp"].includes(item.id)){
+        const referencePrice=Number(item.harga);
+        if(Number.isFinite(referencePrice)&&referencePrice>=0){
+          card.append(node("strong","Harga acuan: "+rupiah.format(referencePrice),"price-amount"));
+        }
+        card.append(node("p","Belum tersedia sementara — pemesanan belum dibuka.","price-unavailable"));
+      }else{
+        card.append(node("p","Belum tersedia sementara","price-unavailable"));
+      }
+      card.append(node("p",item.deskripsi||""));
+      return card;
+    }
     const amount=Number(item.harga);if(!Number.isFinite(amount)||amount<0)return null;
     let description=item.deskripsi||"";
     let features=Array.isArray(item.fitur)?item.fitur:[];
