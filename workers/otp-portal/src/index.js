@@ -401,8 +401,7 @@ export class MailboxIndex {
     for (const item of dropped) await this.env.OTP_KV.delete(item.key);
     const retained = valid.slice(-MAX_MESSAGES_PER_MAILBOX);
     await this.state.storage.put("messages", retained);
-    if (retained.length) await this.state.storage.setAlarm(Math.min(...retained.map((item) => item.expiresAt)));
-    else await this.state.storage.deleteAlarm();
+    await this.scheduleCleanup();
     return json({ ok: true, stored: true });
   }
 
