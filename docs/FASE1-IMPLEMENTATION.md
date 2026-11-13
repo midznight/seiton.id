@@ -79,7 +79,7 @@ Portal hanya digunakan untuk mailbox pada domain yang dimiliki atau diotorisasi.
 ## 4A. Deployment runtime (13 November 2026)
 
 - Worker `seiton-otp-portal` berhasil diunggah dengan `fetch` dan `email` handler, Durable Object `MailboxIndex` (migration tag `v1`), binding `OTP_KV`, `MUSE_KV`, dan secret internal.
-- Versi OTP aktif: `00b0dd2a-59bc-4209-8bd0-227a376c3fba`; deployment `62c537ac-2f1e-4331-845d-ef38b31ad2e5`.
+- Versi OTP aktif: `726c0db8-8fa5-4124-b925-84cdd57de46a`; deployment `d6a9fdd4-ae7c-4c7d-9df9-8f3c2672068b` (deployment aktif 100%).
 - Worker `seiton-site-admin` diperbarui dari **source live** (bukan file lama repository), mempertahankan sesi revocable, audit, D1, dan `ORDER_BACKEND`. Ditambahkan service binding `OTP_BACKEND`, secret internal, menu Portal OTP, endpoint provision/list/rotate/revoke, dan UI yang menampilkan link privat hanya satu kali.
 - Versi admin aktif: `1be3dc58-cb73-443c-87a8-3c974304b23f`; deployment `c6f9fce0-2db6-498c-8901-cedcd490c2ca`.
 - Domain Worker `otp.seiton.biz.id`, `admin.seiton.biz.id`, dan `owner.seiton.biz.id` tetap terpasang dan enabled.
