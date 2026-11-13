@@ -76,7 +76,7 @@ if (process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH !== "main") {
 const mainHome = fs.readFileSync("dist/index.html", "utf8");
 const demoHome = fs.readFileSync("dist-demo/index.html", "utf8");
 const demoRobots = fs.readFileSync("dist-demo/robots.txt", "utf8");
-if (fs.existsSync("dist-demo/sitemap.xml") || /Sitemap:/i.test(demoRobots) || !/User-agent:\\s*\\*\\s*Allow:\\s*\\//.test(demoRobots)) {
+if (fs.existsSync("dist-demo/sitemap.xml") || /Sitemap:/i.test(demoRobots) || !/User-agent:\s*\*\s*Allow:\s*\//.test(demoRobots)) {
   console.error("Demo must not ship the main-site sitemap; its robots.txt must allow crawler access to its noindex metadata.");
   process.exit(1);
 }
