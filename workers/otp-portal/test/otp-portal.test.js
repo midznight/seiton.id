@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { extractOtpCodes, normalizeAddress, sanitizeText, sha256, MailboxIndex } from "../src/index.js";
+import worker, { extractOtpCodes, normalizeAddress, sanitizeText, sha256, MailboxIndex } from "../src/index.js";
 
 class MemoryStorage {
   constructor() { this.data = new Map(); this.alarm = null; }
@@ -115,4 +115,39 @@ test("revoked mailbox cannot receive or expose any further message", async () =>
     method: "POST", body: JSON.stringify({ mailboxId: "a".repeat(64), id: "x", record: {} })
   }));
   assert.equal(append.status, 550);
+});
+
+
+test("portal home is private, removes token from history, and auto-refreshes every five seconds", async () => {
+  const response = await worker.fetch(new Request("https://otp.seiton.biz.id/"), {});
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /name="robots" content="noindex,nofollow"/);
+  assert.match(html, /window\.setInterval\(\(\)=>refresh\(\)\.catch\(e=>setStatus\(e\.message\)\),5000\)/);
+  assert.match(html, /history\.replaceState\(null,"",location\.pathname\+location\.search\)/);
+  assert.match(html, /id="logout"/);
+});
+
+test("mailbox revocation deletes retained messages and sessions", async () => {
+  const state = makeState();
+  const kv = makeKV();
+  const object = new MailboxIndex(state, { OTP_KV: kv });
+  await object.fetch(new Request("https://do/provision", {
+    method: "POST",
+    body: JSON.stringify({ email: "qa99@seiton.biz.id", tokenHash: "hash", createdAt: new Date().toISOString() })
+  }));
+  const mailboxId = "b".repeat(64);
+  await object.fetch(new Request("https://do/append", {
+    method: "POST",
+    body: JSON.stringify({ mailboxId, id: "c".repeat(64), record: { id: "c".repeat(64), subject: "OTP", receivedAt: new Date().toISOString(), textPreview: "123456", otpCandidates: ["123456"] } })
+  }));
+  const sessionHash = await sha256("private-session");
+  await object.fetch(new Request("https://do/session", {
+    method: "POST",
+    body: JSON.stringify({ tokenHash: "hash", sessionHash, expiresAt: Date.now() + 10000 })
+  }));
+  await object.fetch(new Request("https://do/revoke", { method: "POST", body: "{}" }));
+  assert.equal(kv.map.size, 0);
+  const sessions = await state.storage.list({ prefix: "session:" });
+  assert.equal(sessions.size, 0);
 });
