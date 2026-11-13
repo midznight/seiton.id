@@ -181,7 +181,7 @@ footer{margin-top:28px;color:#738096;font-size:12px}
 <section id="status" class="notice" role="status" aria-live="polite">Memeriksa tautan akses…</section>
 <section id="content" class="hidden">
 <div class="notice"><strong id="mailbox-label">Mailbox privat</strong><p>Email hanya terlihat oleh pemegang tautan akses khusus. Lima pesan terakhir disimpan maksimal satu jam.</p></div>
-<div class="actions"><span id="updated" class="meta"></span><button id="refresh" type="button">Muat ulang</button></div>
+<div class="actions"><span id="updated" class="meta"></span><div><button id="refresh" type="button">Muat ulang</button> <button id="logout" type="button">Keluar</button></div></div>
 <div id="messages" class="messages"></div>
 </section>
 <footer>Jangan bagikan tautan akses. Keluar dari portal setelah selesai. Email yang kedaluwarsa akan dihapus otomatis.</footer>
@@ -229,6 +229,8 @@ footer{margin-top:28px;color:#738096;font-size:12px}
   await refresh();
   status.classList.add("hidden");content.classList.remove("hidden");
   document.getElementById("refresh").addEventListener("click",()=>refresh().catch(e=>setStatus(e.message)));
+  document.getElementById("logout").addEventListener("click",async()=>{try{await api("/api/logout",{method:"POST"});}finally{location.reload();}});
+  window.setInterval(()=>refresh().catch(e=>setStatus(e.message)),5000);
  }catch(error){setStatus(error.message||"Tautan akses tidak valid atau sudah dicabut.");}
 })();
 </script>
@@ -347,7 +349,11 @@ export class MailboxIndex {
       if (!mailbox?.active || !constantTimeEqual(mailbox.tokenHash || "", body.tokenHash || "")) {
         return json({ ok: false, error: "Tautan akses tidak valid atau sudah dicabut." }, 401);
       }
-      await this.state.storage.put("session:" + body.sessionHash, { expiresAt: body.expiresAt });
+      if (!HEX_64_RE.test(String(body.sessionHash || "")) || !Number.isFinite(Number(body.expiresAt)) || Number(body.expiresAt) <= Date.now()) {
+        return json({ ok: false, error: "Sesi tidak valid." }, 400);
+      }
+      await this.state.storage.put("session:" + body.sessionHash, { expiresAt: Number(body.expiresAt) });
+      await this.scheduleCleanup();
       return json({ ok: true, ownerLabel: mailbox.ownerLabel || "", email: mailbox.email });
     }
     if (request.method === "POST" && url.pathname === "/logout") {
@@ -381,6 +387,9 @@ export class MailboxIndex {
     const valid = items.filter((item) => item.expiresAt > now);
     for (const old of items.filter((item) => item.expiresAt <= now)) {
       await this.env.OTP_KV.delete(old.key);
+    }
+    if (!HEX_64_RE.test(String(body.id || "")) || !body.record || body.record.id !== body.id) {
+      return json({ ok: false, error: "Pesan tidak valid." }, 400);
     }
     const key = "mail:" + body.mailboxId + ":" + body.id;
     if (!valid.some((item) => item.id === body.id)) {
@@ -419,6 +428,16 @@ export class MailboxIndex {
     await this.state.storage.deleteAlarm();
   }
 
+  async scheduleCleanup() {
+    const deadlines = [];
+    const messages = (await this.state.storage.get("messages")) || [];
+    deadlines.push(...messages.map((item) => item.expiresAt));
+    const sessions = await this.state.storage.list({ prefix: "session:" });
+    deadlines.push(...[...sessions.values()].map((item) => item.expiresAt));
+    if (deadlines.length) await this.state.storage.setAlarm(Math.min(...deadlines));
+    else await this.state.storage.deleteAlarm();
+  }
+
   async clearSessions() {
     const entries = await this.state.storage.list({ prefix: "session:" });
     await this.state.storage.delete([...entries.keys()]);
@@ -426,8 +445,11 @@ export class MailboxIndex {
 
   async alarm() {
     await this.readMessages();
-    const items = (await this.state.storage.get("messages")) || [];
-    if (items.length) await this.state.storage.setAlarm(Math.min(...items.map((item) => item.expiresAt)));
+    const sessions = await this.state.storage.list({ prefix: "session:" });
+    const now = Date.now();
+    const expired = [...sessions].filter(([, value]) => value.expiresAt <= now).map(([key]) => key);
+    if (expired.length) await this.state.storage.delete(expired);
+    await this.scheduleCleanup();
   }
 }
 
