@@ -68,6 +68,9 @@ check(JSON.parse(read("package.json")).scripts["prepare:assets"] === "node scrip
 check(JSON.parse(read("package.json")).dependencies.sharp === "0.35.5", "Versi Sharp untuk optimasi gambar belum dipatok.");
 check(fs.existsSync("scripts/optimize-demo-assets.mjs"), "Skrip optimasi WebP responsif belum tersedia.");
 check(fs.existsSync("scripts/strip-source-demo-assets.mjs"), "Penghapusan file sumber dari output deployment belum tersedia.");
+check(read("scripts/strip-source-demo-assets.mjs").includes("/analytics-consent.js") &&
+  read("scripts/strip-source-demo-assets.mjs").includes("/analytics-consent.css"),
+  "Pusat demonstrasi harus menghapus controller dan stylesheet Analytics milik website utama.");
 check(fs.existsSync("scripts/check-performance-budget.mjs"), "Audit budget CSS/JS belum tersedia.");
 check(json("package.json").scripts["check:performance"] === "node scripts/check-performance-budget.mjs", "Perintah audit performa belum terdaftar.");
 check(dataset.products.length === 15, "Dataset demo harus memiliki 15 produk.");
