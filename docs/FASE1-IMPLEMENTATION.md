@@ -17,7 +17,7 @@ WhatsApp belum diaktifkan. Kanal yang dipakai untuk order dan administrasi saat 
 | Produk `muse_starter` Rp25.000, hanya di bot | SKU internal `MUSE-STARTER`, tidak dipajang di website/GBP | Sudah ada; penjualan masih terkunci |
 | Produk `muse_bisnis` Rp150.000 | SKU `MUSE-BISNIS`; website menawarkan jasa Setup AI Gateway & Bot Asisten 24/7 | Katalog website tersedia |
 | `otp_setup` Rp100.000 | Layanan Setup Portal OTP & Email Custom Domain | Katalog website tersedia |
-| Portal `otp.seiton.biz.id` | Worker terpisah `seiton-otp-portal`, domain Worker sudah terpasang | Worker generasi pertama aktif; peningkatan DO/session sedang disiapkan |
+| Portal `otp.seiton.biz.id` | Worker terpisah `seiton-otp-portal`, domain Worker sudah terpasang | Worker OTP generasi DO/session telah di-deploy; pengujian email nyata masih menunggu Email Routing |
 | OTP_KV: 5 pesan, TTL 1 jam | Namespace `OTP_KV`; Worker baru menyimpan 5 pesan dan TTL 3600 detik | Kode dan tes disiapkan |
 | MUSE_KV: stok/log/tunnel | Namespace `MUSE_KV` sudah ada; saat ini dipakai sebagai cache/index mailbox, bukan penyimpanan password plaintext | Namespace siap, tidak berisi stok |
 | Perintah admin Telegram | Worker produksi sudah memiliki `/cekstok`, `/addstock`, `/delstock`, `/cekorder`, `/approve` | Kode aktif; perlu uji end-to-end setelah email siap |
@@ -76,6 +76,16 @@ Portal hanya digunakan untuk mailbox pada domain yang dimiliki atau diotorisasi.
 - Email Routing zone masih `unconfigured/disabled`; catch-all belum diaktifkan. Tidak ada mailbox pelanggan yang boleh diasumsikan sudah menerima email.
 - Hanya zone `seiton.biz.id` yang terlihat di akun Cloudflare; domain `.biz.id` lain tidak otomatis terhubung.
 
+## 4A. Deployment runtime (13 November 2026)
+
+- Worker `seiton-otp-portal` berhasil diunggah dengan `fetch` dan `email` handler, Durable Object `MailboxIndex` (migration tag `v1`), binding `OTP_KV`, `MUSE_KV`, dan secret internal.
+- Versi OTP aktif: `00b0dd2a-59bc-4209-8bd0-227a376c3fba`; deployment `62c537ac-2f1e-4331-845d-ef38b31ad2e5`.
+- Worker `seiton-site-admin` diperbarui dari **source live** (bukan file lama repository), mempertahankan sesi revocable, audit, D1, dan `ORDER_BACKEND`. Ditambahkan service binding `OTP_BACKEND`, secret internal, menu Portal OTP, endpoint provision/list/rotate/revoke, dan UI yang menampilkan link privat hanya satu kali.
+- Versi admin aktif: `1be3dc58-cb73-443c-87a8-3c974304b23f`; deployment `c6f9fce0-2db6-498c-8901-cedcd490c2ca`.
+- Domain Worker `otp.seiton.biz.id`, `admin.seiton.biz.id`, dan `owner.seiton.biz.id` tetap terpasang dan enabled.
+- Source live admin yang telah di-patch disinkronkan kembali ke `workers/site-admin/worker.js` pada branch `rebuild` agar perubahan tidak hilang pada deploy berikutnya.
+- Pemeriksaan metadata deployment dan binding Cloudflare berhasil. Pemeriksaan browser/data-plane dan pengiriman email nyata belum dikonfirmasi pada sesi ini; jangan menyatakan portal siap menerima email produksi sebelum uji itu selesai.
+
 ## 5. Harga dan penempatan kanal
 
 1. **Muse Starter — Rp25.000:** hanya melalui bot Telegram, bukan halaman website atau GBP. Kredensial hanya boleh dimasukkan apabila akun dan hak pemindahtangannya memang dimiliki/diotorisasi Seiton.id.
@@ -118,5 +128,7 @@ Materi draft berada di `docs/GOOGLE-BUSINESS-PROFILE-UPDATE.md`. Tidak ada perub
 - [ ] Tinjau draft GBP berdasarkan kelayakan usaha dan kebijakan Google sebelum publikasi.
 
 ## 8. Batas rilis
+
+Worker portal dan panel pemilik sudah ter-deploy, tetapi Email Routing zone masih `unconfigured`/`enabled=false`; catch-all masih `disabled` dengan aksi `drop`. Record MX, SPF, dan DKIM Cloudflare terlihat pada DNS. Karena itu portal belum menerima email masuk melalui routing dan penjualan digital masih terkunci oleh `OTP_EMAIL_ROUTING_READY=false`.
 
 Jangan mengaktifkan catch-all atau membuka penjualan produk digital hanya karena Worker berhasil deploy. Keduanya menunggu tes email nyata, validasi keamanan admin, dan uji transaksi end-to-end. Fase 2 (VM Muse dan `ACTIVE_TUNNEL_URL`) tetap nonaktif hingga direncanakan terpisah.
