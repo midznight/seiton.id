@@ -152,6 +152,19 @@ for (const file of [
 check(read("src/demo/pages/paket-combo/index.astro").includes("noindex={true}"), "Demo Combo belum noindex.");
 check(read("public/_headers").includes("https://demo.seiton.biz.id/*"), "Header noindex untuk domain demo belum tersedia.");
 const baseLayout = read("src/layouts/Base.astro");
+const analyticsConsent = read("public/analytics-consent.js");
+check(baseLayout.includes('src="/analytics-consent.js"') && baseLayout.includes("!demoSite"),
+  "Main layout harus memuat pengelola persetujuan Analytics dan mengecualikan demo.");
+check(!baseLayout.includes("googletagmanager.com/gtm.js"), "GTM tidak boleh dimuat langsung sebelum persetujuan.");
+check(analyticsConsent.includes("GTM-K3LKMTF3") && analyticsConsent.includes("seiton.biz.id") &&
+  analyticsConsent.includes("analytics_storage") && analyticsConsent.includes('"denied"'),
+  "Kontrol GTM produksi dan status consent default denied harus tersedia.");
+check(privacy.includes("Google Analytics 4") && privacy.includes("G-9Z02GKBZQX") &&
+  privacy.includes("14 bulan") && privacy.includes("persetujuan eksplisit"),
+  "Kebijakan Privasi harus mengidentifikasi GA4, retensi, dan persetujuan.");
+check(terms.includes("/analytics-consent.js") && privacy.includes("/analytics-consent.js"),
+  "Halaman legal harus memuat pengelola persetujuan Analytics.");
+
 check(/noindex\s*\|\|\s*isPreviewBuild\s*\?\s*["\x27]noindex, nofollow["\x27]/.test(baseLayout), "Layout belum merender metadata noindex otomatis pada preview.");
 
 
