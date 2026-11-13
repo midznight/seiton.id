@@ -33,12 +33,14 @@ Hasil build:
 
 ## Target Cloudflare Pages
 
-| Project | Branch preview | Build command | Output |
-|---|---|---|---|
-| Website utama | `rebuild` | `npm run build:site` | `dist` |
-| Pusat demonstrasi | `rebuild` | `npm run build:demo` | `dist-demo` |
+| Tujuan | Project | Branch | Build command | Output |
+|---|---|---|---|---|
+| Website utama production | `seiton-biz-id` | `main` | `npm run build:site` | `dist` |
+| Pusat demonstrasi production | `seiton-demo` | `main` | `npm run build:demo` | `dist-demo` |
+| Preview website utama | `seiton-main-preview` | `rebuild` | `npm run build:site` | `dist` |
+| Preview demo | `seiton-demo-preview` | `rebuild` | `npm run build:demo` | `dist-demo` |
 
-Domain target: `seiton.biz.id` dan `demo.seiton.biz.id`. Hubungan project Pages, custom domain, dan deployment aktual harus diperiksa melalui dashboard Cloudflare sebelum publikasi. Jangan mengubah production branch `main` sebelum hasil preview diperiksa dan disetujui.
+Domain production: `seiton.biz.id` dan `www.seiton.biz.id` untuk website utama; `demo.seiton.biz.id` untuk Pusat Demonstrasi. Project preview tetap terpisah dan tidak menerima custom domain production. Build production mengikuti branch `main`; preview mengikuti branch `rebuild` dan deployment production pada project preview dinonaktifkan.
 
 ## Harga dan layanan
 
