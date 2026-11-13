@@ -45,15 +45,17 @@ if (outputMode === "demo") {
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 </script>`;
-  const consentController = /<script\\b(?=[^>]*\\bsrc=["']\\/analytics-consent\\.js["'])[^>]*><\\/script>/gi;
-  const consentStyles = /<link\\b(?=[^>]*\\bhref=["']\\/analytics-consent\\.css["'])[^>]*>/gi;
+  const consentScriptEnabled = '<script src="/analytics-consent.js" defer data-analytics-enabled="true"></script>';
+  const consentScriptDisabled = '<script src="/analytics-consent.js" defer data-analytics-enabled="false"></script>';
+  const consentStyles = '<link rel="stylesheet" href="/analytics-consent.css">';
   for (const relative of legalPages) {
     const file = path.resolve(root, relative);
     if (!file.startsWith(root + path.sep)) throw new Error("Path demo legal tidak valid: " + relative);
     const html = await fs.readFile(file, "utf8").catch(() => null);
     if (html === null) continue;
     const cleaned = html.replace(loader, "").replace(initializer, "")
-      .replace(consentController, "").replace(consentStyles, "");
+      .replace(consentScriptEnabled, "").replace(consentScriptDisabled, "")
+      .replace(consentStyles, "");
     if (cleaned !== html) {
       await fs.writeFile(file, cleaned);
       console.log("Main-site GTM and consent UI excluded from demo legal copy: /" + relative);
