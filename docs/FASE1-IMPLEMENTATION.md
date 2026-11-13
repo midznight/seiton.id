@@ -1,92 +1,122 @@
 # Implementasi Fase 1 — Seiton.id
 
-Tanggal peta: 13 November 2026  
-Sumber kebutuhan: Dokumen Master Fase 1 yang diberikan pemilik.
+**Peta teknis:** 13 November 2026  
+**Sumber kebutuhan:** Dokumen Master Fase 1 yang diberikan pemilik (Single Source of Truth).  
+**Ruang lingkup:** website `seiton.biz.id`, portal `otp.seiton.biz.id`, bot Telegram Seiton.id, dan materi Google Business Profile.
 
-## Ruang lingkup
+## 1. Tujuan dan batas fase
 
-Fase ini menambahkan dua layanan publik (AI Gateway dan Portal OTP), infrastruktur privat untuk mailbox OTP, serta rancangan integrasi dengan bot Telegram. Sistem produksi pesanan UMKM yang telah berjalan tetap dipisahkan.
+Fase 1 menambah penjualan produk digital dan jasa otomasi AI, portal mailbox OTP untuk domain yang dimiliki/diotorisasi, serta onboarding paket Muse Bisnis. Semua berjalan di Cloudflare Workers, KV, Durable Objects, dan D1. VM Muse (9Router, Muse Bridge, Stock Server port 8767) **tidak dijalankan** pada Fase 1.
 
-## Peta kebutuhan dan status
+WhatsApp belum diaktifkan. Kanal yang dipakai untuk order dan administrasi saat ini adalah Telegram; integrasi WhatsApp hanya dilakukan setelah jalur resmi dan akses sah tersedia.
 
-| Kebutuhan Master | Implementasi | Status |
+## 2. Pemetaan kebutuhan master ke kondisi sistem
+
+| Kebutuhan master | Implementasi sekarang | Status |
 |---|---|---|
-| Produk jasa AI tampil di website | Layanan setup-ai-gateway, rute detail otomatis, harga D1 Rp150.000 | Source disiapkan; menunggu build preview |
-| Produk jasa Portal OTP tampil di website | Layanan setup-portal-otp, rute detail otomatis, harga D1 Rp100.000 | Source disiapkan; menunggu build preview |
-| Dua namespace KV | OTP_KV dan MUSE_KV telah dibuat | Selesai |
-| Portal OTP otp.seiton.biz.id | Worker terpisah dengan email handler, UI noindex, private mailbox dan token akses | Source disiapkan; belum dideploy |
-| TTL pesan 1 jam dan lima pesan terakhir | KV expirationTtl 3600, Durable Object mailbox index dan alarm penghapusan | Source dan tes disiapkan |
-| OTP otomatis | Ekstraksi kandidat numerik 4–8 digit dari subjek/teks; nilai tetap perlu dicocokkan manual oleh penerima | Source disiapkan |
-| Private mailbox per pemilik | Domain allowlist, provisioning eksplisit, token acak, hash token, sesi HttpOnly Secure, revoke dan rotate | Source disiapkan |
-| Email Routing catch-all | Zone Email Routing masih disabled/unconfigured; catch-all belum diaktifkan | Belum diaktifkan |
-| Admin Telegram commands | Source seiton-order-bot tidak tersedia di repository. Worker aktif memakai D1/DO/R2 dan rahasia produksi | Blocked pada source worker |
-| Hybrid stock claim Fase 1 → Fase 2 | Namespace MUSE_KV tersedia; binding dan kode claim belum ditambahkan ke Worker pesanan yang aktif | Belum terintegrasi |
-| Form SETUP paket bisnis ke ADMIN_CHAT_ID | Belum diubah pada Worker Telegram aktif karena source produksi tidak tersedia | Belum terintegrasi |
-| Google Business Profile | Copy layanan dan checklist kelayakan disiapkan | Belum dipublikasikan |
-| Multi-domain .biz.id | Saat ini hanya zone seiton.biz.id yang terhubung ke akun Cloudflare ini | Menunggu verifikasi tiap domain lain |
+| Produk `muse_starter` Rp25.000, hanya di bot | SKU internal `MUSE-STARTER`, tidak dipajang di website/GBP | Sudah ada; penjualan masih terkunci |
+| Produk `muse_bisnis` Rp150.000 | SKU `MUSE-BISNIS`; website menawarkan jasa Setup AI Gateway & Bot Asisten 24/7 | Katalog website tersedia |
+| `otp_setup` Rp100.000 | Layanan Setup Portal OTP & Email Custom Domain | Katalog website tersedia |
+| Portal `otp.seiton.biz.id` | Worker terpisah `seiton-otp-portal`, domain Worker sudah terpasang | Worker generasi pertama aktif; peningkatan DO/session sedang disiapkan |
+| OTP_KV: 5 pesan, TTL 1 jam | Namespace `OTP_KV`; Worker baru menyimpan 5 pesan dan TTL 3600 detik | Kode dan tes disiapkan |
+| MUSE_KV: stok/log/tunnel | Namespace `MUSE_KV` sudah ada; saat ini dipakai sebagai cache/index mailbox, bukan penyimpanan password plaintext | Namespace siap, tidak berisi stok |
+| Perintah admin Telegram | Worker produksi sudah memiliki `/cekstok`, `/addstock`, `/delstock`, `/cekorder`, `/approve` | Kode aktif; perlu uji end-to-end setelah email siap |
+| Form `SETUP | ...` | Bot menerima format `SETUP | Nama Usaha | Token Bot Telegram | Deskripsi Layanan` setelah order Muse Bisnis memenuhi syarat | Kode aktif |
+| Stok habis dan antrean prioritas | Digital fulfillment memiliki status `WAITING_STOCK`; bot memberi pesan pembeli dan notifikasi admin | Kode aktif |
+| Klaim stok Fase 1 → Fase 2 | `ACTIVE_TUNNEL_URL` belum diaktifkan; tidak ada VM Muse yang dijalankan | Fase 2 belum aktif |
+| Google Business Profile | Draft deskripsi, layanan, dan checklist ada di `docs/GOOGLE-BUSINESS-PROFILE-UPDATE.md` | Belum dipublikasikan |
+| Semua domain `.biz.id` | Akun Cloudflare saat ini hanya memiliki zone aktif `seiton.biz.id` | Domain pelanggan lain harus diverifikasi dan dikonfigurasi per zone |
 
-## Perubahan katalog publik
+## 3. Keputusan arsitektur dan keamanan
 
-Dua layanan yang ditambahkan:
+### 3.1 Penyimpanan stok
 
-1. **Setup AI Gateway & Bot Asisten 24/7 — Rp150.000**  
-   Biaya pada website adalah harga acuan jasa setup, bukan harga akun AI atau pemakaian API. Pelanggan menggunakan akun/lisensi provider miliknya sendiri. Tidak ada akun pihak ketiga, password, lisensi yang dialihkan, atau stok akun mentah yang dijual.
+Dokumen master memberi contoh array JSON `stock:muse_starter` / `stock:muse_bisnis` di KV yang berisi email dan password secara langsung. Implementasi produksi yang ditemukan sudah lebih aman dan lebih tahan race condition:
 
-2. **Setup Portal OTP & Email Custom Domain — Rp100.000**  
-   Biaya pada website adalah harga acuan jasa konfigurasi. Portal dibuat privat untuk pemilik mailbox yang telah diprovisikan. Akses tidak boleh diberikan hanya berdasarkan alamat email.
+- D1 `seiton-transactions-prod` adalah sumber kebenaran order, reservasi stok, fulfillment, dan audit.
+- Kredensial stok disimpan pada tabel `digital_stock_accounts` dalam bentuk AES-GCM ciphertext; email diindeks dengan SHA-256. Password tidak ditulis sebagai plaintext ke KV.
+- Klaim stok dilakukan melalui transaksi terkoordinasi dan idempotent; satu akun tidak dapat diklaim dua order secara bersamaan.
+- `MUSE_KV` tetap disediakan untuk cache/index ringan dan kompatibilitas fase berikutnya, bukan sebagai sumber kebenaran paralel yang dapat berbeda dari D1.
+- `digital_fulfillments` dan `digital_setup_requests` menyimpan status fulfillment dan onboarding. Token bot pada form setup disimpan terenkripsi.
 
-Kedua layanan masuk ke src/data/services.json, sitemap dan D1 seiton-site-content-prod. Halaman detail dihasilkan otomatis dari slug data layanan.
+Ini adalah deviasi sadar dari contoh JSON plaintext pada master. Semantik produk, jumlah stok, pengiriman, log order, dan migrasi Fase 2 dipertahankan tanpa menurunkan keamanan data.
 
-## Rancangan keamanan Portal OTP
+### 3.2 Portal OTP
 
-- Hanya domain yang ditetapkan melalui OTP_ALLOWED_DOMAINS yang diterima.
-- Setiap mailbox harus diprovisikan setelah pemeriksaan kepemilikan/pengelolaan domain.
-- Identitas mailbox menggunakan hash alamat; email tidak dijadikan password.
-- Akses pertama memakai token acak 256-bit yang dikirim hanya saat provisioning. Worker hanya menyimpan hash token.
-- Browser menukar token fragment menjadi cookie __Host-otp_session dengan atribut HttpOnly, Secure, SameSite=Strict dan masa 30 menit.
-- Email disimpan dalam OTP_KV maksimal satu jam dan index Durable Object membatasi lima pesan terbaru.
-- Hanya teks email yang disimpan; lampiran tidak disimpan. Preview teks dibatasi 1.600 karakter.
-- Ekstraksi 4–8 digit menghasilkan kandidat OTP, bukan validasi keaslian kode. Penerima tetap harus memeriksa konteks pengirim dan layanan asal.
-- Pemilik dapat mencabut mailbox atau mengganti tautan akses; sesi lama ikut dihapus.
-- Tidak ada endpoint publik untuk membaca mailbox hanya dengan parameter alamat email.
+Desain portal yang ditambahkan ke repository menggunakan:
 
-## Batas routing email
+- Domain allowlist dari `OTP_ALLOWED_DOMAINS`; alamat email saja tidak pernah cukup untuk membuka inbox.
+- Provision mailbox secara eksplisit, setelah pemilik domain atau pihak yang diberi otorisasi diverifikasi.
+- Token acak 256-bit; yang disimpan pada Durable Object adalah hash token.
+- Token akses ditukar menjadi cookie sesi `__Host-otp_session` dengan atribut `HttpOnly; Secure; SameSite=Strict`, masa sesi 30 menit.
+- Durable Object `MailboxIndex` mengelola status mailbox, sesi, retensi, rotasi, dan pencabutan.
+- `OTP_KV` menyimpan maksimal lima pesan per mailbox dengan `expirationTtl: 3600`.
+- Isi yang disimpan dibatasi pada teks email; lampiran tidak disimpan. Preview dibatasi 1.600 karakter dan kandidat kode numerik 4–8 digit hanya merupakan hasil ekstraksi, bukan bukti keaslian OTP.
+- Rotasi menonaktifkan sesi/link lama; revoke menghapus pesan dan sesi yang terkait.
+- Link Telegram generasi pertama dengan bentuk `/?email=...#token` harus tetap didukung selama migrasi, agar link yang mungkin sudah diterbitkan tidak putus.
 
-Cloudflare Email Routing untuk seiton.biz.id masih berstatus disabled/unconfigured. DNS saat pemeriksaan sudah memiliki record MX, SPF, dan DKIM Cloudflare, tetapi catch-all belum aktif dan belum ada destination address yang terverifikasi.
+Portal hanya digunakan untuk mailbox pada domain yang dimiliki atau diotorisasi. Jangan mengaktifkan penerimaan semua local-part sebelum pemetaan alamat email domain dan pengujian aturan spesifik selesai.
 
-Sebelum catch-all diaktifkan:
-1. Pastikan semua alamat lama yang masih dipakai tidak kehilangan email sah.
-2. Provision mailbox yang memang diperlukan.
-3. Uji aturan alamat tertentu terlebih dahulu.
-4. Hanya setelah penerimaan dan fallback dipastikan, ubah catch-all ke Worker.
+### 3.3 Integrasi Worker
 
-Alamat yang tidak diprovisikan akan ditolak. Karena catch-all mencakup semua local-part, jangan mengaktifkannya sebelum memetakan alamat domain yang perlu tetap menerima email.
+- `seiton-order-bot` tetap menjadi Worker transaksi dan webhook Telegram; source produksinya diambil dari Cloudflare untuk audit karena file repository sebelumnya tertinggal.
+- `seiton-otp-portal` adalah Worker terpisah dengan Email Routing handler.
+- `seiton-site-admin` adalah panel pemilik yang sudah berjalan. Source live memiliki validasi sesi/audit yang lebih baru daripada file repository. Integrasi mailbox harus ditambahkan ke versi live tanpa mengganti lapisan sesi tersebut.
+- Worker admin dan bot memakai service binding internal ke OTP Worker serta secret internal yang sama. Endpoint `/internal/*` tidak boleh dipanggil tanpa secret.
+- `OTP_EMAIL_ROUTING_READY=false` tetap menjadi gate sampai Email Routing dan alur mailbox teruji. Dengan gate ini, bot tidak boleh menjual/mengirim produk digital ketika portal tidak siap.
 
-## Batas integrasi Telegram dan alasan
+## 4. Kondisi Cloudflare saat audit
 
-Worker seiton-order-bot aktif di Cloudflare, tetapi source lengkap tidak ditemukan dalam repository. Repository hanya memiliki dokumentasi dan migration multi-item cart. Binding produksinya mencakup D1, Durable Object, R2, dan secret Telegram. Mengunggah ulang Worker baru tanpa source lengkap berisiko mengganti handler yang saat ini melayani pesanan.
+- Zone `seiton.biz.id` aktif.
+- Worker `seiton-order-bot`, `seiton-site-admin`, dan `seiton-otp-portal` sudah ada.
+- `otp.seiton.biz.id` sudah terhubung ke Worker OTP.
+- Namespace `OTP_KV` dan `MUSE_KV` sudah ada dan saat audit tidak berisi key.
+- D1 produksi sudah memiliki tabel `digital_stock_accounts`, `digital_fulfillments`, `digital_setup_requests`, dan tabel transaksi terkait. Belum ada order digital fase ini.
+- `OTP_EMAIL_ROUTING_READY` pada Worker bot masih `false`.
+- Email Routing zone masih `unconfigured/disabled`; catch-all belum diaktifkan. Tidak ada mailbox pelanggan yang boleh diasumsikan sudah menerima email.
+- Hanya zone `seiton.biz.id` yang terlihat di akun Cloudflare; domain `.biz.id` lain tidak otomatis terhubung.
 
-Oleh sebab itu, Fase 1 tidak mengubah webhook, command, atau logika order Telegram. MUSE_KV sudah dibuat untuk integrasi berikutnya, tetapi tidak dipasang ke Worker order yang aktif. Untuk melanjutkan command /cekstok, /addstock, /delstock, /cekorder, /approve, claimStock, dan SETUP | ..., source Worker aktif perlu dimasukkan ke repository atau diekspor dari pipeline deploy yang sebenarnya.
+## 5. Harga dan penempatan kanal
 
-## Penanganan produk akun mentah
+1. **Muse Starter — Rp25.000:** hanya melalui bot Telegram, bukan halaman website atau GBP. Kredensial hanya boleh dimasukkan apabila akun dan hak pemindahtangannya memang dimiliki/diotorisasi Seiton.id.
+2. **Setup AI Gateway & Bot Asisten 24/7 — Rp150.000:** layanan setup. Stack 9Router, Bridge, dan Hermes baru dipasang setelah pemeriksaan kompatibilitas dan akses. Biaya API/model/server pihak ketiga harus dijelaskan; VM Muse tidak menjadi prasyarat Fase 1.
+3. **Setup Portal OTP & Email Custom Domain — Rp100.000:** jasa konfigurasi untuk domain yang dimiliki/diotorisasi pelanggan; mailbox diverifikasi dan diaktifkan satu per satu sebelum routing diperluas.
 
-Master menyebut muse_starter sebagai akun mentah berisi email dan password. Implementasi ini tidak membuat mekanisme penjualan, penyimpanan, atau pengiriman kredensial tersebut. Keberadaan alamat email pada domain tidak membuktikan bahwa suatu akun/provider boleh dipindahtangankan. Produk publik diarahkan menjadi jasa setup pada akun/lisensi milik pelanggan. MUSE_KV tidak diisi password akun pihak ketiga.
+## 6. Google Business Profile
 
-## Google Business Profile
+Materi draft berada di `docs/GOOGLE-BUSINESS-PROFILE-UPDATE.md`. Tidak ada perubahan GBP yang dilakukan dari sesi implementasi ini. Publikasi hanya boleh dilakukan setelah kelayakan usaha, lokasi/service-area, kategori, dan kemampuan nyata menyediakan kedua layanan diperiksa. Jangan memasang harga promosi, token, password, tautan portal privat, atau klaim penjualan akun pada deskripsi publik.
 
-Materi yang disiapkan ada pada docs/GOOGLE-BUSINESS-PROFILE-UPDATE.md. Dua layanan boleh disajikan sebagai layanan nyata yang benar-benar dikerjakan, bukan sebagai akun atau produk virtual. Profil Google harus tetap mencerminkan identitas, lokasi, dan model pelayanan Seiton.id yang benar. Tidak ada edit GBP yang dilakukan dari sesi ini.
+## 7. Checklist aktivasi dan penerimaan
 
-## Domain tambahan
+### Infrastruktur dan portal
+- [ ] Deploy Worker OTP dengan Durable Object `MailboxIndex`, KV, allowlist, dan internal secret.
+- [ ] Uji `/health`, halaman publik, akses anonim, tautan tidak valid, sesi valid, logout, rotate, dan revoke.
+- [ ] Pastikan link legacy dari bot dapat ditukar menjadi sesi HttpOnly tanpa mengungkap token di URL setelah pertukaran.
+- [ ] Uji parser MIME untuk subject encoded, plain text, HTML fallback, quoted-printable/base64, dan attachment (lampiran tidak disimpan).
+- [ ] Uji batas lima pesan dan TTL satu jam.
 
-Worker ini dibangun dengan domain allowlist. Penambahan domain pelanggan memerlukan pemeriksaan kepemilikan dan konfigurasi Email Routing/DNS yang sah untuk setiap zone. Zone lain tidak otomatis ditangani oleh Worker hanya karena domain berakhiran .biz.id.
+### Email Routing
+- [ ] Petakan dahulu semua alamat domain yang saat ini harus tetap menerima email.
+- [ ] Pastikan record MX dan routing aktif tanpa mengubah alamat existing secara tidak sengaja.
+- [ ] Provision satu mailbox uji milik Seiton.id.
+- [ ] Buat aturan spesifik ke Worker untuk mailbox uji; kirim email dari Gmail dengan subjek `Kode Verifikasi: 849201`.
+- [ ] Pastikan email tampil dalam lima detik, kandidat `849201` diekstrak, dan email kedaluwarsa setelah satu jam.
+- [ ] Baru setelah aturan spesifik berhasil dan fallback dipahami, putuskan apakah catch-all aman diaktifkan.
 
-## Tahap aktivasi berikutnya
+### Bot Telegram dan stok
+- [ ] Uji keamanan admin: akun Telegram non-admin tidak dapat menjalankan perintah admin.
+- [ ] Masukkan hanya stok uji yang sah/diotorisasi; uji `/addstock`, `/cekstok`, dan `/delstock`.
+- [ ] Uji order Starter sampai pembayaran dikonfirmasi; pastikan email, password, dan link portal terkirim di bawah 10 detik setelah fulfillment siap.
+- [ ] Pastikan stok berkurang tepat satu kali dan klaim ulang tidak membocorkan/mengirim akun lain.
+- [ ] Uji `/cekorder`, order stok habis, antrean prioritas, penambahan stok, serta `/approve`.
+- [ ] Uji paket Bisnis dan `SETUP | ...`; pastikan data sampai ke `ADMIN_CHAT_ID` dan token bot tersimpan terenkripsi.
+- [ ] Setelah pengujian email berhasil, baru ubah `OTP_EMAIL_ROUTING_READY` menjadi `true`.
 
-1. Jalankan test Worker dan seluruh CI website.
-2. Deploy Worker OTP terpisah, secret internal, binding OTP_KV/MUSE_KV dan DO.
-3. Tambahkan domain otp.seiton.biz.id dan uji /health, akses anonim, sesi valid, dan revoke.
-4. Integrasikan internal provisioning pada panel admin yang sudah login.
-5. Aktifkan Email Routing melalui aturan spesifik untuk QA lebih dahulu; uji kirim dari Gmail.
-6. Setelah QA dan audit routing, putuskan apakah catch-all aman diaktifkan.
-7. Integrasikan Worker Telegram hanya setelah source produksi tersedia.
-8. Publikasikan perubahan website setelah preview dan production build lulus.
+### Website dan GBP
+- [ ] Verifikasi dua layanan pada preview website dan detail page, harga, CTA, sitemap, dan tampilan mobile.
+- [ ] Pastikan produk Muse Starter tidak tampil terbuka di website/GBP.
+- [ ] Tinjau draft GBP berdasarkan kelayakan usaha dan kebijakan Google sebelum publikasi.
+
+## 8. Batas rilis
+
+Jangan mengaktifkan catch-all atau membuka penjualan produk digital hanya karena Worker berhasil deploy. Keduanya menunggu tes email nyata, validasi keamanan admin, dan uji transaksi end-to-end. Fase 2 (VM Muse dan `ACTIVE_TUNNEL_URL`) tetap nonaktif hingga direncanakan terpisah.
