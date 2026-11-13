@@ -80,11 +80,12 @@ test("mailbox stores only five most recent messages in OTP_KV with a one-hour TT
   assert.equal(provision.status, 200);
   const mailboxId = "a".repeat(64);
   for (let i = 1; i <= 6; i += 1) {
+    const messageId = String(i).padStart(64, "0");
     const response = await object.fetch(new Request("https://do/append", {
       method: "POST",
       body: JSON.stringify({
-        mailboxId, id: "id" + i,
-        record: { id: "id" + i, subject: "Code " + i, receivedAt: new Date(Date.now() + i).toISOString(), textPreview: "Kode " + i, otpCandidates: [String(1000 + i)] }
+        mailboxId, id: messageId,
+        record: { id: messageId, subject: "Code " + i, receivedAt: new Date(Date.now() + i).toISOString(), textPreview: "Kode " + i, otpCandidates: [String(1000 + i)] }
       })
     }));
     assert.equal(response.status, 200);
