@@ -26,7 +26,24 @@ check(!site.navigation.some((item) => item.href === "/tentang/"), "Informasi per
 check(site.navigation.length === 5, "Navigasi utama harus memiliki lima menu dan satu aksi Konsultasi.");
 check(site.contacts.some((item) => item.label === "WhatsApp" && item.url === "https://wa.me/6285117557133"), "Kontak WhatsApp resmi tidak sesuai.");
 check(site.contacts.some((item) => item.label === "Email" && item.url === "mailto:seiton.id@gmail.com"), "Kontak email resmi tidak sesuai.");
-check(site.contacts.some((item) => item.label === "Instagram" && item.url === "https://www.instagram.com/seiton.id"), "Kontak Instagram resmi tidak sesuai.");
+check(site.contacts.some((item) => item.label === "Instagram" && item.value === "@seiton.id" && item.url === "https://www.instagram.com/seiton.id"), "Kontak Instagram resmi tidak sesuai.");
+check(site.contacts.some((item) => item.label === "TikTok" && item.value === "@seiton.id" && item.url === "https://www.tiktok.com/@seiton.id"), "Kontak TikTok resmi tidak sesuai.");
+check(site.contacts.some((item) => item.label === "Threads" && item.value === "@seiton.id" && item.url === "https://www.threads.com/@seiton.id"), "Kontak Threads resmi tidak sesuai.");
+check(site.contacts.length === 5, "Kontak resmi harus memiliki lima kanal yang terdaftar.");
+const footerComponent = read("src/components/Footer.astro");
+const contactBlock = read("src/components/ContactBlock.astro");
+const whatsappCta = read("src/components/WhatsAppCTA.astro");
+check(footerComponent.includes('import ContactBlock from "./ContactBlock.astro";') &&
+  footerComponent.includes('class="footer-contact-heading"') && footerComponent.includes("<ContactBlock/>"),
+  "Footer harus menampilkan ContactBlock dengan label Kontak Seiton.id.");
+check(contactBlock.includes("site.contacts.map") && contactBlock.includes('class="contact-item"'),
+  "ContactBlock harus merender kanal dari satu sumber site.json.");
+check(whatsappCta.includes('import site from "../data/site.json";') &&
+  whatsappCta.includes('site.contacts.find((contact) => contact.label === "WhatsApp")') &&
+  !whatsappCta.includes("6285117557133"),
+  "WhatsApp CTA harus menggunakan satu sumber kontak pada site.json, tanpa nomor hard-coded.");
+check(read("src/styles/site.css").includes(".footer-contact-block .contact-item{min-height:48px"),
+  "Tautan kontak di footer harus memiliki target sentuh minimal 44 piksel.");
 check(site.founderProfileUrl === "", "Tautan profil pendiri harus tetap kosong sampai alamat website terpisah tersedia.");
 
 check(dataset.period.fictional === true, "Dataset demo harus ditandai fiktif.");
