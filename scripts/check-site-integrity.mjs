@@ -13,7 +13,7 @@ const slugs = services.map((service) => service.slug);
 const requiredServices = [
   "paket-etalase", "katalog-produk", "menu-qr", "profil-google",
   "website-katalog", "website-profile", "paket-template", "bot-telegram",
-  "sistem-bot-umkm", "paket-combo"
+  "sistem-bot-umkm", "paket-combo", "setup-ai-gateway", "setup-portal-otp"
 ];
 
 check(new Set(slugs).size === slugs.length, "Slug layanan harus unik.");
@@ -83,6 +83,13 @@ const botService = services.find((item) => item.slug === "sistem-bot-umkm");
 const comboService = services.find((item) => item.slug === "paket-combo");
 check(botService?.features.some((feature) => feature.toLowerCase().includes("menambah, mengubah, dan menghapus produk")), "Ruang lingkup panel admin Sistem Bot UMKM belum disebutkan.");
 check(comboService?.features.some((feature) => feature.toLowerCase().includes("website profil")), "Paket Combo belum mencakup website profil.");
+const aiSetup = services.find((item) => item.slug === "setup-ai-gateway");
+const otpSetup = services.find((item) => item.slug === "setup-portal-otp");
+check(aiSetup?.name === "Setup AI Gateway & Bot Asisten 24/7", "Layanan Setup AI Gateway belum memakai nama publik yang disetujui.");
+check(aiSetup?.description.toLowerCase().includes("akun serta lisensi") && aiSetup?.description.toLowerCase().includes("tidak termasuk penjualan akun pihak ketiga"), "Layanan AI harus menggunakan akun/lisensi pelanggan dan tidak boleh menjual akun mentah.");
+check(otpSetup?.name === "Setup Portal OTP & Email Custom Domain", "Layanan Setup Portal OTP belum memakai nama publik yang disetujui.");
+check(otpSetup?.description.toLowerCase().includes("tautan akses privat") && otpSetup?.description.toLowerCase().includes("bukan inbox publik"), "Deskripsi portal OTP harus menjelaskan mailbox privat.");
+check(!JSON.stringify(services).toLowerCase().includes("akun polosan"), "Istilah penjualan akun mentah tidak boleh tampil pada katalog publik.");
 
 const sitemap = read("public/sitemap.xml");
 for (const slug of requiredServices) {
