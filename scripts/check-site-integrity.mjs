@@ -146,6 +146,9 @@ const pricing = read("src/pages/harga/index.astro");
 check(pricing.includes("https://admin.seiton.biz.id/api/pricing"), "Sumber harga lama harus tetap digunakan.");
 check(pricing.includes("angka cadangan") && pricing.includes("tidak menampilkan angka"), "Halaman harga harus menghindari angka fallback.");
 check(pricing.includes("Sistem Bot UMKM dan Paket Combo"), "Penawaran layanan lanjutan belum ada.");
+check(pricing.includes('"setup-ai-gateway-bot","setup-portal-otp"') &&
+  pricing.includes("Harga acuan: ") && pricing.includes("pemesanan belum dibuka."),
+  "Harga acuan layanan AI Gateway dan Portal OTP harus terlihat meski ketersediaan order masih ditutup.");
 
 const detail = read("src/pages/layanan/[slug].astro");
 check(detail.includes('"/bot-umkm/"'), "Halaman Sistem Bot belum memiliki tautan demo sendiri.");
