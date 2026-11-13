@@ -213,13 +213,13 @@
     "slug": "setup-portal-otp",
     "name": "Setup Portal OTP & Email Custom Domain",
     "short": "Siapkan email domain dan portal privat untuk melihat pesan masuk pada mailbox yang dikelola pemilik domain.",
-    "description": "Konfigurasi Cloudflare Email Routing dan portal mailbox privat pada domain yang dimiliki atau secara tertulis diotorisasi pelanggan. Setiap mailbox didaftarkan dan diverifikasi pemiliknya; akses portal menggunakan tautan privat yang dapat dicabut. Sistem hanya menampilkan pesan untuk mailbox yang diizinkan dan tidak ditujukan untuk mengambil kode verifikasi dari akun atau layanan pihak ketiga yang bukan milik pelanggan. Masa simpan dan aturan penanganan email dijelaskan sebelum aktivasi.",
+    "description": "Konfigurasi Cloudflare Email Routing dan portal mailbox privat pada domain yang dimiliki atau secara tertulis diotorisasi pelanggan. Setiap mailbox didaftarkan dan diverifikasi pemiliknya; akses portal menggunakan tautan privat bertoken dengan masa berlaku 30 hari. Sistem hanya menampilkan pesan untuk mailbox yang diizinkan dan tidak ditujukan untuk mengambil kode verifikasi dari akun atau layanan pihak ketiga yang bukan milik pelanggan. Masa simpan dan aturan penanganan email dijelaskan sebelum aktivasi.",
     "audience": "Pemilik domain yang membutuhkan penerimaan email custom-domain serta akses terkontrol ke mailbox yang mereka kelola.",
     "features": [
       "Pemeriksaan kepemilikan dan kesiapan DNS domain",
       "Konfigurasi Cloudflare Email Routing pada domain pelanggan",
       "Pendaftaran mailbox dan akses portal privat per mailbox",
-      "Pengaturan retensi pesan dan prosedur pencabutan akses",
+      "Pengaturan retensi pesan dan masa berlaku token akses",
       "Pengujian pengiriman dan penerimaan email serta dokumentasi"
     ],
     "deliverables": [
