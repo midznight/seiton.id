@@ -1,0 +1,25 @@
+name = "seiton-otp-portal"
+main = "src/index.js"
+compatibility_date = "2026-11-13"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+[vars]
+OTP_PORTAL_URL = "https://otp.seiton.biz.id"
+OTP_ALLOWED_DOMAINS = "seiton.biz.id"
+
+[[kv_namespaces]]
+binding = "OTP_KV"
+id = "06ed220a5b2741b6aaca79977a10ad23"
+
+[[kv_namespaces]]
+binding = "MUSE_KV"
+id = "25fd738d46634cbca8e4d0af701d05b7"
+
+[[durable_objects.bindings]]
+name = "MAILBOX_INDEX"
+class_name = "MailboxIndex"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["MailboxIndex"]
