@@ -71,6 +71,9 @@ check(fs.existsSync("scripts/strip-source-demo-assets.mjs"), "Penghapusan file s
 check(read("scripts/strip-source-demo-assets.mjs").includes("/analytics-consent.js") &&
   read("scripts/strip-source-demo-assets.mjs").includes("/analytics-consent.css"),
   "Pusat demonstrasi harus menghapus controller dan stylesheet Analytics milik website utama.");
+check(read("scripts/strip-source-demo-assets.mjs").includes('candidates.push("analytics-consent.js", "analytics-consent.css", "sitemap.xml")') &&
+  read("scripts/strip-source-demo-assets.mjs").includes('User-agent: *\\\\nAllow: /\\\\n'),
+  "Pusat demonstrasi harus menghapus sitemap utama dan membuat robots.txt yang tidak merujuk sitemap domain utama.");
 check(fs.existsSync("scripts/check-performance-budget.mjs"), "Audit budget CSS/JS belum tersedia.");
 check(json("package.json").scripts["check:performance"] === "node scripts/check-performance-budget.mjs", "Perintah audit performa belum terdaftar.");
 check(dataset.products.length === 15, "Dataset demo harus memiliki 15 produk.");
