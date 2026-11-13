@@ -90,7 +90,7 @@ const terms = read("public/ketentuan/index.html");
 const privacy = read("public/privasi/index.html");
 check(terms.includes("BERLAKU MULAI 5 NOVEMBER 2026"), "Tanggal Ketentuan Layanan berubah.");
 check(terms.includes("uang muka yang telah dibayarkan dianggap hangus dan tidak dapat diminta kembali atau dikembalikan"), "Aturan pembatalan DP pada Ketentuan tidak ditemukan.");
-check(privacy.includes("BERLAKU MULAI 4 NOVEMBER 2026"), "Tanggal Kebijakan Privasi berubah.");
+check(privacy.includes("BERLAKU MULAI 13 NOVEMBER 2026"), "Tanggal Kebijakan Privasi berubah.");
 check(privacy.includes("Informasi konsultasi dan komunikasi disimpan paling lama 24 bulan"), "Aturan retensi pada Kebijakan Privasi tidak ditemukan.");
 for (const [file, content] of [["public/ketentuan/index.html", terms], ["public/privasi/index.html", privacy]]) {
   check(!content.includes("fonts.googleapis.com") && !content.includes("fonts.gstatic.com"),

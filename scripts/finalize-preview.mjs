@@ -39,10 +39,16 @@ const gtmInitializer = [
 
 let updated = 0;
 let analyticsRemoved = 0;
+let consentControllersDisabled = 0;
 for (const file of collectHtml(outputDirectory)) {
   const originalHtml = fs.readFileSync(file, "utf8");
   let html = originalHtml.replace(gtmLoader, "").replace(gtmInitializer, "");
   if (html !== originalHtml) analyticsRemoved += 1;
+  if (!isCloudflareProduction) {
+    const beforeConsent = html;
+    html = html.replace(/data-analytics-enabled=["']true["']/g, 'data-analytics-enabled="false"');
+    if (html !== beforeConsent) consentControllersDisabled += 1;
+  }
 
   if (isCloudflarePreview) {
     const existingTag = html.match(/<meta\b[^>]*\bname=["']robots["'][^>]*>/i);
@@ -70,3 +76,5 @@ if (isCloudflarePreview) {
   console.log("Local non-production build: GTM suppressed; " + updated + " HTML document(s) updated.");
 }
 console.log("GTM removed from " + analyticsRemoved + " non-production HTML document(s).");
+
+console.log("Analytics consent disabled in " + consentControllersDisabled + " non-production HTML document(s).");
