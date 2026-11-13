@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import worker, { extractOtpCodes, normalizeAddress, sanitizeText, sha256, MailboxIndex } from "../src/index.js";
+import { parseEmail } from "../src/email-parser.js";
 
 class MemoryStorage {
   constructor() { this.data = new Map(); this.alarm = null; }
@@ -151,4 +152,68 @@ test("mailbox revocation deletes retained messages and sessions", async () => {
   assert.equal(kv.map.size, 0);
   const sessions = await state.storage.list({ prefix: "session:" });
   assert.equal(sessions.size, 0);
+});
+
+test("legacy Telegram mailbox links migrate to an HttpOnly portal session", async () => {
+  const state = makeState();
+  const otpKV = makeKV();
+  const museKV = makeKV();
+  const email = "qa99@seiton.biz.id";
+  const token = "legacy-access-token-".padEnd(48, "x");
+  const mailboxId = await sha256(email);
+  const tokenHash = await sha256(token);
+  otpKV.map.set("mailbox:" + mailboxId, {
+    value: JSON.stringify({
+      email,
+      token_hash: tokenHash,
+      order_id: "SEI-TEST-001",
+      owner_chat_id: "12345",
+      created_at: new Date().toISOString()
+    }),
+    options: {}
+  });
+  const object = new MailboxIndex(state, { OTP_KV: otpKV, MUSE_KV: museKV });
+  const env = {
+    OTP_KV: otpKV,
+    MUSE_KV: museKV,
+    MAILBOX_INDEX: {
+      idFromName: () => ({ toString: () => mailboxId }),
+      get: () => ({ fetch: (url, init = {}) => object.fetch(new Request(url, init)) })
+    }
+  };
+  const response = await worker.fetch(new Request("https://otp.seiton.biz.id/api/session", {
+    method: "POST",
+    headers: {
+      Origin: "https://otp.seiton.biz.id",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email, accessToken: token })
+  }), env);
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("set-cookie") || "", /__Host-otp_session=.*HttpOnly; Secure; SameSite=Strict/);
+  assert.equal((await state.storage.get("mailbox")).tokenHash, tokenHash);
+  assert.equal(museKV.map.size, 1);
+  const sessionResponse = await worker.fetch(new Request("https://otp.seiton.biz.id/api/messages", {
+    headers: { Cookie: response.headers.get("set-cookie").split(";")[0] }
+  }), env);
+  assert.equal(sessionResponse.status, 200);
+  assert.deepEqual((await sessionResponse.json()).messages, []);
+});
+
+test("local MIME parser reads encoded subject and quoted-printable OTP body", () => {
+  const raw = [
+    "From: security@example.com",
+    "To: qa99@seiton.biz.id",
+    "Subject: =?UTF-8?Q?Kode_Verifikasi?= Seiton",
+    "Message-ID: <test-otp-1@example.com>",
+    "MIME-Version: 1.0",
+    "Content-Type: text/plain; charset=UTF-8",
+    "Content-Transfer-Encoding: quoted-printable",
+    "",
+    "Kode verifikasi kamu adalah 849201. Berlaku 5 menit."
+  ].join("\r\n");
+  const parsed = parseEmail(raw);
+  assert.match(parsed.subject, /Kode Verifikasi/);
+  assert.match(parsed.text, /849201/);
+  assert.equal(parsed.messageId, "<test-otp-1@example.com>");
 });
