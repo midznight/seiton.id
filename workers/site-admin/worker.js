@@ -40,7 +40,7 @@ async function activeSession(req,env){
   }
 }
 async function auth(req,env){return Boolean(await activeSession(req,env));}
-function sameOriginAdmin(req){return req.headers.get("Origin")==="https://admin.seiton.biz.id";}
+function sameOriginAdmin(req){const origin=req.headers.get("Origin");return origin==="https://admin.seiton.biz.id"||origin==="https://owner.seiton.biz.id";}
 function newAuditStatement(env,{action,resource,summary,clientHash,now=Date.now(),actor="owner"}){
   return env.SITE_DB.prepare("INSERT INTO site_admin_audit(audit_id,actor_id,action,resource,summary_json,client_hash,created_at_ms) VALUES(?,?,?,?,?,?,?)")
     .bind(crypto.randomUUID(),actor,action,resource,JSON.stringify(summary||{}),clientHash||null,now);
