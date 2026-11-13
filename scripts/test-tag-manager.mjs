@@ -59,7 +59,9 @@ try {
   await page.locator("#analytics-consent-accept").click();
   assert.equal(await page.evaluate(() => localStorage.getItem("seiton-analytics-consent-v1")), "granted");
   const acceptedConsent = await page.evaluate(() =>
-    (window.dataLayer || []).map((item) => Array.from(item)).find((item) => item[0] === "consent" && item[1] === "update")?.[2]?.analytics_storage || null
+    (window.dataLayer || []).map((item) => Array.from(item))
+      .filter((item) => item[0] === "consent" && item[1] === "update")
+      .at(-1)?.[2]?.analytics_storage || null
   );
   assert.equal(acceptedConsent, "granted");
   assert.equal(tagRequests.length, 0, "Preview must never load production GTM even after a test consent choice.");
