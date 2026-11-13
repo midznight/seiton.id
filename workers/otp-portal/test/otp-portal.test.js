@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import worker, { extractOtpCodes, normalizeAddress, sanitizeText, sha256, MailboxIndex } from "../src/index.js";
 import { parseEmail } from "../src/email-parser.js";
 
+const TEST_ENCRYPTION_KEY = btoa("0123456789abcdef0123456789abcdef");
+
 class MemoryStorage {
   constructor() { this.data = new Map(); this.alarm = null; }
   async get(key) { return this.data.get(key); }
@@ -52,7 +54,7 @@ test("message sanitization removes control characters and enforces a length limi
 test("mailbox access token is hashed before storage and sessions are mailbox-bound", async () => {
   const state = makeState();
   const kv = makeKV();
-  const env = { OTP_KV: kv };
+  const env = { OTP_KV: kv, OTP_EMAIL_ENCRYPTION_KEY: TEST_ENCRYPTION_KEY };
   const object = new MailboxIndex(state, env);
   const tokenHash = await sha256("a".repeat(48));
   const provision = await object.fetch(new Request("https://do/provision", {
@@ -74,7 +76,7 @@ test("mailbox access token is hashed before storage and sessions are mailbox-bou
 test("mailbox stores only five most recent messages in OTP_KV with a one-hour TTL", async () => {
   const state = makeState();
   const kv = makeKV();
-  const object = new MailboxIndex(state, { OTP_KV: kv });
+  const object = new MailboxIndex(state, { OTP_KV: kv, OTP_EMAIL_ENCRYPTION_KEY: TEST_ENCRYPTION_KEY });
   const provision = await object.fetch(new Request("https://do/provision", {
     method: "POST", body: JSON.stringify({ email: "qa99@seiton.biz.id", tokenHash: "hash", ownerLabel: "QA", createdAt: new Date().toISOString() })
   }));
@@ -93,6 +95,11 @@ test("mailbox stores only five most recent messages in OTP_KV with a one-hour TT
   }
   assert.equal(kv.map.size, 5);
   for (const value of kv.map.values()) assert.equal(value.options.expirationTtl, 3600);
+  for (const value of kv.map.values()) {
+    const encrypted = JSON.parse(value.value);
+    assert.ok(encrypted.ciphertext && encrypted.nonce);
+    assert.equal(value.value.includes("Code "), false);
+  }
   const sessionHash = await sha256("session");
   await object.fetch(new Request("https://do/session", {
     method: "POST",
@@ -106,7 +113,7 @@ test("mailbox stores only five most recent messages in OTP_KV with a one-hour TT
 test("revoked mailbox cannot receive or expose any further message", async () => {
   const state = makeState();
   const kv = makeKV();
-  const object = new MailboxIndex(state, { OTP_KV: kv });
+  const object = new MailboxIndex(state, { OTP_KV: kv, OTP_EMAIL_ENCRYPTION_KEY: TEST_ENCRYPTION_KEY });
   await object.fetch(new Request("https://do/provision", {
     method: "POST", body: JSON.stringify({ email: "qa99@seiton.biz.id", tokenHash: "hash", createdAt: new Date().toISOString() })
   }));
@@ -133,7 +140,7 @@ test("portal home is private, removes token from history, and auto-refreshes eve
 test("mailbox revocation deletes retained messages and sessions", async () => {
   const state = makeState();
   const kv = makeKV();
-  const object = new MailboxIndex(state, { OTP_KV: kv });
+  const object = new MailboxIndex(state, { OTP_KV: kv, OTP_EMAIL_ENCRYPTION_KEY: TEST_ENCRYPTION_KEY });
   await object.fetch(new Request("https://do/provision", {
     method: "POST",
     body: JSON.stringify({ email: "qa99@seiton.biz.id", tokenHash: "hash", createdAt: new Date().toISOString() })
@@ -172,10 +179,11 @@ test("legacy Telegram mailbox links migrate to an HttpOnly portal session", asyn
     }),
     options: {}
   });
-  const object = new MailboxIndex(state, { OTP_KV: otpKV, MUSE_KV: museKV });
+  const object = new MailboxIndex(state, { OTP_KV: otpKV, MUSE_KV: museKV, OTP_EMAIL_ENCRYPTION_KEY: TEST_ENCRYPTION_KEY });
   const env = {
     OTP_KV: otpKV,
     MUSE_KV: museKV,
+    OTP_EMAIL_ENCRYPTION_KEY: TEST_ENCRYPTION_KEY,
     MAILBOX_INDEX: {
       idFromName: () => ({ toString: () => mailboxId }),
       get: () => ({ fetch: (url, init = {}) => object.fetch(new Request(url, init)) })
