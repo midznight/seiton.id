@@ -84,7 +84,16 @@ Portal hanya digunakan untuk mailbox pada domain yang dimiliki atau diotorisasi.
 - Versi admin aktif: `1be3dc58-cb73-443c-87a8-3c974304b23f`; deployment `c6f9fce0-2db6-498c-8901-cedcd490c2ca`.
 - Domain Worker `otp.seiton.biz.id`, `admin.seiton.biz.id`, dan `owner.seiton.biz.id` tetap terpasang dan enabled.
 - Source live admin yang telah di-patch disinkronkan kembali ke `workers/site-admin/worker.js` pada branch `rebuild` agar perubahan tidak hilang pada deploy berikutnya. Aksi mutasi pada panel menerima Origin hanya dari `admin.seiton.biz.id` dan `owner.seiton.biz.id`.
-- Pemeriksaan metadata deployment dan binding Cloudflare berhasil. Pemeriksaan browser/data-plane dan pengiriman email nyata belum dikonfirmasi pada sesi ini; jangan menyatakan portal siap menerima email produksi sebelum uji itu selesai.
+- Pemeriksaan metadata deployment dan binding Cloudflare berhasil.
+- Smoke test menggunakan Cloudflare Browser Rendering (13 November 2026):
+  - `GET https://otp.seiton.biz.id/health` → HTTP 200, `{"ok":true,"service":"otp-portal","status":"ready"}`.
+  - `GET https://otp.seiton.biz.id/` → HTTP 200, judul Portal OTP Privat, `noindex,nofollow`, `Cache-Control: no-store, private`, `X-Frame-Options: DENY`, dan halaman meminta tautan akses privat.
+  - `GET https://admin.seiton.biz.id/otp/` tanpa sesi → redirect ke halaman login; UI provision mailbox tidak terlihat.
+  - `GET https://admin.seiton.biz.id/api/admin/otp/mailboxes` tanpa sesi → HTTP 401.
+  - `GET https://otp.seiton.biz.id/internal/mailboxes` tanpa secret → HTTP 401 Unauthorized.
+- CI GitHub Actions terakhir pada commit `c39da47ba471a01c79ac1852657317e854f02308` sukses penuh: tes Worker OTP, build website utama/demo, static output, performance budget, aset demo, consent GTM, customer journey/responsive, Axe WCAG, dan Lighthouse mobile. Run: `43467441035`; site integrity: `43467440866`.
+- Preview Pages main dan demo pada commit tersebut sukses di `b7f79ae3.seiton-main-preview.pages.dev` dan `63450ee5.seiton-demo-preview.pages.dev`. Project produksi `seiton-biz-id` tetap mempertahankan deployment production branch `main`; perubahan Worker admin/OTP tidak mempromosikan website `rebuild` ke `main`.
+- Pengiriman email nyata belum diuji karena Email Routing zone masih disabled/unconfigured dan belum ada verified destination address. Jangan menyatakan portal siap menerima email produksi atau membuka penjualan sampai uji email yang sah selesai.
 
 ## 5. Harga dan penempatan kanal
 
