@@ -83,7 +83,7 @@ Portal hanya digunakan untuk mailbox pada domain yang dimiliki atau diotorisasi.
 - Worker `seiton-site-admin` diperbarui dari **source live** (bukan file lama repository), mempertahankan sesi revocable, audit, D1, dan `ORDER_BACKEND`. Ditambahkan service binding `OTP_BACKEND`, secret internal, menu Portal OTP, endpoint provision/list/rotate/revoke, dan UI yang menampilkan link privat hanya satu kali.
 - Versi admin aktif: `1be3dc58-cb73-443c-87a8-3c974304b23f`; deployment `c6f9fce0-2db6-498c-8901-cedcd490c2ca`.
 - Domain Worker `otp.seiton.biz.id`, `admin.seiton.biz.id`, dan `owner.seiton.biz.id` tetap terpasang dan enabled.
-- Source live admin yang telah di-patch disinkronkan kembali ke `workers/site-admin/worker.js` pada branch `rebuild` agar perubahan tidak hilang pada deploy berikutnya.
+- Source live admin yang telah di-patch disinkronkan kembali ke `workers/site-admin/worker.js` pada branch `rebuild` agar perubahan tidak hilang pada deploy berikutnya. Aksi mutasi pada panel menerima Origin hanya dari `admin.seiton.biz.id` dan `owner.seiton.biz.id`.
 - Pemeriksaan metadata deployment dan binding Cloudflare berhasil. Pemeriksaan browser/data-plane dan pengiriman email nyata belum dikonfirmasi pada sesi ini; jangan menyatakan portal siap menerima email produksi sebelum uji itu selesai.
 
 ## 5. Harga dan penempatan kanal
