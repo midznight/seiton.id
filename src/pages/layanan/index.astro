@@ -3,8 +3,64 @@ import Base from "../../layouts/Base.astro";
 import ServiceCard from "../../components/ServiceCard.astro";
 import services from "../../data/services.json";
 import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
+
+const groups = [
+  {
+    id: "tampil-profesional",
+    number: "01",
+    title: "Tampil Profesional",
+    description: "Bantu pelanggan mengenal usaha dan menemukan informasi produk dari katalog, menu digital, hingga website.",
+    slugs: ["paket-etalase", "katalog-produk", "menu-qr", "profil-google", "website-katalog", "website-profile"]
+  },
+  {
+    id: "kelola-pesanan",
+    number: "02",
+    title: "Kelola Pesanan",
+    description: "Rapikan penerimaan pesanan dan pekerjaan operasional sesuai kanal serta ruang lingkup yang disepakati.",
+    slugs: ["paket-template", "bot-telegram", "sistem-bot-umkm", "paket-combo"]
+  },
+  {
+    id: "integrasi-otomasi",
+    number: "03",
+    title: "Integrasi & Otomasi",
+    description: "Tambahkan integrasi teknis setelah kesiapan infrastruktur, akses, dan kebutuhan pihak ketiga diperiksa.",
+    slugs: ["setup-ai-gateway-bot", "setup-portal-otp"]
+  }
+];
 ---
-<Base title="Layanan Digitalisasi UMKM — Seiton.id" description="Katalog WhatsApp, menu QR, profil bisnis, website, template operasional, dan sistem bot UMKM.">
-  <section class="page-hero"><div class="container"><p class="eyebrow">LAYANAN</p><h1>Pilih solusi sesuai kebutuhan operasional.</h1><p class="lead">Setiap layanan memiliki ruang lingkup berbeda. Konsultasi membantu menentukan kebutuhan, hasil pekerjaan, biaya, dan akses yang diperlukan.</p><div class="actions"><WhatsAppCTA message="Halo Seiton.id, saya ingin konsultasi layanan yang sesuai untuk usaha saya."/></div></div></section>
-  <section class="section section-white"><div class="container"><div class="card-grid service-directory-grid">{services.map((service)=><ServiceCard service={service}/>)}</div></div></section>
+<Base title="Layanan Seiton.id — Katalog, Website & Otomasi UMKM" description="Jelajahi layanan katalog digital, menu QR, website usaha, pemesanan Telegram, dan integrasi operasional Seiton.id.">
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">LAYANAN</p>
+      <h1>Pilih solusi dari kebutuhan usaha yang ingin dirapikan.</h1>
+      <p class="lead">Mulai dari menampilkan produk, menerima pesanan, hingga integrasi lanjutan. Setiap layanan memiliki ruang lingkup dan kebutuhan akses yang dijelaskan sebelum pengerjaan.</p>
+      <div class="actions">
+        <WhatsAppCTA message="Halo Seiton.id, saya ingin konsultasi layanan yang sesuai untuk usaha saya."/>
+        <a class="button button-secondary" href="/harga/">Lihat informasi harga</a>
+      </div>
+      <div class="service-directory-summary" aria-label="Kelompok layanan">
+        <a href="#tampil-profesional"><span>01</span>Tampil Profesional</a>
+        <a href="#kelola-pesanan"><span>02</span>Kelola Pesanan</a>
+        <a href="#integrasi-otomasi"><span>03</span>Integrasi &amp; Otomasi</a>
+      </div>
+    </div>
+  </section>
+  <section class="section section-white service-directory-section">
+    <div class="container service-groups">
+      {groups.map((group) => (
+        <section class="service-group" id={group.id} aria-labelledby={group.id + "-title"}>
+          <div class="section-heading service-group-heading">
+            <div>
+              <p class="eyebrow">{group.number} / KATEGORI LAYANAN</p>
+              <h2 id={group.id + "-title"}>{group.title}</h2>
+            </div>
+            <p>{group.description}</p>
+          </div>
+          <div class="card-grid service-directory-grid">
+            {services.filter((service) => group.slugs.includes(service.slug)).map((service) => <ServiceCard service={service}/>)}
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
 </Base>

@@ -5,15 +5,15 @@ import WhatsAppCTA from "../components/WhatsAppCTA.astro";
 import services from "../data/services.json";
 const featured = services.filter((service) => service.featured);
 ---
-<Base title="Seiton.id — Tata Usahamu, Mudahkan Pelanggan" description="Seiton.id membantu UMKM di seluruh Indonesia menata informasi usaha melalui katalog, website, menu digital, dan sistem pemesanan.">
+<Base title="Seiton.id — Katalog, Website & Sistem Pesanan UMKM" description="Buat katalog digital, menu QR, website usaha, dan alur pemesanan Telegram yang lebih tertata bersama Seiton.id.">
   <section class="hero home-hero">
     <div class="hero-orbit hero-orbit-one" aria-hidden="true"></div>
     <div class="hero-orbit hero-orbit-two" aria-hidden="true"></div>
     <div class="container hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">SOLUSI DIGITAL UNTUK UMKM INDONESIA</p>
-        <h1>Usaha bertumbuh. Cara kerjanya ikut berkembang.</h1>
-        <p class="lead">Kami membantu usaha menata informasi, memperluas jangkauan, dan membangun alur digital yang terasa mudah bagi pemilik maupun pelanggan.</p>
+        <h1>Katalog, website, dan pesanan usaha dalam alur yang lebih tertata.</h1>
+        <p class="lead">Seiton.id membantu UMKM menampilkan produk dengan lebih jelas, membagikan menu digital, membangun website usaha, dan mengelola pemesanan melalui Telegram sesuai kebutuhan.</p>
         <div class="actions">
           <WhatsAppCTA message="Halo Seiton.id, saya ingin konsultasi kebutuhan digital untuk usaha saya."/>
           <a class="button button-secondary" href="/layanan/">Jelajahi layanan <span aria-hidden="true">↗</span></a>
@@ -42,9 +42,9 @@ const featured = services.filter((service) => service.featured);
               <div class="mock-browser-heading"><div><span class="mock-eyebrow">ETALASE DIGITAL</span><strong>Temukan yang kamu cari</strong><small>Informasi usaha dalam satu tempat.</small></div><span class="mock-round-icon" aria-hidden="true">↗</span></div>
               <div class="mock-search"><span aria-hidden="true">⌕</span> Cari produk atau layanan <kbd>⌕</kbd></div>
               <div class="mock-product-row">
-                <div class="mock-product-card"><span class="mock-art art-orange"></span><span class="mock-line long"></span><span class="mock-line short"></span></div>
-                <div class="mock-product-card"><span class="mock-art art-sage"></span><span class="mock-line long"></span><span class="mock-line short"></span></div>
-                <div class="mock-product-card"><span class="mock-art art-blue"></span><span class="mock-line long"></span><span class="mock-line short"></span></div>
+                <div class="mock-product-card"><img class="mock-art-image" src="/assets/optimized-demo-products/RT-001_480.webp" srcset="/assets/optimized-demo-products/RT-001_480.webp 480w, /assets/optimized-demo-products/RT-001_960.webp 960w" sizes="(max-width: 600px) 28vw, 145px" alt="Contoh roti sobek cokelat dari katalog fiktif" width="480" height="480" fetchpriority="high"/><span class="mock-line long"></span><span class="mock-line short"></span></div>
+                <div class="mock-product-card"><img class="mock-art-image" src="/assets/optimized-demo-products/RT-002_480.webp" srcset="/assets/optimized-demo-products/RT-002_480.webp 480w, /assets/optimized-demo-products/RT-002_960.webp 960w" sizes="(max-width: 600px) 28vw, 145px" alt="Contoh roti keju susu dari katalog fiktif" width="480" height="480" loading="lazy" decoding="async"/><span class="mock-line long"></span><span class="mock-line short"></span></div>
+                <div class="mock-product-card"><img class="mock-art-image" src="/assets/optimized-demo-products/PS-001_480.webp" srcset="/assets/optimized-demo-products/PS-001_480.webp 480w, /assets/optimized-demo-products/PS-001_960.webp 960w" sizes="(max-width: 600px) 28vw, 145px" alt="Contoh croissant butter dari katalog fiktif" width="480" height="480" loading="lazy" decoding="async"/><span class="mock-line long"></span><span class="mock-line short"></span></div>
               </div>
               <div class="mock-browser-foot"><span>Profil usaha</span><span>Produk</span><span>Hubungi kami</span></div>
             </div>
@@ -52,8 +52,8 @@ const featured = services.filter((service) => service.featured);
             <div class="showcase-panel" id="showcase-panel-menu" role="tabpanel" aria-labelledby="showcase-tab-menu" tabindex="0" data-showcase-panel="menu" hidden>
               <div class="mock-menu-heading"><span class="mock-eyebrow">MENU DIGITAL</span><strong>Pilih dengan lebih nyaman</strong><small>Tampilan menu yang mudah dibuka dari ponsel.</small></div>
               <div class="mock-menu-categories"><span class="active">Semua</span><span>Makanan</span><span>Minuman</span></div>
-              <div class="mock-menu-item"><span class="menu-thumb menu-thumb-one"></span><span><strong>Menu pilihan</strong><small>Deskripsi singkat produk</small></span><b>•••</b></div>
-              <div class="mock-menu-item"><span class="menu-thumb menu-thumb-two"></span><span><strong>Favorit pelanggan</strong><small>Informasi produk yang jelas</small></span><b>•••</b></div>
+              <div class="mock-menu-item"><img class="menu-thumb-image" src="/assets/optimized-demo-products/MN-001_480.webp" alt="Contoh teh original dalam menu fiktif" width="480" height="480" loading="lazy" decoding="async"/><span><strong>Teh original</strong><small>Minuman · contoh produk</small></span><b>•••</b></div>
+              <div class="mock-menu-item"><img class="menu-thumb-image" src="/assets/optimized-demo-products/PK-001_480.webp" alt="Contoh paket roti dan teh dalam menu fiktif" width="480" height="480" loading="lazy" decoding="async"/><span><strong>Paket roti &amp; teh</strong><small>Paket · contoh produk</small></span><b>•••</b></div>
               <div class="mock-menu-foot"><span>Dipindai melalui QR</span><span class="mock-qr">▦</span></div>
             </div>
 
@@ -62,13 +62,13 @@ const featured = services.filter((service) => service.featured);
               <div class="mock-chat-body">
                 <div class="chat-bubble chat-customer">Halo, saya ingin melihat pilihan produk.</div>
                 <div class="chat-bubble chat-business">Tentu. Silakan pilih katalog untuk melihat daftar produk.</div>
-                <div class="chat-choice-row"><span>📋 Lihat katalog</span><span>🛍️ Buat pesanan</span></div>
+                <div class="chat-choice-row"><span>Lihat katalog</span><span>Buat pesanan</span></div>
                 <div class="chat-bubble chat-customer chat-small">Saya ingin membuat pesanan.</div>
               </div>
               <div class="mock-chat-input"><span>Tulis pesan...</span><b>➤</b></div>
             </div>
           </div>
-          <p class="showcase-caption">Pilih tab untuk melihat contoh katalog, menu digital, dan alur pemesanan.</p>
+          <p class="showcase-caption">Pratinjau katalog, menu QR, dan alur pesanan. Seluruh nama serta produk pada visual ini adalah data fiktif.</p>
         </div>
       </div>
     </div>
