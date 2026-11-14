@@ -28,7 +28,7 @@ const demos = [
       <div class="card-grid demo-grid demo-directory-grid">
         {demos.map((demo) => (
           <article class="card">
-            <div class="demo-card-visual"><DemoPreview kind={demo.kind}/></div>
+            <div class="demo-card-visual"><DemoPreview kind={demo.kind} assetSet="demo"/></div>
             <div class="demo-card-body">
               <p class="card-kicker">DEMO {demo.number} · FIKTIF</p>
               <h3>{demo.title}</h3>

@@ -18,11 +18,12 @@ const candidates = [
   "assets/roti-sobek-cokelat.webp"
 ];
 if (outputMode === "main") {
-  // Optimized fictional product previews and the QR illustration are used by
-  // the public home/service/demo-directory pages. Keep these lightweight
-  // derivatives while still removing the original source/demo upload assets.
+  // Keep the small, dedicated site-previews derivatives; the full catalogue
+  // images and QR artwork remain demo-only and are stripped from main.
+  candidates.push("assets/optimized-demo-products", "assets/menu-demo-qr.svg");
 } else {
-  candidates.push("analytics-consent.js", "analytics-consent.css", "sitemap.xml");
+  // Main-site marketing preview crops are not needed on the demo deployment.
+  candidates.push("assets/site-previews", "analytics-consent.js", "analytics-consent.css", "sitemap.xml");
 }
 
 const textFiles = [];

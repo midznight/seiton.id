@@ -41,6 +41,20 @@ await fs.mkdir(outputDir, { recursive: true });
 await fs.rm(brandOutputDir, { recursive: true, force: true });
 await fs.mkdir(brandOutputDir, { recursive: true });
 
+// A small, separate marketing-preview set is allowed on the public website.
+// The full catalogue image set remains demo-only and is stripped from main.
+const sitePreviewDir = path.resolve(publicRoot, "assets/site-previews");
+await fs.rm(sitePreviewDir, { recursive: true, force: true });
+await fs.mkdir(sitePreviewDir, { recursive: true });
+const sitePreviewProducts = [
+  { sku: "RT-001", file: "catalog-roti.webp" },
+  { sku: "RT-002", file: "catalog-keju.webp" },
+  { sku: "PS-001", file: "catalog-croissant.webp" },
+  { sku: "MN-001", file: "menu-teh.webp" },
+  { sku: "PK-001", file: "combo-paket.webp" }
+];
+
+
 const brandStat = await fs.stat(brandSource).catch(() => null);
 if (!brandStat?.isFile()) {
   throw new Error("Logo sumber tidak ditemukan: " + brandSource);
@@ -56,6 +70,36 @@ if (brandOutputStat.size > 30 * 1024) {
 }
 console.log("Brand logo: " + Math.round(brandStat.size / 1024) + " KB PNG -> " +
   Math.round(brandOutputStat.size / 1024) + " KB WebP (540 px).");
+
+for (const preview of sitePreviewProducts) {
+  const image = imageMap[preview.sku];
+  if (!image) {
+    errors.push("Pemetaan foto pratinjau publik hilang untuk " + preview.sku);
+    continue;
+  }
+  const inputPath = resolvePublic(image.source, "site preview " + preview.sku);
+  const outputPath = path.join(sitePreviewDir, preview.file);
+  try {
+    await sharp(inputPath, { failOn: "error" })
+      .rotate()
+      .resize(480, 480, {
+        fit: "cover",
+        position: "attention",
+        kernel: sharp.kernel.lanczos3
+      })
+      .webp({ quality: 74, effort: 6, smartSubsample: true })
+      .toFile(outputPath);
+    const previewStat = await fs.stat(outputPath);
+    if (previewStat.size > 80 * 1024) {
+      errors.push("Pratinjau publik melebihi batas 80 KB: " + preview.file);
+    } else {
+      console.log("Public site preview " + preview.file + ": " +
+        Math.round(previewStat.size / 1024) + " KB (480 px).");
+    }
+  } catch (error) {
+    errors.push("Gagal membuat pratinjau publik " + preview.file + ": " + error.message);
+  }
+}
 
 for (const product of dataset.products) {
   const image = imageMap[product.sku];
