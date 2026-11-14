@@ -169,10 +169,10 @@ check(baseLayout.includes('name="twitter:card" content="summary_large_image"') &
   baseLayout.includes('name="twitter:image"') && baseLayout.includes('name="twitter:description"'),
   "Twitter Cards harus memiliki card, image, dan description.");
 check(baseLayout.includes('type="application/ld+json"') &&
-  baseLayout.includes('"@context":"https://schema.org"') &&
-  baseLayout.includes('"@type":"Organization"') &&
-  baseLayout.includes('"@type":"WebSite"') &&
-  baseLayout.includes('"@type":"WebPage"'),
+  baseLayout.includes('"@context": "https://schema.org"') &&
+  baseLayout.includes('"@type": "Organization"') &&
+  baseLayout.includes('"@type": "WebSite"') &&
+  baseLayout.includes('"@type": "WebPage"'),
   "Halaman utama harus menampilkan structured data Organization, WebSite, dan WebPage.");
 check(baseLayout.includes('site.contacts.find') && baseLayout.includes('site.contacts.filter'),
   "Structured data organisasi harus mengambil kontak dan profil resmi dari site.json.");
