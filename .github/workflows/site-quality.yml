@@ -1,0 +1,45 @@
+name: Site quality
+
+on:
+  pull_request:
+    branches: [main, rebuild]
+  push:
+    branches: [main, rebuild]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integrity-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+
+      - name: Install project dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Check source integrity
+        run: npm run check
+
+      - name: Check demo assets
+        run: npm run check:assets
+
+      - name: Build main website and demo
+        run: |
+          npm run build:site
+          npm run build:demo
+
+      - name: Check CSS and JavaScript performance budgets
+        run: npm run check:performance
