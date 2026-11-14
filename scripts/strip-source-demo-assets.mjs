@@ -23,7 +23,8 @@ if (outputMode === "main") {
   candidates.push("assets/optimized-demo-products", "assets/menu-demo-qr.svg");
 } else {
   // Main-site marketing preview crops are not needed on the demo deployment.
-  candidates.push("assets/site-previews", "analytics-consent.js", "analytics-consent.css", "sitemap.xml");
+  candidates.push("assets/site-previews");
+  candidates.push("analytics-consent.js", "analytics-consent.css", "sitemap.xml");
 }
 
 const textFiles = [];
