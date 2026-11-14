@@ -18,10 +18,9 @@ const candidates = [
   "assets/roti-sobek-cokelat.webp"
 ];
 if (outputMode === "main") {
-  candidates.push(
-    "assets/optimized-demo-products",
-    "assets/menu-demo-qr.svg"
-  );
+  // Optimized fictional product previews and the QR illustration are used by
+  // the public home/service/demo-directory pages. Keep these lightweight
+  // derivatives while still removing the original source/demo upload assets.
 } else {
   candidates.push("analytics-consent.js", "analytics-consent.css", "sitemap.xml");
 }
