@@ -340,7 +340,7 @@
 .demo-preview-mail-list>span{display:grid;gap:2px;padding:6px;border:1px solid #E8EBE5;border-radius:6px}
 .demo-preview-mail-list>span b{font-size:.52rem}
 .demo-preview-mail-list>span small,.demo-preview-mail-list>small{color:#6C7780;font-size:.46rem}
-.demo-card{overflow:hidden;min-height:0;padding:0}
+.demo-grid .card{overflow:hidden;min-height:0;padding:0}
 .demo-card-visual{padding:13px 13px 0}
 .demo-card-body{min-height:206px;padding:20px 22px 22px}
 .demo-directory-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -379,3 +379,5 @@
 @media(prefers-reduced-motion:reduce){
   .service-directory-summary a,.service-card,.demo-card{transition:none!important}
 }
+
+.pricing-callout-note{margin:9px 0 0;color:#596671;font-size:.88rem;line-height:1.6}
