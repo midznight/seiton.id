@@ -5,8 +5,75 @@ import site from "../data/site.json";
 import { isPreviewBuild, isProductionBuild } from "../utils/site-urls.js";
 import "../styles/site.css";
 import "../styles/pages.css";
-const { title="Seiton.id — Tata Usahamu, Mudahkan Pelanggan", description=site.brand.description, canonical, noindex=false, demoSite=false }=Astro.props;
+
+const {
+  title="Seiton.id — Tata Usahamu, Mudahkan Pelanggan",
+  description=site.brand.description,
+  canonical,
+  noindex=false,
+  demoSite=false,
+  structuredData=[]
+}=Astro.props;
 const canonicalUrl=canonical||new URL(Astro.url.pathname,demoSite?site.brand.demo:site.brand.website).toString();
+
+const organizationId = site.brand.website + "#organization";
+const websiteId = site.brand.website + "#website";
+const whatsappContact = site.contacts.find((contact) => contact.label === "WhatsApp");
+const emailContact = site.contacts.find((contact) => contact.label === "Email");
+const socialProfiles = site.contacts.filter((contact) =>
+  ["Instagram", "TikTok", "Threads"].includes(contact.label)
+);
+const organizationSchema = {
+  "@type": "Organization",
+  "@id": organizationId,
+  name: site.brand.name,
+  url: site.brand.website,
+  logo: {
+    "@type": "ImageObject",
+    url: site.brand.website + "/logo-horizontal.png",
+    width: 640,
+    height: 208
+  },
+  ...(emailContact ? { email: emailContact.value } : {}),
+  ...(whatsappContact ? {
+    contactPoint: [{
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      telephone: whatsappContact.value.replace(/[^\d+]/g, ""),
+      url: whatsappContact.url,
+      availableLanguage: "Indonesian"
+    }]
+  } : {}),
+  sameAs: socialProfiles.map((contact) => contact.url)
+};
+const websiteSchema = {
+  "@type": "WebSite",
+  "@id": websiteId,
+  name: site.brand.name,
+  url: site.brand.website,
+  inLanguage: "id-ID",
+  publisher: { "@id": organizationId }
+};
+const webPageSchema = {
+  "@type": "WebPage",
+  "@id": canonicalUrl + "#webpage",
+  url: canonicalUrl,
+  name: title,
+  description,
+  inLanguage: "id-ID",
+  isPartOf: { "@id": websiteId },
+  publisher: { "@id": organizationId }
+};
+const extraSchema = Array.isArray(structuredData)
+  ? structuredData
+  : structuredData ? [structuredData] : [];
+const jsonLd = !demoSite
+  ? JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [organizationSchema, websiteSchema, webPageSchema, ...extraSchema]
+    }).replace(/</g, "\\u003c")
+  : "";
+const socialImage = site.brand.website + "/og-seiton.svg";
 ---
 <!doctype html><html lang="id"><head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -14,7 +81,9 @@ const canonicalUrl=canonical||new URL(Astro.url.pathname,demoSite?site.brand.dem
 {!demoSite && <script is:inline src="/analytics-consent.js" defer data-analytics-enabled={isProductionBuild ? "true" : "false"}></script>}
 <title>{title}</title><meta name="description" content={description}/><meta name="theme-color" content="#F7F5EF"/>
 <link rel="canonical" href={canonicalUrl}/><meta name="robots" content={noindex || isPreviewBuild ? "noindex, nofollow" : "index, follow"}/>
-<meta property="og:type" content="website"/><meta property="og:site_name" content="Seiton.id"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonicalUrl}/><meta property="og:image" content="https://seiton.biz.id/og-seiton.svg"/>
+<meta property="og:type" content="website"/><meta property="og:locale" content="id_ID"/><meta property="og:site_name" content="Seiton.id"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonicalUrl}/><meta property="og:image" content={socialImage}/><meta property="og:image:type" content="image/svg+xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content="Seiton.id — katalog, website, dan solusi digital untuk UMKM Indonesia"/>
+<meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/><meta name="twitter:image" content={socialImage}/><meta name="twitter:image:alt" content="Seiton.id — katalog, website, dan solusi digital untuk UMKM Indonesia"/>
+{!demoSite && <script type="application/ld+json" set:html={jsonLd}></script>}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/></head><body>
 <Header demoSite={demoSite}/><main id="main-content"><slot/></main><Footer demoSite={demoSite}/>
 </body></html>

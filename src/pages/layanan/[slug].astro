@@ -12,6 +12,16 @@ export function getStaticPaths() {
 }
 
 const { service } = Astro.props;
+const serviceSchema = {
+  "@type": "Service",
+  "@id": "https://seiton.biz.id/layanan/" + service.slug + "/#service",
+  name: service.name,
+  description: service.description,
+  serviceType: service.name,
+  url: "https://seiton.biz.id/layanan/" + service.slug + "/",
+  provider: { "@id": "https://seiton.biz.id/#organization" },
+  areaServed: { "@type": "Country", name: "Indonesia" }
+};
 const demoPath = service.slug === "sistem-bot-umkm"
   ? "/bot-umkm/"
   : service.slug === "paket-combo"
@@ -21,7 +31,7 @@ const demoText = service.slug === "sistem-bot-umkm"
   ? "Coba simulasi Sistem Bot UMKM"
   : "Lihat demonstrasi Paket Combo";
 ---
-<Base title={service.name + " — Layanan Seiton.id"} description={service.short}>
+<Base title={service.name + " — Layanan Seiton.id"} description={service.short} structuredData={serviceSchema}>
   <section class="page-hero">
     <div class="container">
       <p class="eyebrow">{service.slugLabel}</p>

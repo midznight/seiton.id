@@ -161,6 +161,29 @@ for (const file of [
 check(read("src/demo/pages/paket-combo/index.astro").includes("noindex={true}"), "Demo Combo belum noindex.");
 check(read("public/_headers").includes("https://demo.seiton.biz.id/*"), "Header noindex untuk domain demo belum tersedia.");
 const baseLayout = read("src/layouts/Base.astro");
+check(baseLayout.includes('property="og:locale" content="id_ID"') &&
+  baseLayout.includes('property="og:image:width" content="1200"') &&
+  baseLayout.includes('property="og:image:height" content="630"'),
+  "Open Graph harus menyatakan locale Indonesia dan dimensi gambar sosial yang benar.");
+check(baseLayout.includes('name="twitter:card" content="summary_large_image"') &&
+  baseLayout.includes('name="twitter:image"') && baseLayout.includes('name="twitter:description"'),
+  "Twitter Cards harus memiliki card, image, dan description.");
+check(baseLayout.includes('type="application/ld+json"') &&
+  baseLayout.includes('"@context": "https://schema.org"') &&
+  baseLayout.includes('"@type": "Organization"') &&
+  baseLayout.includes('"@type": "WebSite"') &&
+  baseLayout.includes('"@type": "WebPage"'),
+  "Halaman utama harus menampilkan structured data Organization, WebSite, dan WebPage.");
+check(baseLayout.includes('site.contacts.find') && baseLayout.includes('site.contacts.filter'),
+  "Structured data organisasi harus mengambil kontak dan profil resmi dari site.json.");
+const serviceDetailPage = read("src/pages/layanan/[slug].astro");
+check(serviceDetailPage.includes('"@type": "Service"') &&
+  serviceDetailPage.includes("structuredData=") &&
+  serviceDetailPage.includes('"@id": "https://seiton.biz.id/#organization"') &&
+  serviceDetailPage.includes("areaServed:"),
+  "Halaman detail layanan harus memuat schema Service yang terhubung ke Organization Seiton.id.");
+check(baseLayout.includes("!demoSite") && baseLayout.includes("structuredData"),
+  "Structured data organisasi tidak boleh dipasang pada demo usaha fiktif.");
 const analyticsConsent = read("public/analytics-consent.js");
 check(baseLayout.includes('src="/analytics-consent.js"') && baseLayout.includes("!demoSite"),
   "Main layout harus memuat pengelola persetujuan Analytics dan mengecualikan demo.");
