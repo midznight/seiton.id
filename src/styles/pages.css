@@ -272,6 +272,21 @@
 .demo-preview-qr>div strong{font-size:clamp(.75rem,1.2vw,1rem);line-height:1.2}
 .demo-preview-qr>div small{color:#66727C;font-size:.58rem;line-height:1.45}
 .demo-preview-qr>img{width:28%;max-width:88px;aspect-ratio:1;object-fit:contain;padding:5px;border:1px solid #DCE0D8;border-radius:8px;background:#fff}
+
+.demo-preview-qr-code{
+  position:relative;width:28%;max-width:88px;aspect-ratio:1;flex:0 0 auto;
+  border:6px solid #fff;border-radius:8px;outline:1px solid #DCE0D8;
+  background:
+    repeating-conic-gradient(#1F2937 0 25%,#fff 0 50%) 0 0/12px 12px;
+  box-shadow:0 2px 7px rgba(31,41,55,.09)
+}
+.demo-preview-qr-code:before,.demo-preview-qr-code:after{
+  position:absolute;width:15px;height:15px;border:3px solid #1F2937;
+  border-radius:2px;background:#fff;box-shadow:inset 0 0 0 3px #1F2937;
+  content:""
+}
+.demo-preview-qr-code:before{top:2px;left:2px}
+.demo-preview-qr-code:after{top:2px;right:2px;box-shadow:inset 0 0 0 3px #1F2937}
 .demo-preview-pill{display:inline-flex;width:max-content;max-width:100%;padding:4px 7px;border-radius:99px;background:#1F2937;color:#fff;font-size:.49rem;font-weight:800}
 .demo-preview-profile{display:grid;grid-template-columns:1.05fr .95fr;min-height:0;flex:1;gap:10px;padding:10px}
 .demo-preview-map{position:relative;overflow:hidden;border-radius:7px;background:linear-gradient(35deg,#E3E9DE,#F1F0E6)}
