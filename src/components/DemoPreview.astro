@@ -1,0 +1,83 @@
+---
+const { kind = "catalog" } = Astro.props;
+---
+<div class={`demo-preview demo-preview--${kind}`} aria-hidden="true">
+  <div class="demo-preview-window">
+    <div class="demo-preview-topbar">
+      <span class="demo-preview-dots"><i></i><i></i><i></i></span>
+      <span>SEITON.ID / PRATINJAU</span>
+      <span class="demo-preview-status">DATA FIKTIF</span>
+    </div>
+
+    {kind === "catalog" && (
+      <div class="demo-preview-catalog">
+        <div class="demo-preview-heading"><span>ETALASE DIGITAL</span><strong>Produk pilihan</strong><small>Contoh katalog usaha</small></div>
+        <div class="demo-preview-products">
+          <div><img src="/assets/dummy-products/RT-001_roti-sobek-cokelat.webp" width="480" height="480" loading="lazy" decoding="async"/><strong>Roti sobek</strong><small>Rp18.000</small></div>
+          <div><img src="/assets/dummy-products/RT-002_roti-keju-susu.webp" width="480" height="480" loading="lazy" decoding="async"/><strong>Roti keju</strong><small>Rp20.000</small></div>
+          <div><img src="/assets/dummy-products/PS-001_croissant-butter.jpg" width="480" height="480" loading="lazy" decoding="async"/><strong>Croissant</strong><small>Rp15.000</small></div>
+        </div>
+      </div>
+    )}
+
+    {kind === "qr" && (
+      <div class="demo-preview-qr">
+        <div><span class="demo-preview-eyebrow">MENU DIGITAL</span><strong>Buka menu dari ponsel</strong><small>Daftar menu, foto, dan harga dalam satu halaman.</small><span class="demo-preview-pill">Pindai untuk melihat</span></div>
+        <img src="/assets/menu-demo-qr.svg" width="96" height="96" loading="lazy" decoding="async"/>
+      </div>
+    )}
+
+    {kind === "profile" && (
+      <div class="demo-preview-profile">
+        <div class="demo-preview-map"><span class="demo-preview-map-road road-one"></span><span class="demo-preview-map-road road-two"></span><span class="demo-preview-map-pin"></span></div>
+        <div class="demo-preview-profile-info"><strong>Profil usaha</strong><small>Jam layanan · Kontak · Area usaha</small><span>Informasi lokasi yang mudah ditemukan</span></div>
+      </div>
+    )}
+
+    {kind === "website" && (
+      <div class="demo-preview-website">
+        <div class="demo-preview-site-nav"><strong>Nama Usaha</strong><span>Tentang&nbsp;&nbsp; Produk&nbsp;&nbsp; Kontak</span></div>
+        <div class="demo-preview-site-hero"><div><span>WEBSITE USAHA</span><strong>Kenali produk dan layanan kami.</strong><small>Informasi usaha tersusun dalam satu alamat.</small></div><img src="/assets/dummy-products/MN-001_teh-original-250ml.jpg" width="480" height="480" loading="lazy" decoding="async"/></div>
+        <div class="demo-preview-site-lines"><i></i><i></i><i></i></div>
+      </div>
+    )}
+
+    {kind === "documents" && (
+      <div class="demo-preview-documents">
+        <div><span>CHECKLIST OPERASIONAL</span><strong>Persiapan usaha</strong></div>
+        <ul><li><i></i>Daftar produk diperbarui</li><li><i></i>Balasan pelanggan disiapkan</li><li><i></i>Catatan pesanan dirapikan</li></ul>
+        <small>Template contoh · dapat disesuaikan</small>
+      </div>
+    )}
+
+    {kind === "bot" && (
+      <div class="demo-preview-chat">
+        <div class="demo-preview-chat-head"><span class="demo-preview-avatar">S</span><span><strong>Bot pemesanan</strong><small>Simulasi percakapan</small></span><b>AKTIF</b></div>
+        <div class="demo-preview-bubbles"><p class="bubble-customer">Saya ingin melihat menu.</p><p class="bubble-business">Silakan pilih produk dari katalog.</p><p class="bubble-customer">Saya ingin membuat pesanan.</p></div>
+        <div class="demo-preview-chat-input">Tulis pesan...</div>
+      </div>
+    )}
+
+    {kind === "combo" && (
+      <div class="demo-preview-combo">
+        <div class="demo-preview-combo-site"><span>WEBSITE</span><img src="/assets/dummy-products/PK-001_paket-roti-teh.jpg" width="480" height="480" loading="lazy" decoding="async"/><strong>Profil + katalog</strong></div>
+        <div class="demo-preview-combo-order"><span>BOT PESANAN</span><strong>Pesanan baru</strong><small>Produk · Jumlah · Total</small><b>Status: menunggu</b></div>
+      </div>
+    )}
+
+    {kind === "assistant" && (
+      <div class="demo-preview-assistant">
+        <div><span>AI GATEWAY</span><strong>Permintaan pelanggan</strong><small>Pesan masuk → pemilihan model → respons</small></div>
+        <div class="demo-preview-route"><i></i><span></span><b></b></div>
+        <div class="demo-preview-assistant-result"><small>RESPONS ASISTEN</small><strong>Informasi disusun sesuai konteks usaha.</strong></div>
+      </div>
+    )}
+
+    {kind === "mailbox" && (
+      <div class="demo-preview-mailbox">
+        <div class="demo-preview-mail-sidebar"><i></i><i></i><i></i></div>
+        <div class="demo-preview-mail-list"><strong>Mailbox privat</strong><span><b>Pesan masuk</b><small>Terdaftar · akses terkontrol</small></span><span><b>Notifikasi layanan</b><small>Domain usaha · pesan contoh</small></span><small>Data email pada visual ini bersifat ilustratif.</small></div>
+      </div>
+    )}
+  </div>
+</div>
