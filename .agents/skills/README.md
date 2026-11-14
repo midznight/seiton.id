@@ -36,7 +36,8 @@ Agent yang mendukung pemanggilan eksplisit dapat memakai `/nama-skill` (misalnya
 - `test-driven-development`
 - `systematic-debugging`
 - `verification-before-completion`
-- `grill-me`
+- `grill-me` (shortcut; delegates to `grilling`)
+- `grilling` (dependency for `grill-me`)
 - `tdd`
 - `fallow`
 - `fallow-review`
