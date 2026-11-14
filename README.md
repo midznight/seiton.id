@@ -80,3 +80,7 @@ Dua halaman jasa baru disiapkan pada branch `feat/fase-1-digital-services`:
 - Setup Portal OTP & Email Custom Domain.
 
 Nama akun Muse Starter dan rincian penjualan akun mentah tidak dimasukkan ke katalog publik. Kedua layanan masih berstatus persiapan sampai backend, akses domain, keamanan, dan QA Fase 1 selesai. Worker bot production dan Email Routing belum diubah pada commit website ini.
+
+
+## Portal OTP — kebijakan privasi
+Kebijakan Privasi publik mencakup pemrosesan email portal: mailbox terdaftar dan diotorisasi, maksimal lima pesan per mailbox, TTL satu jam, isi pesan terenkripsi, dan akses menggunakan token privat. Custom domain tidak menerima email melalui Email Routing sampai pemilik domain dan mailbox diverifikasi dan aturan routing diuji.
