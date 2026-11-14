@@ -1,14 +1,15 @@
 ---
 import Base from "../../layouts/Base.astro";
+import DemoPreview from "../../components/DemoPreview.astro";
 import { siteUrls } from "../../utils/site-urls.js";
 import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
 ---
-<Base title="Contoh dan Demonstrasi — Seiton.id" description="Contoh alur katalog, website profil usaha, Google Business Profile, dan sistem bot dalam demonstrasi fiktif.">
+<Base title="Contoh Produk dan Demo Seiton.id" description="Lihat pratinjau katalog, menu QR, website usaha, dan sistem pemesanan dalam demonstrasi fiktif.">
   <section class="page-hero">
     <div class="container">
       <p class="eyebrow">CONTOH PRODUK</p>
-      <h1>Lihat cara kerja sebelum menentukan layanan.</h1>
-      <p class="lead">Semua contoh di halaman demo menggunakan usaha dan data fiktif. Tidak ada transaksi, pelanggan, maupun klaim proyek klien nyata.</p>
+      <h1>Lihat tampilan dan alur sebelum memilih layanan.</h1>
+      <p class="lead">Jelajahi pratinjau produk dan simulasi alur Seiton.id. Seluruh usaha, nama produk, dan data pada halaman demo bersifat fiktif; tidak ada transaksi atau pelanggan nyata.</p>
       <div class="actions">
         <a class="button button-primary" href={siteUrls.demo + "/"}>Buka pusat demonstrasi</a>
         <WhatsAppCTA/>
@@ -16,15 +17,72 @@ import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
     </div>
   </section>
   <section class="section section-white">
-    <div class="container card-grid demo-grid">
-      <article class="card"><p class="card-kicker">DEMO 01</p><h3>Katalog WhatsApp</h3><p>Contoh struktur kategori dan katalog produk untuk dibagikan.</p><a href={siteUrls.demo + "/katalog-whatsapp/"}>Buka contoh →</a></article>
-      <article class="card"><p class="card-kicker">DEMO 02</p><h3>Menu QR</h3><p>Contoh halaman menu digital untuk dibuka melalui QR.</p><a href={siteUrls.demo + "/menu-qr/"}>Buka contoh →</a></article>
-      <article class="card"><p class="card-kicker">DEMO 03</p><h3>Google Business Profile</h3><p>Materi dan checklist persiapan. Tidak ada profil bisnis fiktif yang dibuat.</p><a href={siteUrls.demo + "/google-business-profile/"}>Buka panduan →</a></article>
-      <article class="card"><p class="card-kicker">DEMO 04</p><h3>Website Profil dan Katalog</h3><p>Website usaha fiktif dengan halaman profil dan katalog produk.</p><a href={siteUrls.demo + "/website-katalog/"}>Buka contoh →</a></article>
-      <article class="card"><p class="card-kicker">DEMO 05</p><h3>Sistem Bot UMKM</h3><p>Simulasi keranjang, pemesanan, status pembayaran, bantuan, dan laporan.</p><a href={siteUrls.demo + "/bot-umkm/"}>Coba simulasi →</a></article>
-      <article class="card"><p class="card-kicker">DEMO 06</p><h3>Paket Combo</h3><p>Website informasi usaha yang dipadukan dengan simulasi alur pemesanan bot.</p><a href={siteUrls.demo + "/paket-combo/"}>Buka contoh →</a></article>
-
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">PILIH CONTOH</p><h2>Kenali bentuk solusi yang dapat dibangun.</h2></div>
+        <p>Pratinjau ini membantu menjelaskan fungsi. Hasil akhir mengikuti identitas visual, materi, dan ruang lingkup setiap usaha.</p>
+      </div>
+      <div class="card-grid demo-grid demo-directory-grid">
+        <article class="card">
+          <div class="demo-card-visual"><DemoPreview kind="catalog"/></div>
+          <div class="demo-card-body">
+            <p class="card-kicker">DEMO 01 · DATA FIKTIF</p>
+            <h3>Katalog WhatsApp</h3>
+            <p>Susun kategori, foto produk, deskripsi, dan harga agar pelanggan lebih mudah memilih.</p>
+            <a href={siteUrls.demo + "/katalog-whatsapp/"}>Lihat contoh katalog <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="demo-card-visual"><DemoPreview kind="qr"/></div>
+          <div class="demo-card-body">
+            <p class="card-kicker">DEMO 02 · DATA FIKTIF</p>
+            <h3>Menu QR</h3>
+            <p>Tampilkan menu digital yang dapat dibuka pelanggan dari kode QR atau tautan.</p>
+            <a href={siteUrls.demo + "/menu-qr/"}>Lihat contoh menu <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="demo-card-visual"><DemoPreview kind="profile"/></div>
+          <div class="demo-card-body">
+            <p class="card-kicker">DEMO 03 · DATA FIKTIF</p>
+            <h3>Google Business Profile</h3>
+            <p>Lihat materi dan checklist informasi usaha yang perlu disiapkan sebelum pengelolaan profil.</p>
+            <a href={siteUrls.demo + "/google-business-profile/"}>Buka panduan <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="demo-card-visual"><DemoPreview kind="website"/></div>
+          <div class="demo-card-body">
+            <p class="card-kicker">DEMO 04 · DATA FIKTIF</p>
+            <h3>Website Profil dan Katalog</h3>
+            <p>Kenali struktur website usaha dengan informasi profil, produk, dan kontak.</p>
+            <a href={siteUrls.demo + "/website-katalog/"}>Lihat contoh website <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="demo-card-visual"><DemoPreview kind="bot"/></div>
+          <div class="demo-card-body">
+            <p class="card-kicker">DEMO 05 · DATA FIKTIF</p>
+            <h3>Sistem Bot UMKM</h3>
+            <p>Telusuri simulasi keranjang, pesanan, status pembayaran, bantuan, dan laporan.</p>
+            <a href={siteUrls.demo + "/bot-umkm/"}>Coba simulasi <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="demo-card-visual"><DemoPreview kind="combo"/></div>
+          <div class="demo-card-body">
+            <p class="card-kicker">DEMO 06 · DATA FIKTIF</p>
+            <h3>Paket Combo</h3>
+            <p>Lihat bagaimana website informasi usaha dipadukan dengan alur pemesanan bot.</p>
+            <a href={siteUrls.demo + "/paket-combo/"}>Lihat paket combo <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </div>
+      <aside class="demo-notice">
+        <span aria-hidden="true">ⓘ</span>
+        <p><strong>Catatan demonstrasi</strong> Semua contoh menggunakan usaha dan data fiktif. Halaman demo bukan proyek klien, testimoni, atau tempat transaksi.</p>
+        <a href="/cerita/">Kenali Seiton.id →</a>
+      </aside>
     </div>
-    <div class="container"><aside class="demo-notice"><span aria-hidden="true">ⓘ</span><p><strong>Catatan demonstrasi</strong> Semua contoh merupakan demonstrasi produk internal dengan usaha dan data fiktif, bukan proyek atau testimoni klien.</p><a href="/cerita/">Kenali Seiton.id →</a></aside></div>
   </section>
 </Base>

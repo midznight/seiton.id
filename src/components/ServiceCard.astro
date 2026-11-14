@@ -1,9 +1,31 @@
 ---
+import DemoPreview from "./DemoPreview.astro";
 const { service } = Astro.props;
+const visualBySlug = {
+  "paket-etalase": { kind: "catalog", label: "Contoh katalog usaha" },
+  "katalog-produk": { kind: "catalog", label: "Contoh foto produk" },
+  "menu-qr": { kind: "qr", label: "Contoh menu digital" },
+  "profil-google": { kind: "profile", label: "Ilustrasi profil lokasi" },
+  "website-katalog": { kind: "website", label: "Contoh website katalog" },
+  "website-profile": { kind: "website", label: "Contoh website profil" },
+  "paket-template": { kind: "documents", label: "Contoh alat operasional" },
+  "bot-telegram": { kind: "bot", label: "Contoh alur percakapan" },
+  "sistem-bot-umkm": { kind: "bot", label: "Contoh sistem pesanan" },
+  "paket-combo": { kind: "combo", label: "Contoh website dan pesanan" },
+  "setup-ai-gateway-bot": { kind: "assistant", label: "Ilustrasi integrasi AI" },
+  "setup-portal-otp": { kind: "mailbox", label: "Ilustrasi mailbox privat" }
+};
+const visual = visualBySlug[service.slug] || { kind: "website", label: "Pratinjau layanan" };
 ---
-<article class="card">
-  <p class="card-kicker">{service.slugLabel}</p>
-  <h3>{service.name}</h3>
-  <p>{service.short}</p>
-  <a href={"/layanan/" + service.slug + "/"} aria-label={"Pelajari layanan: " + service.name}>Pelajari layanan <span aria-hidden="true">→</span></a>
+<article class="card service-card">
+  <div class="service-card-visual">
+    <DemoPreview kind={visual.kind}/>
+    <span class="service-preview-caption">{visual.label} · data contoh</span>
+  </div>
+  <div class="service-card-body">
+    <p class="card-kicker">{service.slugLabel}</p>
+    <h3>{service.name}</h3>
+    <p>{service.short}</p>
+    <a href={"/layanan/" + service.slug + "/"} aria-label={"Pelajari layanan: " + service.name}>Pelajari layanan <span aria-hidden="true">→</span></a>
+  </div>
 </article>
