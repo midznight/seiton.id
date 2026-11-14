@@ -39,7 +39,7 @@ const organizationSchema = {
     contactPoint: [{
       "@type": "ContactPoint",
       contactType: "customer support",
-      telephone: whatsappContact.value.replace(/[^\\d+]/g, ""),
+      telephone: whatsappContact.value.replace(/[^\d+]/g, ""),
       url: whatsappContact.url,
       availableLanguage: "Indonesian"
     }]
