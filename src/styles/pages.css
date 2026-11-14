@@ -245,7 +245,7 @@
 }
 .demo-preview-topbar{
   display:flex;min-height:24px;align-items:center;gap:7px;padding:0 9px;
-  border-bottom:1px solid #E8EBE5;background:#FAFAF8;color:#78828B;
+  border-bottom:1px solid #E8EBE5;background:#FAFAF8;color:#5E6874;
   font-size:.48rem;font-weight:850;letter-spacing:.07em;white-space:nowrap
 }
 .demo-preview-dots{display:flex;gap:3px}
@@ -317,7 +317,7 @@
 .demo-preview-documents ul{display:grid;gap:5px;margin:0;padding:0;list-style:none}
 .demo-preview-documents li{display:flex;align-items:center;gap:7px;color:#4F5D68;font-size:.57rem}
 .demo-preview-documents li i{width:9px;height:9px;border:1px solid #8FA18E;border-radius:3px;background:#E6EEE4}
-.demo-preview-documents>small{margin-top:auto;color:#77818A;font-size:.49rem}
+.demo-preview-documents>small{margin-top:auto;color:#5E6874;font-size:.49rem}
 .demo-preview-chat{display:flex;min-height:0;flex:1;flex-direction:column;padding:8px 11px}
 .demo-preview-chat-head{display:flex;align-items:center;gap:7px;padding-bottom:6px;border-bottom:1px solid #EAEBE7}
 .demo-preview-avatar{display:grid;width:24px;height:24px;place-items:center;border-radius:50%;background:#1F2937;color:#fff;font-size:.7rem;font-weight:900}
@@ -329,7 +329,7 @@
 .demo-preview-bubbles p{max-width:82%;margin:0;padding:6px 8px;border-radius:8px;color:#46535E;font-size:.52rem;line-height:1.4}
 .bubble-customer{justify-self:end;background:#FFF0E7}
 .bubble-business{justify-self:start;background:#EEF2EA}
-.demo-preview-chat-input{margin-top:auto;padding:5px 9px;border:1px solid #E5E8E2;border-radius:99px;color:#77818A;font-size:.5rem}
+.demo-preview-chat-input{margin-top:auto;padding:5px 9px;border:1px solid #E5E8E2;border-radius:99px;color:#5E6874;font-size:.5rem}
 .demo-preview-combo{display:grid;grid-template-columns:1fr 1fr;flex:1;gap:8px;padding:10px}
 .demo-preview-combo-site,.demo-preview-combo-order{display:flex;min-width:0;flex-direction:column;gap:5px;padding:8px;border:1px solid #E7EAE4;border-radius:8px}
 .demo-preview-combo-site img{width:100%;aspect-ratio:2.2/1;object-fit:cover;border-radius:5px}
