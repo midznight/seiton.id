@@ -13,9 +13,9 @@ const { kind = "catalog" } = Astro.props;
       <div class="demo-preview-catalog">
         <div class="demo-preview-heading"><span>ETALASE DIGITAL</span><strong>Produk pilihan</strong><small>Contoh katalog usaha</small></div>
         <div class="demo-preview-products">
-          <div><img src="/assets/optimized-demo-products/RT-001_480.webp" width="480" height="480" loading="lazy" decoding="async"/><strong>Roti sobek</strong><small>Rp18.000</small></div>
-          <div><img src="/assets/optimized-demo-products/RT-002_480.webp" width="480" height="480" loading="lazy" decoding="async"/><strong>Roti keju</strong><small>Rp20.000</small></div>
-          <div><img src="/assets/optimized-demo-products/PS-001_480.webp" width="480" height="480" loading="lazy" decoding="async"/><strong>Croissant</strong><small>Rp15.000</small></div>
+          <div><img src="/assets/optimized-demo-products/RT-001_480.webp" width="480" height="480" loading="lazy" decoding="async" alt=""/><strong>Roti sobek</strong><small>Rp18.000</small></div>
+          <div><img src="/assets/optimized-demo-products/RT-002_480.webp" width="480" height="480" loading="lazy" decoding="async" alt=""/><strong>Roti keju</strong><small>Rp20.000</small></div>
+          <div><img src="/assets/optimized-demo-products/PS-001_480.webp" width="480" height="480" loading="lazy" decoding="async" alt=""/><strong>Croissant</strong><small>Rp15.000</small></div>
         </div>
       </div>
     )}
@@ -23,7 +23,7 @@ const { kind = "catalog" } = Astro.props;
     {kind === "qr" && (
       <div class="demo-preview-qr">
         <div><span class="demo-preview-eyebrow">MENU DIGITAL</span><strong>Buka menu dari ponsel</strong><small>Daftar menu, foto, dan harga dalam satu halaman.</small><span class="demo-preview-pill">Pindai untuk melihat</span></div>
-        <img src="/assets/menu-demo-qr.svg" width="96" height="96" loading="lazy" decoding="async"/>
+        <img src="/assets/menu-demo-qr.svg" width="96" height="96" loading="lazy" decoding="async" alt=""/>
       </div>
     )}
 
@@ -37,7 +37,7 @@ const { kind = "catalog" } = Astro.props;
     {kind === "website" && (
       <div class="demo-preview-website">
         <div class="demo-preview-site-nav"><strong>Nama Usaha</strong><span>Tentang&nbsp;&nbsp; Produk&nbsp;&nbsp; Kontak</span></div>
-        <div class="demo-preview-site-hero"><div><span>WEBSITE USAHA</span><strong>Kenali produk dan layanan kami.</strong><small>Informasi usaha tersusun dalam satu alamat.</small></div><img src="/assets/optimized-demo-products/MN-001_480.webp" width="480" height="480" loading="lazy" decoding="async"/></div>
+        <div class="demo-preview-site-hero"><div><span>WEBSITE USAHA</span><strong>Kenali produk dan layanan kami.</strong><small>Informasi usaha tersusun dalam satu alamat.</small></div><img src="/assets/optimized-demo-products/MN-001_480.webp" width="480" height="480" loading="lazy" decoding="async" alt=""/></div>
         <div class="demo-preview-site-lines"><i></i><i></i><i></i></div>
       </div>
     )}
@@ -60,7 +60,7 @@ const { kind = "catalog" } = Astro.props;
 
     {kind === "combo" && (
       <div class="demo-preview-combo">
-        <div class="demo-preview-combo-site"><span>WEBSITE</span><img src="/assets/optimized-demo-products/PK-001_480.webp" width="480" height="480" loading="lazy" decoding="async"/><strong>Profil + katalog</strong></div>
+        <div class="demo-preview-combo-site"><span>WEBSITE</span><img src="/assets/optimized-demo-products/PK-001_480.webp" width="480" height="480" loading="lazy" decoding="async" alt=""/><strong>Profil + katalog</strong></div>
         <div class="demo-preview-combo-order"><span>BOT PESANAN</span><strong>Pesanan baru</strong><small>Produk · Jumlah · Total</small><b>Status: menunggu</b></div>
       </div>
     )}
