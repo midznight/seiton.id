@@ -1,9 +1,9 @@
 name: One-time AI agent skill installation
 
 on:
-  push:
+  pull_request:
     branches:
-      - chore/install-agent-skills-suite
+      - main
 
 permissions:
   contents: write
@@ -17,13 +17,14 @@ jobs:
       - name: Check out Seiton.id
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
       - name: Run requested skills CLI commands in order
         shell: bash
@@ -122,6 +123,8 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          TARGET_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          TARGET_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -133,4 +136,4 @@ jobs:
             exit 0
           fi
           git commit -m "chore: install requested AI agent skills"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          git push origin "HEAD:${TARGET_BRANCH}"
