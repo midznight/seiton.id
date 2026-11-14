@@ -10,3 +10,8 @@
 - Semua katalog dan tampilan demo harus tetap menyebut bahwa data contohnya fiktif.
 - Harga layanan yang ditampilkan ke publik harus berasal dari API harga resmi; jangan menyalin angka harga API ke HTML/CSS.
 - Jangan deploy ke produksi atau mengubah Worker, database, DNS, dan konfigurasi analitik untuk tugas visual tanpa instruksi eksplisit.
+
+## Agent Skills
+- Project-local Agent Skills tersedia di `.agents/skills/<skill-name>/SKILL.md` dan dimuat sesuai kebutuhan tugas.
+- Gunakan skill perencanaan/TDD/debugging/review untuk alur kerja; gunakan skill arsitektur/backend/database/security untuk perubahan sistem; gunakan skill desain untuk UI.
+- Lihat `docs/AI-AGENT-SKILLS.md` untuk indeks lengkap, sumber upstream, serta contoh pemanggilan. `skills-lock.json` mencatat sumber CLI-managed.
