@@ -180,7 +180,7 @@ const serviceDetailPage = read("src/pages/layanan/[slug].astro");
 check(serviceDetailPage.includes('"@type": "Service"') &&
   serviceDetailPage.includes("structuredData=") &&
   serviceDetailPage.includes('"@id": "https://seiton.biz.id/#organization"') &&
-  serviceDetailPage.includes('"areaServed"'),
+  serviceDetailPage.includes("areaServed:"),
   "Halaman detail layanan harus memuat schema Service yang terhubung ke Organization Seiton.id.");
 check(baseLayout.includes("!demoSite") && baseLayout.includes("structuredData"),
   "Structured data organisasi tidak boleh dipasang pada demo usaha fiktif.");
