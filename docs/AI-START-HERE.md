@@ -128,3 +128,9 @@ Sebelum mengusulkan perubahan, pastikan dapat menjelaskan:
 - Apa yang benar-benar sudah live, apa yang hanya listing, dan apa yang masih rencana?
 
 Jika bukti tidak cukup, nyatakan belum diverifikasi. Jangan mengubah asumsi menjadi fakta.
+
+## Panel admin terpadu — spesifikasi pengembangan
+
+Permintaan owner untuk menyatukan seluruh kegiatan admin dalam satu panel sudah dipetakan. Spesifikasi teknis dan UX authoritative berada di repository backend privat: [UNIFIED-OWNER-CONTROL-CENTER.md](https://github.com/midznight/Automation-Commerce/blob/main/docs/UNIFIED-OWNER-CONTROL-CENTER.md).
+
+Dokumen itu adalah baseline arsitektur dan roadmap, **bukan bukti panel terpadu telah selesai**. Target antarmuka tunggal adalah admin.seiton.biz.id; backend order, site, OTP, dan mail tetap terpisah di belakang satu owner session/BFF. AI baru wajib membacanya sebelum mengubah panel admin.
