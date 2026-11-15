@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - rebuild
+      - ui/interactive-homepage-adaptation
   pull_request:
     branches:
       - main
