@@ -16,7 +16,7 @@ const etalase = serviceBySlug["paket-etalase"];
 const featuredServices = services.filter((service) => service.featured);
 const additionalServices = services.filter((service) => !service.featured);
 const whatsappContact = site.contacts.find((contact) => contact.label === "WhatsApp");
-const whatsappUrl = whatsappContact?.url || "https://wa.me/6288809294868";
+const whatsappUrl = whatsappContact.url;
 const whatsappNumber = whatsappUrl.split("/").filter(Boolean).pop() || "6288809294868";
 
 const processSteps = [
