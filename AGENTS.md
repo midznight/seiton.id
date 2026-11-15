@@ -1,5 +1,12 @@
 # Panduan agent untuk Seiton.id
 
+## Wajib baca sebelum mulai
+1. docs/AI-START-HERE.md
+2. docs/MASTER-INFRASTRUCTURE-DIRECTORY.md
+3. docs/SEITON-BUSINESS-AND-PRODUCT-KNOWLEDGE.md
+
+Dokumen tersebut adalah handoff master untuk konteks bisnis, website yang dipublikasikan, infrastruktur, status kesiapan fitur, repository authority, serta batas keselamatan. Untuk pekerjaan backend, AI juga wajib memiliki akses ke repository privat midznight/Automation-Commerce dan membaca audit/runtime docs di sana. Jika repository privat atau Cloudflare tidak dapat diakses, nyatakan keterbatasan tersebut dan jangan menebak source maupun status production.
+
 ## Pekerjaan UI/UX
 - Sebelum merancang, meninjau, atau mengubah antarmuka, baca `.agents/skills/ui-ux-pro-max/SKILL.md`.
 - Baca `design-system/seiton-id/MASTER.md` dan override halaman yang sedang disentuh.
