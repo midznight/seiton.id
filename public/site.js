@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER="6285117557133";
+const WHATSAPP_NUMBER="6288809294868";
 document.querySelectorAll("a.wa").forEach((link)=>{const message=link.dataset.message||"Halo Seiton.id, saya ingin konsultasi.";link.href="https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message);link.target="_blank";link.rel="noopener noreferrer";});
 const menuButton=document.querySelector(".menu-toggle");
 const primaryNav=document.querySelector("#primary-nav");
