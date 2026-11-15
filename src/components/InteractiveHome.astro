@@ -414,7 +414,7 @@ const nonEtalaseFeatured = featuredServices.filter((service) => service.slug !==
       <aside class="ih-blueprint-inspector" aria-live="polite">
         <span class="ih-preview-label">KOMPONEN TERPILIH</span>
         <span class="ih-blueprint-inspector-number" data-blueprint-number>01</span>
-        <h3 data-blueprint-title>Identitas usaha</h3>
+        <h3 data-blueprint-title-output>Identitas usaha</h3>
         <p data-blueprint-detail>{blueprintNodes[0].detail}</p>
         <a href="#konsultasi" class="ih-inline-link">Diskusikan kebutuhan ini <span aria-hidden="true">→</span></a>
       </aside>
@@ -696,8 +696,8 @@ Mohon bantu saya memahami pilihan solusi yang sesuai. Terima kasih.</pre>
 
   const blueprintButtons = Array.from(document.querySelectorAll("[data-blueprint-node]"));
   const blueprintNumber = document.querySelector("[data-blueprint-number]");
-  const blueprintTitle = document.querySelector("[data-blueprint-title]");
-  const blueprintDetail = document.querySelector("[data-blueprint-detail]");
+  const blueprintTitle = document.querySelector("[data-blueprint-title-output]");
+  const blueprintDetail = document.querySelector("[data-blueprint-detail-output]");
   blueprintButtons.forEach((button) => {
     button.addEventListener("click", () => {
       blueprintButtons.forEach((item) => {
