@@ -175,7 +175,7 @@ const nonEtalaseFeatured = featuredServices.filter((service) => service.slug !==
         <div class="ih-inspector-copy">
           <span class="ih-inspector-kicker">PENJELASAN MODUL</span>
           <h3 data-module-title>{heroModules[0]?.service.name}</h3>
-          <p data-module-description>{heroModules[0]?.service.description}</p>
+          <p data-module-description-output>{heroModules[0]?.service.description}</p>
           <ul data-module-deliverables>
             {(heroModules[0]?.service.deliverables || []).slice(0, 3).map((item) => <li>{item}</li>)}
           </ul>
@@ -309,7 +309,7 @@ const nonEtalaseFeatured = featuredServices.filter((service) => service.slug !==
         <div class="ih-chat-messages" data-chat-messages>
           <div class="ih-chat-bubble ih-customer-message">Halo, boleh minta daftar produk?</div>
           <div class="ih-chat-bubble ih-business-message">Tentu. Ini tautan etalase kami. Di sana ada daftar produk dan informasinya.</div>
-          <div class="ih-chat-share-card"><span class="ih-share-icon">S.</span><span><b>Etalase Usaha Contoh</b><small>Produk · Informasi · Kontak</small></span><i aria-hidden="true">↗</i></div>
+          <div class="ih-chat-share-card"><span class="ih-share-icon">LINK</span><span><b>Etalase Usaha Contoh</b><small>Produk · Informasi · Kontak</small></span><i aria-hidden="true">↗</i></div>
           <div class="ih-chat-bubble ih-customer-message">Terima kasih, saya bisa melihat pilihannya sekarang.</div>
         </div>
         <div class="ih-chat-footer"><span>Pesan simulasi, bukan chat sungguhan</span><span>•••</span></div>
@@ -514,7 +514,7 @@ Mohon bantu saya memahami pilihan solusi yang sesuai. Terima kasih.</pre>
 <script>
   const moduleButtons = Array.from(document.querySelectorAll("[data-module-choice]"));
   const moduleTitle = document.querySelector("[data-module-title]");
-  const moduleDescription = document.querySelector("[data-module-description]");
+  const moduleDescription = document.querySelector("[data-module-description-output]");
   const moduleDeliverables = document.querySelector("[data-module-deliverables]");
   const moduleLink = document.querySelector("[data-module-link]");
   const moduleMark = document.querySelector("[data-module-mark]");
