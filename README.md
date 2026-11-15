@@ -5,6 +5,17 @@ Repositori ini menyiapkan dua keluaran website statis dengan Astro:
 - **Website utama**: profil Seiton.id, layanan, harga, contoh produk, pendiri, kontak, ketentuan, dan privasi.
 - **Pusat demonstrasi**: katalog WhatsApp, menu QR, panduan persiapan Google Business Profile, website usaha fiktif, simulasi Sistem Bot UMKM, dan Paket Combo.
 
+## Dokumentasi Master dan AI Handoff
+
+Dokumentasi berikut merupakan pintu masuk utama bagi AI/developer baru:
+
+- [AI Start Here](docs/AI-START-HERE.md) — urutan baca, sumber kebenaran, status fitur, keamanan, dan protokol kerja.
+- [Master Infrastructure Directory](docs/MASTER-INFRASTRUCTURE-DIRECTORY.md) — domain, Pages, Workers, database, storage, API, endpoint, dan status produksi.
+- [Business, Product & Operating Knowledge](docs/SEITON-BUSINESS-AND-PRODUCT-KNOWLEDGE.md) — profil bisnis, target pelanggan, layanan, proses komersial, kanal, produk, dan roadmap.
+- [Backend repository](https://github.com/midznight/Automation-Commerce) — repository privat authoritative untuk Worker, order, transaksi, QRIS, Site Admin, Messaging Core, dan OTP Portal.
+
+Baca dokumen AI Start Here terlebih dahulu. Snapshot infrastruktur pada dokumen bertanggal dan wajib diperiksa ulang secara read-only sebelum tindakan production.
+
 ## Teknologi
 
 - Astro dengan output statis.
