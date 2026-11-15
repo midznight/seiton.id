@@ -141,7 +141,7 @@ check(interactiveHome.includes('id="ih-send-whatsapp"') &&
   interactiveHome.includes('target="_blank" rel="noopener noreferrer"') &&
   interactiveHome.includes("navigator.clipboard.writeText"),
   "Generator konsultasi harus menyediakan tautan WhatsApp aman serta opsi salin draft.");
-check(!interactiveHome.includes('class="ih-share-icon">S.</span>'),
+check(!interactiveHome.includes('class="ih-share-icon">S.</span>') && !interactiveHome.includes('class="ih-share-icon">LINK</span></div>'),
   "Placeholder logo tidak boleh dipakai pada tampilan Seiton.");
 check(!interactiveHome.includes("setInterval(") && !interactiveHome.includes("Math.random()"),
   "Homepage tidak boleh menampilkan status/progres dekoratif yang berubah secara acak.");
