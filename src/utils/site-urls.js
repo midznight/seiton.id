@@ -6,15 +6,19 @@ const trimTrailingSlash = (value) => {
 };
 const pagesPreview = process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH !== "main";
 const pagesProduction = process.env.CF_PAGES === "1" && process.env.CF_PAGES_BRANCH === "main";
+const previewBranch = String(process.env.CF_PAGES_BRANCH || "rebuild")
+  .toLowerCase()
+  .replace(/[^a-z0-9-]+/g, "-")
+  .replace(/^-+|-+$/g, "") || "rebuild";
 
 export const isPreviewBuild = pagesPreview;
 export const isProductionBuild = pagesProduction;
 
 export const siteUrls = {
   main: pagesPreview
-    ? trimTrailingSlash(process.env.SEITON_MAIN_PREVIEW_URL || "https://rebuild.seiton-main-preview.pages.dev")
+    ? trimTrailingSlash(process.env.SEITON_MAIN_PREVIEW_URL || ("https://" + previewBranch + ".seiton-main-preview.pages.dev"))
     : site.brand.website,
   demo: pagesPreview
-    ? trimTrailingSlash(process.env.SEITON_DEMO_PREVIEW_URL || "https://rebuild.seiton-demo-preview.pages.dev")
+    ? trimTrailingSlash(process.env.SEITON_DEMO_PREVIEW_URL || ("https://" + previewBranch + ".seiton-demo-preview.pages.dev"))
     : site.brand.demo
 };
