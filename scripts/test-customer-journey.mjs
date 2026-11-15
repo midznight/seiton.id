@@ -94,44 +94,87 @@ try {
   check(await page.locator("main h1").count() === 1, "Beranda harus memiliki satu judul utama.");
   check(await page.locator('meta[name="robots"]').getAttribute("content") === "noindex, nofollow",
     "Preview utama harus diberi noindex.");
-  const whatsappCtas = page.locator('a.button-primary[target="_blank"][href^="https://wa.me/"]');
-  check(await whatsappCtas.count() >= 2, "CTA WhatsApp utama dan penutup beranda harus tersedia.");
+  const whatsappCtas = page.locator('#ih-send-whatsapp[target="_blank"][href^="https://wa.me/6288809294868"]');
+  check(await whatsappCtas.count() === 1, "Generator konsultasi harus memakai nomor WhatsApp resmi Seiton.");
   const unsafeExternalLinks = await page.locator('a[target="_blank"]').evaluateAll((items) =>
     items.filter((item) => !/(^|\s)noopener(\s|$)/.test(item.rel) || !/(^|\s)noreferrer(\s|$)/.test(item.rel))
       .map((item) => item.href)
   );
   check(unsafeExternalLinks.length === 0, "Tautan tab baru tidak memiliki rel noopener noreferrer: " + unsafeExternalLinks.join(", "));
 
-  check(await page.locator("[data-showcase-tab]").count() === 3, "Pratinjau beranda harus memiliki tiga tab.");
-  await page.getByRole("tab", { name: "Menu QR" }).click();
-  check(await page.locator("#showcase-panel-menu").isVisible(), "Tab Menu QR tidak menampilkan panelnya.");
-  check(await page.locator("#showcase-panel-katalog").isHidden(), "Panel Katalog masih terlihat setelah tab Menu QR dipilih.");
-  await page.getByRole("tab", { name: "Menu QR" }).press("ArrowRight");
-  check(await page.locator("#showcase-tab-pesanan").getAttribute("aria-selected") === "true",
-    "Navigasi keyboard ArrowRight tidak berpindah ke tab Pesanan.");
-  await page.getByRole("tab", { name: "Pesanan" }).press("Home");
-  check(await page.locator("#showcase-tab-katalog").getAttribute("aria-selected") === "true",
+  const moduleCards = page.locator("[data-module-choice]");
+  check(await moduleCards.count() === 5, "Beranda harus menampilkan lima kartu modul utama.");
+  await page.locator('[data-module-index="4"]').click();
+  check((await page.locator("[data-module-title]").textContent()).includes("Website Katalog"),
+    "Memilih modul website harus memperbarui panel penjelasan.");
+  check(await page.locator("[data-module-link]").getAttribute("href") === "/layanan/website-katalog/",
+    "Tautan modul website tidak mengarah ke halaman layanan yang benar.");
+  check((await page.locator("[data-kinetic-benefit]").textContent()).includes("alamat web"),
+    "Definisi dinamis belum mengikuti modul yang dipilih.");
+  await page.locator("[data-kinetic-trigger]").click();
+  check(await page.locator("[data-kinetic-number]").textContent() === "01",
+    "Kontrol definisi dinamis tidak berpindah ke modul berikutnya.");
+
+  check(await page.locator("[data-sim-tab]").count() === 5, "Simulasi beranda harus memiliki lima tab.");
+  await page.locator('[data-sim-tab="menu"]').click();
+  check(await page.locator("#ih-panel-menu").isVisible(), "Tab Menu QR tidak menampilkan panel simulasi.");
+  check(await page.locator("#ih-panel-katalog").isHidden(), "Panel Katalog masih terlihat setelah tab Menu QR dipilih.");
+  await page.locator('[data-sim-tab="menu"]').press("ArrowRight");
+  check(await page.locator('[data-sim-tab="profil"]').getAttribute("aria-selected") === "true",
+    "Navigasi keyboard ArrowRight tidak berpindah ke tab Profil Google.");
+  await page.locator('[data-sim-tab="profil"]').press("Home");
+  check(await page.locator('[data-sim-tab="katalog"]').getAttribute("aria-selected") === "true",
     "Tombol Home tidak memindahkan fokus ke tab pertama.");
-  await page.getByRole("tab", { name: "Katalog" }).press("End");
-  check(await page.locator("#showcase-tab-pesanan").getAttribute("aria-selected") === "true",
+  await page.locator('[data-sim-tab="katalog"]').press("End");
+  check(await page.locator('[data-sim-tab="telegram"]').getAttribute("aria-selected") === "true",
     "Tombol End tidak memindahkan fokus ke tab terakhir.");
 
-  const needs = page.locator("[data-need-selector]");
-  await needs.locator('[data-need-choice="website"]').click();
-  check((await needs.locator("[data-need-title]").textContent()).includes("Bangun website"),
-    "Pilihan kebutuhan website tidak memperbarui rekomendasi.");
-  check(await needs.locator("[data-need-link]").getAttribute("href") === "/layanan/website-katalog/",
-    "Tautan rekomendasi website tidak sesuai.");
-  const websiteMessage = new URL(await needs.locator("[data-need-contact]").getAttribute("href")).searchParams.get("text");
-  check(websiteMessage.includes("pembuatan website"), "Pesan WhatsApp belum mengikuti pilihan website.");
-  check(await needs.locator("[data-need-contact]").getAttribute("target") === "_blank",
-    "CTA hasil pemilih kebutuhan harus membuka WhatsApp pada tab baru.");
-  await needs.locator('[data-need-choice="pesanan"]').click();
-  check((await needs.locator("[data-need-title]").textContent()).includes("Rapikan alur pemesanan"),
-    "Pilihan kebutuhan pesanan tidak memperbarui rekomendasi.");
-  check(await needs.locator("[data-need-link]").getAttribute("href") === "/layanan/bot-telegram/",
-    "Tautan rekomendasi sistem pesanan tidak sesuai.");
+  await page.locator('[data-comparison-mode="before"]').click();
+  check(await page.locator("[data-comparison-panel]").getAttribute("data-comparison-panel") === "before",
+    "Mode perbandingan sebelum ditata tidak aktif.");
+  check(await page.locator(".ih-chat-share-card").isHidden(),
+    "Kartu tautan etalase harus tersembunyi pada mode sebelum ditata.");
+  await page.locator('[data-comparison-mode="after"]').click();
+  check(await page.locator(".ih-chat-share-card").isVisible(),
+    "Kartu tautan etalase harus terlihat pada mode sesudah ditata.");
+  await page.locator("[data-chat-replay]").click();
 
+  await page.locator('[data-process-step="1"]').click();
+  check((await page.locator("[data-process-title]").textContent()).includes("Susun sesuai kesepakatan"),
+    "Pemilih timeline tidak memperbarui isi tahap kedua.");
+  check(await page.locator("[data-process-slider]").inputValue() === "1",
+    "Slider timeline tidak mengikuti tahap yang dipilih.");
+  await page.locator("[data-process-slider]").focus();
+  await page.locator("[data-process-slider]").press("ArrowRight");
+  check(await page.locator("[data-process-title]").textContent() === "Periksa hasil dan serah terima",
+    "Slider timeline tidak mengaktifkan tahap serah terima.");
+
+  await page.locator('[data-blueprint-node="produk"]').click();
+  check(await page.locator("[data-blueprint-title]").textContent() === "Produk dan layanan",
+    "Diagram anatomi tidak memperbarui komponen yang dipilih.");
+  await page.locator("[data-benefit-toggle]").first().click();
+  check(await page.locator("[data-benefit-toggle]").first().getAttribute("aria-pressed") === "true",
+    "Saklar manfaat tidak berpindah ke kondisi sesudah ditata.");
+  check(await page.locator("[data-benefit-after]").first().isVisible(),
+    "Penjelasan manfaat sesudah ditata belum terlihat.");
+  await page.locator("[data-benefits-reset]").click();
+  check(await page.locator("[data-benefit-toggle]").first().getAttribute("aria-pressed") === "false",
+    "Tombol atur ulang tidak mengembalikan kondisi awal kartu manfaat.");
+
+  await page.locator("#ih-business-name").fill("Kedai Kopi Uji");
+  await page.locator("#ih-business-type").selectOption({ label: "Kuliner / makanan dan minuman" });
+  await page.locator('input[name="requestedService"][value="Menu QR"]').check();
+  await page.locator("#ih-business-need").fill("Saya ingin menata menu dan informasi produk.");
+  const messageDraft = await page.locator("#ih-message-draft").textContent();
+  check(messageDraft.includes("Kedai Kopi Uji") && messageDraft.includes("Menu QR") &&
+    messageDraft.includes("menata menu"), "Draft konsultasi tidak mengikuti isian formulir.");
+  const messageUrl = new URL(await page.locator("#ih-send-whatsapp").getAttribute("href"));
+  check(messageUrl.hostname === "wa.me" && messageUrl.pathname === "/6288809294868",
+    "Tautan generator konsultasi tidak mengarah ke nomor Seiton resmi.");
+  check((messageUrl.searchParams.get("text") || "").includes("Kedai Kopi Uji"),
+    "Pesan WhatsApp hasil generator tidak memuat data formulir.");
+  check(await page.locator("#ih-send-whatsapp").getAttribute("target") === "_blank",
+    "Tautan WhatsApp dari formulir harus terbuka pada tab baru.");
   const pricingPage = await browser.newPage();
   pricingPage.on("pageerror", (error) => pageErrors.push(error.message));
   await pricingPage.route(apiUrl, (route) => route.fulfill({
@@ -320,30 +363,27 @@ try {
         const box = element.getBoundingClientRect();
         return { left: box.left, right: box.right, top: box.top, bottom: box.bottom };
       };
-      const choices = rect(".need-choices");
-      const result = rect(".need-result");
-      const heroCopy = rect(".hero-copy");
-      const heroVisual = rect(".hero-visual");
-      const grid = document.querySelector(".service-grid");
+      const moduleGrid = rect(".ih-module-grid");
+      const moduleInspector = rect(".ih-module-inspector");
+      const heroCopy = rect(".ih-hero-copy");
+      const heroVisual = rect(".ih-hero-visual");
+      const grid = document.querySelector(".ih-featured-links");
+      const dock = rect(".ih-sim-dock");
       return {
         viewport: window.innerWidth,
         documentWidth: document.documentElement.scrollWidth,
-        choicesOverlap: overlaps(choices, result),
+        moduleInspectorOverlap: overlaps(moduleGrid, moduleInspector),
         heroOverlap: overlaps(heroCopy, heroVisual),
         serviceColumns: grid ? getComputedStyle(grid).gridTemplateColumns.split(" ").length : 0,
-        tabsWithinShell: Array.from(document.querySelectorAll(".showcase-tabs button")).every((button) => {
-          const box = button.getBoundingClientRect();
-          const shell = document.querySelector(".showcase-shell").getBoundingClientRect();
-          return box.left >= shell.left - 1 && box.right <= shell.right + 1;
-        }),
+        tabsWithinShell: Boolean(dock && dock.left >= -1 && dock.right <= window.innerWidth + 1),
         menuToggleVisible: getComputedStyle(document.querySelector(".menu-toggle")).display !== "none"
       };
     });
     check(metrics.documentWidth <= metrics.viewport + 1,
       "Horizontal overflow pada lebar " + width + " px (" + metrics.documentWidth + " px).");
-    check(!metrics.choicesOverlap, "Panel pemilih kebutuhan saling bertumpuk pada lebar " + width + " px.");
-    check(!metrics.heroOverlap, "Hero copy dan pratinjau saling bertumpuk pada lebar " + width + " px.");
-    check(metrics.tabsWithinShell, "Tab pratinjau keluar dari kartu pada lebar " + width + " px.");
+    check(!metrics.moduleInspectorOverlap, "Panel modul bertumpuk dengan penjelasan pada lebar " + width + " px.");
+    check(!metrics.heroOverlap, "Hero copy dan ilustrasi saling bertumpuk pada lebar " + width + " px.");
+    check(metrics.tabsWithinShell, "Dock tab simulasi keluar dari viewport pada lebar " + width + " px.");
     check(metrics.menuToggleVisible === (width <= 1100),
       "Breakpoint navigasi tidak sesuai pada lebar " + width + " px.");
   }
@@ -351,7 +391,7 @@ try {
   check(pageErrors.length === 0, "JavaScript exception ditemukan: " + pageErrors.join(" | "));
   console.log("Customer journey passed: " + assertions + " assertions; " +
     mainRoutes.length + " main routes, " + demoRoutes.length + " demo routes, " +
-    "navigation, WhatsApp CTA, tabs, need selector, pricing success/failure, and 8 responsive widths.");
+    "navigation, module cards, five simulation tabs, chat comparison, timeline, blueprint, benefit toggles, consultation generator, pricing success/failure, and responsive widths.");
 } finally {
   await browser.close();
 }
