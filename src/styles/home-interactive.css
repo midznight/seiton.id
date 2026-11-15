@@ -228,7 +228,7 @@
 .ih-services-intro p:last-child{max-width:630px;margin:0 auto;color:#D8E0E4;font-size:.85rem;line-height:1.7}
 .ih-etalase-package{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:35px;padding:25px;border:1px solid rgba(255,255,255,.2);border-radius:17px;background:#293747}
 .ih-package-number{display:inline-block;margin-bottom:12px;color:#FFB08F;font-size:.62rem}
-.ih-package-lead h3{margin:0 0 9px;font-size:1.7rem;letter-spacing:-.03em}
+.ih-package-lead h3{margin:0 0 9px;color:#fff;font-size:1.7rem;letter-spacing:-.03em}
 .ih-package-lead p{max-width:420px;margin-bottom:19px;color:#D4DCE1;font-size:.8rem;line-height:1.65}
 .ih-button-light{background:var(--ih-orange);border-color:var(--ih-orange);color:var(--ih-ink)}
 .ih-button-light:hover{background:#fff;border-color:#fff;color:var(--ih-ink)}
