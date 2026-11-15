@@ -27,7 +27,7 @@ check(!services.some((service) => /muse_starter|akun muse starter|akun polosan/i
 check(services.find((service) => service.slug === "setup-ai-gateway-bot")?.name === "Setup AI Gateway & Bot Asisten 24/7", "Layanan Setup AI Gateway belum tercantum dengan nama publik yang disetujui.");
 check(services.find((service) => service.slug === "setup-portal-otp")?.name === "Setup Portal OTP & Email Custom Domain", "Layanan Setup Portal OTP belum tercantum dengan nama publik yang disetujui.");
 check(site.navigation.length === 5, "Navigasi utama harus memiliki lima menu dan satu aksi Konsultasi.");
-check(site.contacts.some((item) => item.label === "WhatsApp" && item.url === "https://wa.me/6285117557133"), "Kontak WhatsApp resmi tidak sesuai.");
+check(site.contacts.some((item) => item.label === "WhatsApp" && item.url === "https://wa.me/6288809294868"), "Kontak WhatsApp resmi tidak sesuai.");
 check(site.contacts.some((item) => item.label === "Email" && item.url === "mailto:seiton.id@gmail.com"), "Kontak email resmi tidak sesuai.");
 check(site.contacts.some((item) => item.label === "Instagram" && item.value === "@seiton.id" && item.url === "https://www.instagram.com/seiton.id"), "Kontak Instagram resmi tidak sesuai.");
 check(site.contacts.some((item) => item.label === "TikTok" && item.value === "@seiton.id" && item.url === "https://www.tiktok.com/@seiton.id"), "Kontak TikTok resmi tidak sesuai.");
@@ -43,7 +43,7 @@ check(contactBlock.includes("site.contacts.map") && contactBlock.includes('class
   "ContactBlock harus merender kanal dari satu sumber site.json.");
 check(whatsappCta.includes('import site from "../data/site.json";') &&
   whatsappCta.includes('site.contacts.find((contact) => contact.label === "WhatsApp")') &&
-  !whatsappCta.includes("6285117557133"),
+  !whatsappCta.includes("6288809294868"),
   "WhatsApp CTA harus menggunakan satu sumber kontak pada site.json, tanpa nomor hard-coded.");
 check(read("src/styles/site.css").includes(".footer-contact-block .contact-item{min-height:48px"),
   "Tautan kontak di footer harus memiliki target sentuh minimal 44 piksel.");
