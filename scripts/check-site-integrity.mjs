@@ -230,7 +230,7 @@ check(/noindex\s*\|\|\s*isPreviewBuild\s*\?\s*["\x27]noindex, nofollow["\x27]/.t
 
 
 check(siteUrls.includes('process.env.CF_PAGES_BRANCH !== "main"'), "Pemilihan URL preview harus mengikuti branch Cloudflare Pages.");
-check(siteUrls.includes("https://rebuild.seiton-main-preview.pages.dev") && siteUrls.includes("https://rebuild.seiton-demo-preview.pages.dev"), "Alias preview kedua project belum ditetapkan.");
+check(siteUrls.includes("previewBranch") && siteUrls.includes("replace(/[^a-z0-9-]+/g, \"-\")") && siteUrls.includes(".seiton-main-preview.pages.dev") && siteUrls.includes(".seiton-demo-preview.pages.dev"), "Alias preview kedua project harus mengikuti nama branch yang sedang dibangun.");
 check(read("src/components/Header.astro").includes("siteUrls.main"), "Header demo harus menggunakan URL utama sesuai environment.");
 check(read("src/components/Footer.astro").includes("siteUrls.main"), "Footer demo harus menggunakan URL utama sesuai environment.");
 check(read("src/pages/contoh/index.astro").includes("siteUrls.demo"), "Kartu demo harus menggunakan URL demo sesuai environment.");
