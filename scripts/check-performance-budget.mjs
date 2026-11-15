@@ -20,7 +20,8 @@ const kb = (bytes) => (bytes / 1024).toFixed(1) + " KB";
 const referencedCssForPage = (htmlFile, root) => {
   const html = fs.readFileSync(htmlFile, "utf8");
   const assets = new Set();
-  for (const [, tag] of html.matchAll(/<link\b[^>]*>/gi)) {
+  for (const match of html.matchAll(/<link\b[^>]*>/gi)) {
+    const tag = match[0];
     const rel = tag.match(/\brel=["']([^"']+)["']/i)?.[1] || "";
     const href = tag.match(/\bhref=["']([^"']+)["']/i)?.[1] || "";
     if (!rel.split(/\s+/).includes("stylesheet") || !href || /^https?:/i.test(href)) continue;
