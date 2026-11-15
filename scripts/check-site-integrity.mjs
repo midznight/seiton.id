@@ -131,7 +131,7 @@ check(interactiveHome.includes('id="beranda"') && interactiveHome.includes('id="
   "Sembilan bagian utama migrasi homepage belum lengkap.");
 check(interactiveHome.includes("data-module-choice") && interactiveHome.includes("data-kinetic-trigger") &&
   interactiveHome.includes("data-comparison-mode") && interactiveHome.includes("data-process-slider") &&
-  interactiveHome.includes("data-blueprint-node") && interactiveHome.includes("data-benefit-toggle"),
+  interactiveHome.includes("data-blueprint-node") && interactiveHome.includes("data-blueprint-title-output") && interactiveHome.includes("data-blueprint-detail-output") && interactiveHome.includes("data-benefit-toggle"),
   "Kontrol interaktif referensi belum terhubung pada komponen homepage.");
 check(interactiveHome.includes('site.contacts.find((contact) => contact.label === "WhatsApp")') &&
   interactiveHome.includes('data-wa-number={whatsappNumber}') &&
