@@ -150,7 +150,7 @@ try {
     "Slider timeline tidak mengaktifkan tahap serah terima.");
 
   await page.locator('[data-blueprint-node="produk"]').click();
-  check(await page.locator("[data-blueprint-title]").textContent() === "Produk dan layanan",
+  check(await page.locator("[data-blueprint-title-output]").textContent() === "Produk dan layanan",
     "Diagram anatomi tidak memperbarui komponen yang dipilih.");
   await page.locator("[data-benefit-toggle]").first().click();
   check(await page.locator("[data-benefit-toggle]").first().getAttribute("aria-pressed") === "true",
