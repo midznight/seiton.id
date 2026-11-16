@@ -1,0 +1,138 @@
+---
+import Base from "../layouts/Base.astro";
+import WhatsAppCTA from "../components/WhatsAppCTA.astro";
+import site from "../data/site.json";
+
+const pageUrl = "https://seiton.biz.id/jasa-website-umkm-jember/";
+const localServiceSchema = {
+  "@type": "Service",
+  "@id": pageUrl + "#service",
+  name: "Jasa pembuatan website dan solusi digital UMKM di Jember",
+  serviceType: [
+    "Pembuatan website katalog UMKM",
+    "Penataan katalog produk digital",
+    "Menu digital QR",
+    "Sistem pemesanan UMKM"
+  ],
+  url: pageUrl,
+  provider: { "@id": site.brand.website + "#organization" },
+  areaServed: [
+    { "@type": "City", name: "Jember" },
+    { "@type": "Country", name: "Indonesia" }
+  ]
+};
+---
+<Base
+  title="Jasa Website UMKM Jember: Katalog & Solusi Digital | Seiton.id"
+  description="Seiton.id membantu UMKM Jember menata katalog digital, website usaha, menu QR, dan alur pemesanan. Konsultasi online tersedia untuk seluruh Indonesia."
+  structuredData={localServiceSchema}
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">BERANGKAT DARI JEMBER · MELAYANI ONLINE DI INDONESIA</p>
+      <h1>Jasa website dan solusi digital untuk UMKM Jember.</h1>
+      <p class="lead">Seiton.id membantu usaha menata informasi produk, membangun website katalog, menyiapkan menu digital QR, dan merapikan alur pemesanan sesuai kebutuhan operasional.</p>
+      <div class="actions">
+        <WhatsAppCTA message="Halo Seiton.id, saya ingin konsultasi kebutuhan website atau solusi digital untuk usaha saya di Jember."/>
+        <a class="button button-secondary" href="/layanan/">Jelajahi layanan</a>
+      </div>
+    </div>
+  </section>
+  <section class="section section-white">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">PILIH BERDASARKAN KEBUTUHAN</p><h2>Mulai dari informasi usaha yang paling penting.</h2></div>
+        <p>Usaha kuliner, toko, penyedia jasa, dan bisnis lokal memiliki kebutuhan berbeda. Pilih bagian yang perlu dibereskan lebih dulu, bukan sekadar menambah fitur.</p>
+      </div>
+      <div class="card-grid jember-service-grid">
+        <article class="card">
+          <p class="card-kicker">KATALOG PRODUK</p>
+          <h3>Katalog digital untuk produk dan menu</h3>
+          <p>Susun nama, kategori, foto, varian, dan harga supaya pelanggan dapat memeriksa pilihan sebelum menghubungi usaha.</p>
+          <a href="/layanan/katalog-produk/">Pelajari katalog WhatsApp Business →</a>
+        </article>
+        <article class="card">
+          <p class="card-kicker">WEBSITE USAHA</p>
+          <h3>Website katalog UMKM</h3>
+          <p>Satukan profil, daftar produk, foto, dan kontak pada alamat website usaha sendiri. Pengelolaan konten ditentukan dalam ruang lingkup proyek.</p>
+          <a href="/layanan/website-katalog/">Pelajari website katalog →</a>
+        </article>
+        <article class="card">
+          <p class="card-kicker">KULINER DAN HOSPITALITY</p>
+          <h3>Menu digital QR</h3>
+          <p>Berikan akses ke menu dari tautan atau kode QR dengan susunan kategori dan harga yang mudah dibaca melalui ponsel.</p>
+          <a href="/layanan/menu-qr/">Pelajari menu digital QR →</a>
+        </article>
+        <article class="card">
+          <p class="card-kicker">OPERASIONAL</p>
+          <h3>Sistem pemesanan UMKM</h3>
+          <p>Untuk proses yang mulai sulit dicatat manual, sistem bot dapat membantu katalog, pesanan, status pembayaran, dan laporan sesuai ruang lingkup.</p>
+          <a href="/layanan/sistem-bot-umkm/">Pelajari Sistem Bot UMKM →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container jember-process-layout">
+      <div>
+        <p class="eyebrow">CARA KERJA</p>
+        <h2>Jelas sejak kebutuhan dibahas.</h2>
+        <p>Setiap pekerjaan dimulai dengan memahami kondisi usaha. Fitur, jadwal, biaya, akses, dan tanggung jawab pembaruan disepakati sebelum pengerjaan.</p>
+      </div>
+      <ol class="jember-process-list">
+        <li><strong>Konsultasi kebutuhan</strong><p>Jelaskan jenis usaha, kanal yang digunakan, dan bagian yang ingin ditata.</p></li>
+        <li><strong>Pemetaan ruang lingkup</strong><p>Seiton menyusun pilihan solusi, bahan yang diperlukan, batas layanan, dan penawaran tertulis.</p></li>
+        <li><strong>Pengerjaan dan pemeriksaan</strong><p>Materi ditata, hasil diuji, lalu diperiksa bersama sesuai ruang lingkup.</p></li>
+        <li><strong>Serah terima</strong><p>Pemilik menerima hasil dan panduan pengelolaan sesuai kesepakatan.</p></li>
+      </ol>
+    </div>
+  </section>
+  <section class="section section-white">
+    <div class="container jember-preparation">
+      <div>
+        <p class="eyebrow">SEBELUM KONSULTASI</p>
+        <h2>Siapkan informasi dasar usaha.</h2>
+        <p>Brief yang jelas membantu menentukan solusi tanpa menambah pekerjaan yang tidak diperlukan.</p>
+      </div>
+      <ul>
+        <li>Nama usaha dan jenis produk atau layanan.</li>
+        <li>Foto, daftar produk, varian, serta harga yang sudah diperiksa.</li>
+        <li>Logo dan warna identitas bila sudah tersedia.</li>
+        <li>Alur pelanggan saat ini: melihat produk, bertanya, memesan, dan membayar.</li>
+        <li>Contoh kendala yang paling sering menghabiskan waktu.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container jember-faq">
+      <p class="eyebrow">PERTANYAAN UMUM</p>
+      <h2>Informasi sebelum memilih layanan.</h2>
+      <details><summary>Apakah Seiton.id melayani UMKM di luar Jember?</summary><p>Ya. Seiton.id berangkat dari Jember dan konsultasi serta pengerjaan dapat dilakukan secara online untuk usaha di seluruh Indonesia.</p></details>
+      <details><summary>Apakah saya harus langsung membuat website dan bot?</summary><p>Tidak. Mulai dari kebutuhan yang paling mendesak, seperti katalog atau website profil. Sistem pemesanan dapat dipertimbangkan setelah proses produk, pesanan, dan tanggung jawab admin lebih jelas.</p></details>
+      <details><summary>Berapa biaya pembuatan website UMKM?</summary><p>Harga layanan yang sudah ditetapkan ditampilkan melalui halaman Harga dari sumber data resmi. Sistem khusus menggunakan penawaran tertulis setelah kebutuhan dipetakan.</p><p><a href="/harga/">Lihat informasi harga Seiton.id →</a></p></details>
+      <details><summary>Apakah website langsung muncul di halaman pertama Google?</summary><p>Tidak ada jaminan peringkat tertentu. Website perlu memiliki halaman yang berguna, dapat diakses dan diindeks, struktur yang jelas, serta pemeliharaan konten yang konsisten. Hasil pencarian dipengaruhi banyak faktor di luar kendali penyedia website.</p></details>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container jember-bottom-cta">
+      <div><p class="eyebrow">KONSULTASI AWAL</p><h2>Ceritakan kebutuhan digital usahamu.</h2><p>Mulai dari satu masalah yang paling sering menghambat pekerjaan. Solusi dan ruang lingkup dibahas sebelum ada keputusan pengerjaan.</p></div>
+      <div class="actions"><WhatsAppCTA message="Halo Seiton.id, saya ingin konsultasi kebutuhan digital usaha saya di Jember."/><a class="button button-secondary" href="/kontak/">Kontak resmi Seiton.id</a></div>
+    </div>
+  </section>
+</Base>
+<style>
+  .jember-service-grid { align-items: stretch; }
+  .jember-service-grid .card { display: flex; flex-direction: column; }
+  .jember-service-grid .card a { margin-top: auto; padding-top: 1rem; font-weight: 650; }
+  .jember-process-layout, .jember-preparation, .jember-bottom-cta { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 2.5rem; align-items: start; }
+  .jember-process-list { margin: 0; padding-left: 1.5rem; }
+  .jember-process-list li { padding: 0 0 1rem .5rem; }
+  .jember-process-list p { margin: .35rem 0 0; }
+  .jember-preparation ul { margin: 0; padding-left: 1.3rem; }
+  .jember-preparation li { padding: .35rem 0; }
+  .jember-faq { max-width: 900px; }
+  .jember-faq details { padding: 1rem 0; border-bottom: 1px solid #e5e7eb; }
+  .jember-faq summary { cursor: pointer; font-weight: 650; }
+  .jember-bottom-cta { align-items: center; }
+  @media (max-width: 760px) { .jember-process-layout, .jember-preparation, .jember-bottom-cta { grid-template-columns: 1fr; } }
+</style>
