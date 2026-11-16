@@ -60,6 +60,7 @@ for (const service of services) {
 }
 
 const home = read("src/pages/index.astro");
+const interactiveHome = read("src/components/InteractiveHome.astro");
 const localLanding = read("src/pages/jasa-website-umkm-jember.astro");
 const guideDetail = read("src/pages/panduan/[slug].astro");
 const serviceDetail = read("src/pages/layanan/[slug].astro");
@@ -67,6 +68,12 @@ const baseLayout = read("src/layouts/Base.astro");
 const footer = read("src/components/Footer.astro");
 
 check(home.includes("Katalog Digital, Menu QR & Website UMKM"), "Homepage belum memakai target pencarian utama.");
+check(interactiveHome.includes("<h1>Jasa katalog digital<br /><span>&amp; website UMKM.</span></h1>"),
+  "H1 homepage harus menyebut layanan katalog digital dan website UMKM, sambil mempertahankan tagline brand.");
+check(!interactiveHome.includes('alt="Contoh foto produk pertama"') &&
+  !interactiveHome.includes('alt="Contoh foto produk kedua"') &&
+  !interactiveHome.includes('alt="Contoh foto produk ketiga"'),
+  "Alt text gambar pratinjau website katalog tidak boleh berupa label generik.");
 check(home.includes("Berbasis di Jember"), "Homepage belum menjelaskan jangkauan layanan dengan akurat.");
 check(localLanding.includes("Jasa website dan solusi digital untuk UMKM Jember"), "Landing page lokal Jember tidak ditemukan.");
 check(localLanding.includes("melayani secara online") || localLanding.includes("online untuk usaha"),
