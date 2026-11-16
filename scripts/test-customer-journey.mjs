@@ -148,6 +148,19 @@ try {
     "Kontrol definisi dinamis tidak berpindah ke modul berikutnya.");
 
   check(await page.locator("[data-sim-tab]").count() === 5, "Simulasi beranda harus memiliki lima tab.");
+  const modulePreviewPairs = [["0", "website"], ["1", "katalog"], ["2", "menu"], ["3", "profil"], ["4", "website"]];
+  for (const [moduleIndex, simulationName] of modulePreviewPairs) {
+    await page.locator(`[data-module-index="${moduleIndex}"]`).click();
+    check(await page.locator(`[data-sim-tab="${simulationName}"]`).getAttribute("aria-selected") === "true",
+      "Memilih modul " + moduleIndex + " tidak menyinkronkan tab simulasi " + simulationName + ".");
+    check(await page.locator(`[data-sim-panel="${simulationName}"]`).isVisible(),
+      "Panel simulasi " + simulationName + " tidak ikut berubah saat modul dipilih.");
+  }
+  await page.locator(`[data-module-index="3"]`).click();
+  await page.locator("[data-kinetic-trigger]").click();
+  check(await page.locator("[data-kinetic-number]").textContent() === "05" &&
+    await page.locator(`[data-sim-tab="website"]`).getAttribute("aria-selected") === "true",
+    "Tombol Ganti tidak menyelaraskan pratinjau ke modul berikutnya.");
   await page.locator('[data-sim-tab="menu"]').click();
   check(await page.locator("#ih-panel-menu").isVisible(), "Tab Menu QR tidak menampilkan panel simulasi.");
   check(await page.locator("#ih-panel-katalog").isHidden(), "Panel Katalog masih terlihat setelah tab Menu QR dipilih.");
