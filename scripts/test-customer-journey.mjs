@@ -120,7 +120,7 @@ try {
     "Urutan label atau tujuan navigasi utama tidak konsisten.");
 
   check(await page.locator("main h1").count() === 1, "Beranda harus memiliki satu judul utama.");
-  const homepageHeading = (await page.locator("main h1").innerText()).replace(/\\s+/g, " ").trim();
+  const homepageHeading = (await page.locator("main h1").innerText()).replace(/\s+/g, " ").trim();
   check(/jasa katalog digital/i.test(homepageHeading) && /website umkm/i.test(homepageHeading),
     "H1 homepage harus menjelaskan layanan katalog digital dan website UMKM.");
   const homepageImages = await page.locator("img").evaluateAll((items) => items.map((image) => ({
