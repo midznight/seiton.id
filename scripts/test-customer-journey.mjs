@@ -98,6 +98,14 @@ try {
       })));
       check(JSON.stringify(legalNav) === JSON.stringify(expectedNav.map(([label, href]) => ({ label, href }))),
         "Navigasi halaman legal tidak konsisten dengan navigasi utama: " + route);
+      if (route === "/privasi/") {
+        const privacyText = await page.locator("body").innerText();
+        check(privacyText.includes("Cloudflare Web Analytics") &&
+          privacyText.includes("tidak dikendalikan oleh tombol persetujuan GA4"),
+          "Kebijakan Privasi harus menjelaskan Cloudflare Web Analytics secara terpisah dari GA4.");
+        check(await page.locator('a[href="https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/"]').count() === 1,
+          "Kebijakan Privasi harus menyediakan sumber dokumentasi Cloudflare Web Analytics.");
+      }
     }
   }
 
