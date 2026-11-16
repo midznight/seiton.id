@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import guides from "../../data/guides.json";
+const dateLabel = (value) => new Date(value + "T00:00:00").toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 ---
 <Base
   title="Panduan Digital untuk UMKM: Katalog, Website, dan Operasional | Seiton.id"
@@ -25,7 +26,7 @@ import guides from "../../data/guides.json";
             <p class="card-kicker">{guide.category}</p>
             <h3>{guide.title}</h3>
             <p>{guide.summary}</p>
-            <p class="guide-card-meta">{guide.readingMinutes} menit baca · Diperbarui 16 November 2026</p>
+            <p class="guide-card-meta">{guide.readingMinutes} menit baca · Diperbarui {dateLabel(guide.updatedAt)}</p>
             <a class="button button-secondary" href={"/panduan/" + guide.slug + "/"}>Baca panduan</a>
           </article>
         ))}
