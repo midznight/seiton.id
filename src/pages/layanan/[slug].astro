@@ -20,7 +20,7 @@ const serviceSchema = {
   serviceType: service.name,
   url: "https://seiton.biz.id/layanan/" + service.slug + "/",
   provider: { "@id": "https://seiton.biz.id/#organization" },
-  areaServed: { "@type": "Country", name: "Indonesia" }
+  areaServed: [\n    { "@type": "City", name: "Jember" },\n    { "@type": "Country", name: "Indonesia" }\n  ]
 };
 const demoPath = service.slug === "sistem-bot-umkm"
   ? "/bot-umkm/"
@@ -31,7 +31,7 @@ const demoText = service.slug === "sistem-bot-umkm"
   ? "Coba simulasi Sistem Bot UMKM"
   : "Lihat demonstrasi Paket Combo";
 ---
-<Base title={service.name + " — Layanan Seiton.id"} description={service.short} structuredData={serviceSchema}>
+<Base title={service.metaTitle || service.name + " — Layanan Seiton.id"} description={service.metaDescription || service.short} structuredData={serviceSchema}>
   <section class="page-hero">
     <div class="container">
       <p class="eyebrow">{service.slugLabel}</p>
@@ -53,6 +53,17 @@ const demoText = service.slug === "sistem-bot-umkm"
         <ul>{service.features.map((feature) => <li>{feature}</li>)}</ul>
         <h2>Hasil pekerjaan</h2>
         <ul>{service.deliverables.map((item) => <li>{item}</li>)}</ul>
+        {service.faq?.length ? (
+          <section class="service-faq" aria-labelledby="service-faq-title">
+            <h2 id="service-faq-title">Pertanyaan tentang {service.name}</h2>
+            {service.faq.map((item) => (
+              <details>
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </section>
+        ) : null}
       </article>
       <aside class="detail-aside">
         <p class="card-kicker">SEBELUM MULAI</p>
@@ -64,3 +75,9 @@ const demoText = service.slug === "sistem-bot-umkm"
     </div>
   </section>
 </Base>
+<style>
+  .service-faq { margin-top: 2rem; }
+  .service-faq details { padding: 1rem 0; border-bottom: 1px solid #e5e7eb; }
+  .service-faq summary { cursor: pointer; font-weight: 650; }
+  .service-faq details p { margin-bottom: 0; }
+</style>
