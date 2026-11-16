@@ -81,12 +81,14 @@ const founderProfileUrl = site.founderProfileUrl;
     </div>
   </section>
 
+  {founderProfileUrl && (
   <section class="section story-founder-section">
     <div class="container story-founder-card">
       <div><p class="eyebrow">DI LUAR CERITA BISNIS INI</p><h2>Profil pribadi pendiri</h2><p>Halaman ini berfokus pada cerita, tujuan, dan pendekatan Seiton sebagai bisnis. Latar belakang pribadi dan perjalanan pendirinya akan ditempatkan pada website profil yang terpisah.</p></div>
       {founderProfileUrl ? <a class="button button-light" href={founderProfileUrl} target="_blank" rel="noopener noreferrer">Kunjungi profil pendiri ↗</a> : <span class="story-profile-status">Website profil pendiri terpisah akan ditautkan di sini.</span>}
     </div>
   </section>
+  )}
 
   <section class="section story-cta-section">
     <div class="container story-cta-inner">
