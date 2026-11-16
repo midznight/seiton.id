@@ -4,13 +4,20 @@ import site from "../data/site.json";
 import ServiceCard from "./ServiceCard.astro";
 
 const serviceBySlug = Object.fromEntries(services.map((service) => [service.slug, service]));
+const moduleSimulationBySlug = {
+  "paket-etalase": "katalog",
+  "katalog-produk": "katalog",
+  "menu-qr": "menu",
+  "profil-google": "profil",
+  "website-katalog": "website"
+};
 const heroModules = [
   { slug: "paket-etalase", number: "01", benefit: "melihat informasi utama usaha", tone: "orange" },
   { slug: "katalog-produk", number: "02", benefit: "menemukan pilihan produk", tone: "sage" },
   { slug: "menu-qr", number: "03", benefit: "membuka menu dari ponsel", tone: "sand" },
   { slug: "profil-google", number: "04", benefit: "menemukan informasi usaha", tone: "ink" },
   { slug: "website-katalog", number: "05", benefit: "mengenal usaha melalui satu alamat web", tone: "bone" }
-].map((item) => ({ ...item, service: serviceBySlug[item.slug] })).filter((item) => item.service);
+].map((item) => ({ ...item, service: serviceBySlug[item.slug], simulation: moduleSimulationBySlug[item.slug] })).filter((item) => item.service);
 
 const etalase = serviceBySlug["paket-etalase"];
 const featuredServices = services.filter((service) => service.featured);
@@ -159,6 +166,7 @@ const nonEtalaseFeatured = featuredServices.filter((service) => service.slug !==
             data-module-name={module.service.name}
             data-module-description={module.service.description}
             data-module-url={"/layanan/" + module.slug + "/"}
+            data-module-simulation={module.simulation}
             data-module-benefit={module.benefit}
             data-module-deliverables={JSON.stringify(module.service.deliverables || [])}
           >
@@ -522,6 +530,17 @@ Mohon bantu saya memahami pilihan solusi yang sesuai. Terima kasih.</pre>
   const kineticLabel = document.querySelector("[data-kinetic-label]");
   const kineticBenefit = document.querySelector("[data-kinetic-benefit]");
 
+  const simTabs = Array.from(document.querySelectorAll("[data-sim-tab]"));
+  const simPanels = Array.from(document.querySelectorAll("[data-sim-panel]"));
+  const activateSimulation = (name, moveFocus = false) => {
+    simTabs.forEach((tab) => {
+      const active = tab.dataset.simTab === name;
+      tab.setAttribute("aria-selected", String(active));
+      tab.tabIndex = active ? 0 : -1;
+      if (active && moveFocus) tab.focus();
+    });
+    simPanels.forEach((panel) => { panel.hidden = panel.dataset.simPanel !== name; });
+  };
   const selectModule = (index) => {
     const button = moduleButtons[index];
     if (!button) return;
@@ -537,6 +556,7 @@ Mohon bantu saya memahami pilihan solusi yang sesuai. Terima kasih.</pre>
     if (kineticNumber) kineticNumber.textContent = String(index + 1).padStart(2, "0");
     if (kineticLabel) kineticLabel.textContent = button.dataset.moduleName || "";
     if (kineticBenefit) kineticBenefit.textContent = button.dataset.moduleBenefit || "";
+    if (button.dataset.moduleSimulation) activateSimulation(button.dataset.moduleSimulation);
     if (moduleDeliverables) {
       let deliverables = [];
       try { deliverables = JSON.parse(button.dataset.moduleDeliverables || "[]"); } catch {}
@@ -568,17 +588,6 @@ Mohon bantu saya memahami pilihan solusi yang sesuai. Terima kasih.</pre>
     });
   }
 
-  const simTabs = Array.from(document.querySelectorAll("[data-sim-tab]"));
-  const simPanels = Array.from(document.querySelectorAll("[data-sim-panel]"));
-  const activateSimulation = (name, moveFocus = false) => {
-    simTabs.forEach((tab) => {
-      const active = tab.dataset.simTab === name;
-      tab.setAttribute("aria-selected", String(active));
-      tab.tabIndex = active ? 0 : -1;
-      if (active && moveFocus) tab.focus();
-    });
-    simPanels.forEach((panel) => { panel.hidden = panel.dataset.simPanel !== name; });
-  };
   simTabs.forEach((tab, index) => {
     tab.addEventListener("click", () => activateSimulation(tab.dataset.simTab));
     tab.addEventListener("keydown", (event) => {
