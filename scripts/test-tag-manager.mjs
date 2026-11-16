@@ -36,6 +36,8 @@ assert.equal(/destination\.(?:search|hash)|link\.href\s*,/.test(whatsappEvent), 
 assert.ok(consentSource.includes('document.addEventListener("click", trackWhatsAppClick, true)'),
   "WhatsApp click tracking must use delegated document-level click handling.");
 assert.ok(privacySource.includes("Google Analytics 4") && privacySource.includes(ga4Id), "Privacy notice must identify GA4 and its destination.");
+assert.ok(privacySource.includes("whatsapp_click") && privacySource.includes("Teks pesan WhatsApp dan query string tautan tidak dikirim"),
+  "Privacy notice must disclose WhatsApp click tracking and exclusion of message text.");
 assert.ok(privacySource.includes("14 bulan") && privacySource.includes("persetujuan eksplisit"), "Privacy notice must state retention and consent basis.");
 for (const source of [baseSource, ...legalSources]) {
   assert.equal(source.includes("https://www.googletagmanager.com/gtm.js"), false, "No page may load GTM before consent.");
