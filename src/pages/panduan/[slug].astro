@@ -31,7 +31,7 @@ const publishedDate = new Date(guide.publishedAt + "T00:00:00");
 const updatedDate = new Date(guide.updatedAt + "T00:00:00");
 const dateLabel = (date) => date.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 ---
-<Base title={guide.metaTitle} description={guide.metaDescription} author="Seiton.id" ogType="article" structuredData={articleSchema}>
+<Base title={guide.metaTitle} description={guide.metaDescription} author="Seiton.id" ogType="article" articlePublishedTime={guide.publishedAt} articleModifiedTime={guide.updatedAt} structuredData={articleSchema}>
   <section class="page-hero guide-hero">
     <div class="container guide-hero-inner">
       <p class="eyebrow">{guide.category}</p>
