@@ -31,12 +31,14 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Run source integrity and SEO content checks
+        run: npm run check
       - name: Build main website
         run: npm run build:site
       - name: Build demo website
         run: npm run build:demo
-      - name: Verify static output
-        run: node scripts/check-site-build.mjs
+      - name: Verify static output and SEO metadata
+        run: node scripts/check-site-build.mjs && node scripts/check-seo-build.mjs
       - name: Check performance budget
         run: npm run check:performance
       - name: Check demo image assets

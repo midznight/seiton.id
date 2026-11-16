@@ -16,7 +16,23 @@
       "Panduan pengelolaan profil bisnis"
     ],
     "slugLabel": "Etalase digital",
-    "featured": true
+    "featured": true,
+    "metaTitle": "Paket Etalase Digital UMKM: Katalog & Menu QR | Seiton.id",
+    "metaDescription": "Satukan katalog WhatsApp, menu QR, dan pendampingan profil Google yang memenuhi syarat dalam Paket Etalase Digital UMKM dari Seiton.id.",
+    "faq": [
+      {
+        "question": "Apa saja yang termasuk dalam Paket Etalase?",
+        "answer": "Paket mencakup penataan katalog WhatsApp Business, menu QR, serta pendampingan informasi Google Business Profile setelah kelayakan usaha diperiksa. Rincian hasil mengikuti penawaran tertulis."
+      },
+      {
+        "question": "Apakah semua usaha bisa dibuatkan Google Business Profile?",
+        "answer": "Tidak. Profil hanya untuk bisnis yang memenuhi pedoman Google, termasuk persyaratan interaksi langsung dengan pelanggan. Bisnis online murni tidak otomatis memenuhi syarat."
+      },
+      {
+        "question": "Apakah harga produk bisa diperbarui setelah katalog selesai?",
+        "answer": "Pembaruan dan pengelolaan setelah serah terima mengikuti ruang lingkup yang disepakati. Tentukan sejak awal siapa yang memegang data dan melakukan pembaruan."
+      }
+    ]
   },
   {
     "slug": "katalog-produk",
@@ -34,7 +50,23 @@
       "Panduan pembaruan produk"
     ],
     "slugLabel": "Katalog WhatsApp",
-    "featured": false
+    "featured": false,
+    "metaTitle": "Jasa Katalog Produk WhatsApp Business untuk UMKM | Seiton.id",
+    "metaDescription": "Rapikan foto, kategori, deskripsi, varian, dan harga katalog WhatsApp Business agar pelanggan UMKM lebih mudah memahami pilihan produk.",
+    "faq": [
+      {
+        "question": "Apa yang perlu disiapkan untuk membuat katalog WhatsApp Business?",
+        "answer": "Siapkan nama produk, kategori, foto asli, deskripsi, varian, harga dan satuan yang sudah diperiksa, serta nomor WhatsApp Business yang dikelola usaha."
+      },
+      {
+        "question": "Apakah Seiton menentukan harga produk?",
+        "answer": "Tidak. Harga berasal dari pemilik usaha. Seiton membantu menata penyajian informasi berdasarkan data yang diberikan dan disetujui pemilik."
+      },
+      {
+        "question": "Apakah katalog digital menjamin produk muncul di Google?",
+        "answer": "Tidak. Katalog WhatsApp bukan jaminan indeks atau peringkat Google. Website katalog dengan konten bermanfaat dapat menjadi kanal terpisah untuk pencarian organik."
+      }
+    ]
   },
   {
     "slug": "menu-qr",
@@ -52,7 +84,23 @@
       "Berkas QR untuk kebutuhan cetak"
     ],
     "slugLabel": "Menu digital",
-    "featured": false
+    "featured": false,
+    "metaTitle": "Jasa Menu Digital QR untuk Warung, Kafe & Restoran | Seiton.id",
+    "metaDescription": "Buat menu digital QR yang mudah dibuka lewat ponsel. Seiton.id membantu menata kategori, foto, deskripsi, harga, dan tautan menu usaha kuliner.",
+    "faq": [
+      {
+        "question": "Apakah pelanggan perlu menginstal aplikasi untuk membuka menu QR?",
+        "answer": "Untuk menu berbasis website, pelanggan cukup memindai QR dan membuka tautannya melalui browser. Aplikasi khusus tidak diperlukan untuk sekadar membaca menu."
+      },
+      {
+        "question": "Bisakah isi menu diperbarui tanpa mencetak ulang QR?",
+        "answer": "Bisa, selama QR mengarah ke alamat menu yang tetap dan halaman tersebut dapat diperbarui melalui mekanisme pengelolaan yang disepakati."
+      },
+      {
+        "question": "Siapa yang memeriksa harga dan ketersediaan menu?",
+        "answer": "Pemilik usaha perlu menyetujui data harga dan ketersediaan. Tanggung jawab pembaruan setelah serah terima harus ditetapkan secara jelas."
+      }
+    ]
   },
   {
     "slug": "profil-google",
@@ -70,7 +118,23 @@
       "Panduan pengelolaan dan pembaruan"
     ],
     "slugLabel": "Profil Google",
-    "featured": false
+    "featured": false,
+    "metaTitle": "Pendampingan Google Business Profile untuk UMKM | Seiton.id",
+    "metaDescription": "Siapkan data dan kelola informasi Google Business Profile UMKM secara benar. Kelayakan, alamat, area layanan, dan akses akun diperiksa lebih dulu.",
+    "faq": [
+      {
+        "question": "Apakah bisnis online murni boleh membuat Google Business Profile?",
+        "answer": "Pada umumnya tidak. Google mensyaratkan bisnis yang memenuhi syarat melakukan kontak langsung dengan pelanggan selama jam operasional. Periksa pedoman resmi sebelum membuat profil."
+      },
+      {
+        "question": "Bolehkah memakai alamat virtual agar muncul di Google Maps?",
+        "answer": "Jangan gunakan alamat virtual, kotak surat, atau lokasi fiktif. Alamat harus mewakili lokasi usaha nyata sesuai kebijakan Google; bisnis area layanan memiliki pengaturan alamat tersendiri."
+      },
+      {
+        "question": "Apakah Seiton dapat menjamin profil lolos verifikasi atau berada di peringkat atas?",
+        "answer": "Tidak. Verifikasi dan hasil pencarian ditentukan Google. Seiton membantu pemeriksaan kesiapan dan penataan data sesuai ruang lingkup, tanpa menjanjikan persetujuan atau peringkat tertentu."
+      }
+    ]
   },
   {
     "slug": "website-katalog",
@@ -88,7 +152,23 @@
       "Panduan perubahan konten sesuai ruang lingkup"
     ],
     "slugLabel": "Website katalog",
-    "featured": true
+    "featured": true,
+    "metaTitle": "Jasa Pembuatan Website Katalog UMKM | Seiton.id",
+    "metaDescription": "Bangun website katalog UMKM untuk profil, foto, kategori, dan informasi produk pada alamat usaha sendiri dengan desain responsif dan struktur jelas.",
+    "faq": [
+      {
+        "question": "Apa perbedaan website katalog dan toko online?",
+        "answer": "Website katalog berfokus pada penyajian profil dan informasi produk. Fitur keranjang, checkout, pembayaran otomatis, dan pengiriman tidak otomatis termasuk kecuali disepakati sebagai sistem transaksi."
+      },
+      {
+        "question": "Apakah website katalog otomatis ramai pengunjung?",
+        "answer": "Tidak. Website menjadi kanal informasi milik usaha, tetapi kunjungan perlu dibangun melalui konten berguna, distribusi, tautan yang relevan, dan optimasi berkelanjutan."
+      },
+      {
+        "question": "Materi apa yang perlu disiapkan?",
+        "answer": "Siapkan logo, profil usaha, foto asli, kategori dan data produk, harga yang telah disetujui, kontak resmi, serta domain bila sudah dimiliki."
+      }
+    ]
   },
   {
     "slug": "website-profile",
@@ -107,7 +187,23 @@
       "Dua kali revisi sesuai ruang lingkup awal"
     ],
     "slugLabel": "Website profil",
-    "featured": false
+    "featured": false,
+    "metaTitle": "Jasa Pembuatan Website Profil Usaha dan UMKM | Seiton.id",
+    "metaDescription": "Tampilkan identitas, profil, layanan, dan kontak usaha dalam website profil yang responsif, rapi, dan mudah dibagikan kepada calon pelanggan.",
+    "faq": [
+      {
+        "question": "Apa yang ditampilkan dalam website profil usaha?",
+        "answer": "Umumnya berisi beranda, pengenalan usaha, layanan atau produk, informasi kontak, dan tautan komunikasi. Struktur akhir menyesuaikan kebutuhan bisnis."
+      },
+      {
+        "question": "Apakah domain termasuk biaya pembuatan website?",
+        "answer": "Domain, hosting, dan layanan pihak ketiga tidak termasuk kecuali disebut secara tertulis dalam penawaran."
+      },
+      {
+        "question": "Apakah website bisa diperbarui sendiri?",
+        "answer": "Mekanisme perubahan konten ditentukan dari jenis website dan ruang lingkup proyek. Panduan pengelolaan diserahkan sesuai kesepakatan."
+      }
+    ]
   },
   {
     "slug": "paket-template",
@@ -125,7 +221,19 @@
       "Panduan pengisian manual"
     ],
     "slugLabel": "Template usaha",
-    "featured": false
+    "featured": false,
+    "metaTitle": "Template Operasional UMKM: Pencatatan & Balasan | Seiton.id",
+    "metaDescription": "Gunakan template praktis untuk merapikan pencatatan dasar, balasan pelanggan, dan panduan operasional harian UMKM.",
+    "faq": [
+      {
+        "question": "Apakah template menggantikan sistem kasir atau akuntansi?",
+        "answer": "Tidak. Template ini alat bantu administrasi sederhana dan bukan pengganti sistem kasir, pembukuan, atau aplikasi akuntansi yang dibutuhkan usaha."
+      },
+      {
+        "question": "Apakah format template dapat disesuaikan?",
+        "answer": "Format dan penyesuaian mengikuti materi, kebutuhan, serta ruang lingkup yang disepakati sebelum pengerjaan."
+      }
+    ]
   },
   {
     "slug": "bot-telegram",
@@ -143,7 +251,19 @@
       "Panduan penggunaan dan serah terima"
     ],
     "slugLabel": "Bot Telegram",
-    "featured": false
+    "featured": false,
+    "metaTitle": "Jasa Bot Telegram untuk Alur Pesanan UMKM | Seiton.id",
+    "metaDescription": "Rancang bot Telegram untuk informasi produk, percakapan pelanggan, dan alur pemesanan UMKM dengan fitur sesuai ruang lingkup yang disepakati.",
+    "faq": [
+      {
+        "question": "Apakah bot membutuhkan akun Telegram milik usaha?",
+        "answer": "Ya. Integrasi sebaiknya menggunakan bot dan akun yang dikendalikan pemilik usaha. Kredensial tidak perlu dibagikan melalui percakapan publik."
+      },
+      {
+        "question": "Apakah bot Telegram otomatis terhubung dengan pembayaran?",
+        "answer": "Tidak otomatis. Metode pembayaran dan verifikasi harus dibahas sebagai kebutuhan terpisah beserta akses penyedia terkait."
+      }
+    ]
   },
   {
     "slug": "sistem-bot-umkm",
@@ -165,7 +285,27 @@
       "Dokumentasi konfigurasi, penggunaan, dan serah terima"
     ],
     "slugLabel": "Otomasi pesanan",
-    "featured": true
+    "featured": true,
+    "metaTitle": "Sistem Bot UMKM: Pesanan, Pembayaran & Laporan | Seiton.id",
+    "metaDescription": "Tertibkan katalog, pesanan, verifikasi pembayaran, bantuan pelanggan, dan laporan UMKM melalui sistem bot dan panel admin sesuai kebutuhan usaha.",
+    "faq": [
+      {
+        "question": "Apa fungsi sistem bot untuk UMKM?",
+        "answer": "Sistem bot dapat mengarahkan pelanggan melihat produk dan membuat pesanan, sementara panel admin membantu pengelola memeriksa data pesanan dan statusnya sesuai integrasi yang disepakati."
+      },
+      {
+        "question": "Apakah pembayaran otomatis selalu tersedia?",
+        "answer": "Tidak selalu. Otomasi bergantung pada penyedia pembayaran, akses akun, metode yang tersedia, dan konfigurasi. Status pembayaran harus berasal dari proses verifikasi yang sah."
+      },
+      {
+        "question": "Apakah pemilik bisa mengubah produk dan harga sendiri?",
+        "answer": "Fitur panel admin dapat mencakup tambah, ubah, dan hapus produk serta harga sesuai ruang lingkup. Hak akses dan tata cara serah terima dijelaskan sebelum sistem digunakan."
+      },
+      {
+        "question": "Apakah WhatsApp wajib menjadi kanal bot?",
+        "answer": "Tidak. Kanal yang dipakai dibahas berdasarkan kesiapan akun dan persyaratan resmi penyedia. Telegram atau kanal lain dapat dipertimbangkan bila sesuai kebutuhan."
+      }
+    ]
   },
   {
     "slug": "paket-combo",
@@ -186,7 +326,23 @@
       "Dokumentasi, panduan pengelolaan, dan serah terima"
     ],
     "slugLabel": "Website + bot",
-    "featured": true
+    "featured": true,
+    "metaTitle": "Paket Combo Website + Bot Pemesanan UMKM | Seiton.id",
+    "metaDescription": "Gabungkan website profil dan katalog dengan sistem bot pemesanan, panel admin, konfirmasi pembayaran, dan laporan sesuai lingkup usaha.",
+    "faq": [
+      {
+        "question": "Apa perbedaan website dan bot dalam Paket Combo?",
+        "answer": "Website menjadi media informasi publik untuk profil dan katalog. Bot membantu alur interaksi atau pemesanan, sedangkan panel admin digunakan untuk pengelolaan sesuai fitur yang disepakati."
+      },
+      {
+        "question": "Apakah data produk dapat disinkronkan antara website dan bot?",
+        "answer": "Integrasi data dapat dirancang sesuai kebutuhan dan sistem yang digunakan. Sumber data utama, proses pembaruan, dan batas integrasi ditetapkan dalam penawaran."
+      },
+      {
+        "question": "Apakah paket sudah termasuk semua biaya layanan pihak ketiga?",
+        "answer": "Tidak secara otomatis. Domain, server, API, biaya model, layanan pembayaran, serta langganan pihak ketiga hanya termasuk bila tercantum dalam penawaran."
+      }
+    ]
   },
   {
     "slug": "setup-ai-gateway-bot",
@@ -207,7 +363,19 @@
       "Dokumentasi pengelolaan serta daftar layanan pihak ketiga yang dibutuhkan"
     ],
     "slugLabel": "AI Gateway & Bot",
-    "featured": false
+    "featured": false,
+    "metaTitle": "Setup AI Gateway & Bot Asisten UMKM | Seiton.id",
+    "metaDescription": "Integrasikan AI Gateway dan bot asisten dengan model, provider, kanal, dan infrastruktur yang telah diperiksa serta diotorisasi pemilik usaha.",
+    "faq": [
+      {
+        "question": "Apakah biaya API dan model AI sudah termasuk?",
+        "answer": "Biaya pemakaian model, provider, server, dan layanan pihak ketiga tidak termasuk kecuali dinyatakan dalam penawaran tertulis."
+      },
+      {
+        "question": "Apakah WhatsApp dapat diintegrasikan?",
+        "answer": "Integrasi WhatsApp hanya dilakukan bila jalur resmi, persyaratan akun, dan akses sah tersedia. Telegram dapat digunakan bila sesuai kebutuhan."
+      }
+    ]
   },
   {
     "slug": "setup-portal-otp",
@@ -228,6 +396,22 @@
       "Dokumentasi DNS, retensi, keamanan, dan pengelolaan mailbox"
     ],
     "slugLabel": "Email & Portal OTP",
-    "featured": false
+    "featured": false,
+    "metaTitle": "Setup Email Custom Domain dan Portal Mailbox Privat | Seiton.id",
+    "metaDescription": "Konfigurasikan email custom domain dan portal mailbox privat dengan verifikasi pemilik, kontrol akses, retensi pesan, dan dokumentasi keamanan.",
+    "faq": [
+      {
+        "question": "Siapa yang boleh mengakses mailbox pada portal?",
+        "answer": "Hanya pemilik domain atau pengguna yang didaftarkan dan diotorisasi pemilik mailbox sesuai prosedur akses yang disepakati."
+      },
+      {
+        "question": "Apakah portal dapat digunakan untuk mengambil kode akun pihak ketiga?",
+        "answer": "Tidak. Layanan hanya ditujukan bagi mailbox yang dimiliki atau secara sah dikelola pelanggan dan bukan untuk mengakses kode verifikasi akun pihak ketiga."
+      },
+      {
+        "question": "Apakah akses dapat dicabut?",
+        "answer": "Akses privat dapat dinonaktifkan atau dicabut sesuai mekanisme yang disediakan sistem dan prosedur pengelolaan."
+      }
+    ]
   }
 ]
