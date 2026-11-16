@@ -54,6 +54,7 @@ async function waitForServer(base) {
 
 const browser = await chromium.launch({ headless: true });
 const pageErrors = [];
+const isPreviewBuild = process.env.CF_PAGES_BRANCH !== "main";
 try {
   await waitForServer(mainBase);
   await waitForServer(demoBase);
@@ -69,8 +70,11 @@ try {
   for (const route of mainRoutes) {
     const response = await page.goto(mainBase + route, { waitUntil: "domcontentloaded" });
     check(Boolean(response && response.ok()), "Halaman utama gagal dimuat: " + route);
-    check(await page.locator('meta[name="robots"]').getAttribute("content") === "noindex, nofollow",
-      "Halaman preview utama harus noindex: " + route);
+    const robots = await page.locator('meta[name="robots"]').getAttribute("content");
+    check(isPreviewBuild
+      ? robots === "noindex, nofollow"
+      : Boolean(robots && robots.includes("index") && !robots.includes("noindex")),
+      (isPreviewBuild ? "Halaman preview utama harus noindex: " : "Halaman production utama harus indexable: ") + route);
     if (route === "/ketentuan/" || route === "/privasi/") {
       const legalNav = await page.locator("#primary-nav a").evaluateAll((items) => items.map((item) => ({
         label: item.textContent.trim(),
