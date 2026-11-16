@@ -11,6 +11,7 @@ const services = parseJson("src/data/services.json");
 const sitemap = read("dist/sitemap.xml");
 const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 const uniqueLocations = new Set(locations);
+const productionOutput = process.env.CF_PAGES !== "1" || process.env.CF_PAGES_BRANCH === "main";
 
 check(locations.length === uniqueLocations.size, "Generated sitemap contains duplicate URLs.");
 check(locations.length === 26, "Expected 26 main-site sitemap URLs; received " + locations.length + ".");
@@ -62,8 +63,13 @@ for (const pagePath of baseLayoutPaths) {
   check(description.length >= 80 && description.length <= 180,
     "Missing/overlong meta description on " + pagePath + " (" + description.length + ")");
   check(canonicalHref === "https://seiton.biz.id" + pagePath, "Canonical mismatch on " + pagePath);
-  check(robots.includes("index") && !robots.includes("noindex"),
-    "Production indexable page is unexpectedly blocked by robots meta: " + pagePath);
+  if (productionOutput) {
+    check(robots.includes("index") && !robots.includes("noindex"),
+      "Production indexable page is unexpectedly blocked by robots meta: " + pagePath);
+  } else {
+    check(robots.includes("noindex") && robots.includes("nofollow"),
+      "Preview page must remain noindex,nofollow: " + pagePath);
+  }
   check(h1Count === 1, "Expected exactly one H1 on " + pagePath + ", found " + h1Count);
 
   const scriptMatch = html.match(/<script\s+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/i);
