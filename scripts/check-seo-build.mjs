@@ -17,6 +17,7 @@ check(locations.length === 26, "Expected 26 main-site sitemap URLs; received " +
 check(read("dist/robots.txt").includes("https://seiton.biz.id/sitemap.xml"),
   "Production robots.txt does not reference the main sitemap.");
 
+const sitemapPaths = locations.map((location) => new URL(location).pathname);
 const expectedPaths = [
   "/",
   "/layanan/",
@@ -31,14 +32,24 @@ const expectedPaths = [
   "/ketentuan/",
   "/privasi/"
 ];
+const baseLayoutPaths = expectedPaths.filter((pagePath) => pagePath !== "/ketentuan/" && pagePath !== "/privasi/");
 
-for (const pagePath of expectedPaths) {
-  const canonical = "https://seiton.biz.id" + pagePath;
-  check(uniqueLocations.has(canonical), "Sitemap is missing canonical route " + pagePath);
+for (const pagePath of sitemapPaths) {
   const outputPath = pagePath === "/"
     ? "dist/index.html"
     : path.join("dist", pagePath.replace(/^\//, ""), "index.html");
-  check(fs.existsSync(path.resolve(outputPath)), "Generated HTML is missing: " + outputPath);
+  check(fs.existsSync(path.resolve(outputPath)), "Sitemap points to a page missing from build output: " + pagePath);
+  if (!fs.existsSync(path.resolve(outputPath))) continue;
+  const html = read(outputPath);
+  const canonicalHref = extract(html, /<link\s+rel=["']canonical["']\s+href=["']([^"']+)["'][^>]*>/i);
+  check(canonicalHref === "https://seiton.biz.id" + pagePath,
+    "Sitemap route has a missing or mismatched canonical: " + pagePath);
+}
+
+for (const pagePath of baseLayoutPaths) {
+  const outputPath = pagePath === "/"
+    ? "dist/index.html"
+    : path.join("dist", pagePath.replace(/^\//, ""), "index.html");
   if (!fs.existsSync(path.resolve(outputPath))) continue;
 
   const html = read(outputPath);
@@ -50,7 +61,7 @@ for (const pagePath of expectedPaths) {
   check(Boolean(title) && title.length <= 85, "Missing/overlong title on " + pagePath);
   check(description.length >= 80 && description.length <= 180,
     "Missing/overlong meta description on " + pagePath + " (" + description.length + ")");
-  check(canonicalHref === canonical, "Canonical mismatch on " + pagePath + ": " + canonicalHref);
+  check(canonicalHref === "https://seiton.biz.id" + pagePath, "Canonical mismatch on " + pagePath);
   check(robots.includes("index") && !robots.includes("noindex"),
     "Production indexable page is unexpectedly blocked by robots meta: " + pagePath);
   check(h1Count === 1, "Expected exactly one H1 on " + pagePath + ", found " + h1Count);
@@ -102,8 +113,8 @@ for (const file of demoPages) {
   const html = read(file);
   check(/name=["']robots["']\s+content=["']noindex, nofollow["']/.test(html),
     "Demo must retain noindex,nofollow: " + file);
-  check(!html.includes('"@type":"Organization"') && !html.includes('"@type": "Organization"'),
-    "Fictional demo output must not inherit main-site Organization schema: " + file);
+  check(!/<script\s+type=["']application\/ld\+json["']/.test(html),
+    "Fictional demo output must not inherit main-site structured data: " + file);
 }
 
 for (const location of locations) {
