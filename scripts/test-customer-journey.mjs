@@ -120,6 +120,29 @@ try {
     "Urutan label atau tujuan navigasi utama tidak konsisten.");
 
   check(await page.locator("main h1").count() === 1, "Beranda harus memiliki satu judul utama.");
+  const homepageHeading = (await page.locator("main h1").innerText()).replace(/\\s+/g, " ").trim();
+  check(/jasa katalog digital/i.test(homepageHeading) && /website umkm/i.test(homepageHeading),
+    "H1 homepage harus menjelaskan layanan katalog digital dan website UMKM.");
+  const homepageImages = await page.locator("img").evaluateAll((items) => items.map((image) => ({
+    src: new URL(image.currentSrc || image.src, location.href).pathname,
+    alt: image.getAttribute("alt"),
+    decorative: Boolean(image.closest('[aria-hidden="true"]'))
+  })));
+  for (const image of homepageImages) {
+    check(image.alt !== null, "Gambar homepage harus memiliki atribut alt: " + image.src);
+    if (image.decorative) {
+      check(image.alt === "", "Gambar dekoratif yang disembunyikan dari assistive technology harus memakai alt kosong: " + image.src);
+    } else {
+      check(Boolean(image.alt && image.alt.trim()), "Gambar informatif homepage harus memiliki alt text: " + image.src);
+    }
+  }
+  const websitePreviewAlt = await page.locator(".ih-website-items img").evaluateAll((items) => items.map((image) => image.alt));
+  check(websitePreviewAlt.length === 3 &&
+    websitePreviewAlt.every((alt) => /website katalog umkm/i.test(alt)) &&
+    websitePreviewAlt.some((alt) => /roti sobek/i.test(alt)) &&
+    websitePreviewAlt.some((alt) => /roti keju/i.test(alt)) &&
+    websitePreviewAlt.some((alt) => /croissant/i.test(alt)),
+    "Foto produk pada pratinjau website katalog harus memiliki alt yang spesifik dan kontekstual.");
   const homeRobotsMeta = page.locator('meta[name="robots"]');
   const homeRobots = await homeRobotsMeta.count() ? await homeRobotsMeta.getAttribute("content") : null;
   check(isPreviewBuild
