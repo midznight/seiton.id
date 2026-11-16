@@ -24,7 +24,20 @@ assert.ok(consentSource.includes("analytics_storage") && consentSource.includes(
 assert.ok(consentSource.includes('"denied"'), "Analytics must be denied before user choice.");
 assert.ok(consentSource.includes("seiton.biz.id") && consentSource.includes("www.seiton.biz.id"), "GTM must be restricted to approved production hosts.");
 assert.ok(consentSource.includes("localStorage"), "The user's analytics preference must persist locally.");
+assert.ok(consentSource.includes('window.gtag("event", "whatsapp_click"'), "WhatsApp CTA clicks must emit a dedicated GA4 event.");
+assert.ok(consentSource.includes('if (!canLoadAnalytics || readConsent() !== "granted") return;'),
+  "WhatsApp click events must be blocked unless the production host and explicit analytics consent are both present.");
+const whatsappEvent = consentSource.match(/window\.gtag\("event", "whatsapp_click", \{([\s\S]*?)\}\);/)?.[1] || "";
+assert.ok(whatsappEvent.includes("link_domain: destination.hostname"), "WhatsApp event must identify the outbound domain.");
+assert.ok(whatsappEvent.includes("link_url: destination.origin"), "WhatsApp event must send only the destination origin.");
+assert.ok(whatsappEvent.includes("page_path: window.location.pathname"), "WhatsApp event must identify the source page.");
+assert.equal(/destination\.(?:search|hash)|link\.href\s*,/.test(whatsappEvent), false,
+  "WhatsApp message text and query strings must never be sent to Analytics.");
+assert.ok(consentSource.includes('document.addEventListener("click", trackWhatsAppClick, true)'),
+  "WhatsApp click tracking must use delegated document-level click handling.");
 assert.ok(privacySource.includes("Google Analytics 4") && privacySource.includes(ga4Id), "Privacy notice must identify GA4 and its destination.");
+assert.ok(privacySource.includes("whatsapp_click") && privacySource.includes("Teks pesan WhatsApp dan query string tautan tidak dikirim"),
+  "Privacy notice must disclose WhatsApp click tracking and exclusion of message text.");
 assert.ok(privacySource.includes("14 bulan") && privacySource.includes("persetujuan eksplisit"), "Privacy notice must state retention and consent basis.");
 for (const source of [baseSource, ...legalSources]) {
   assert.equal(source.includes("https://www.googletagmanager.com/gtm.js"), false, "No page may load GTM before consent.");
@@ -84,5 +97,5 @@ try {
   assert.equal(await demo.locator("#analytics-consent-banner").count(), 0, "Demo must not show the main-site consent UI.");
   assert.equal(await demo.locator('script[src="/analytics-consent.js"]').count(), 0, "Demo must not load the consent controller.");
   assert.equal(demoRequests.length, 0, "Demo must never request the main-site Analytics property.");
-  console.log("GA4 consent test passed: default denied, explicit accept/reject, reversible footer settings, preview isolation, and demo exclusion. " + containerId + " / " + ga4Id);
+  console.log("GA4 consent test passed: default denied, explicit accept/reject, reversible footer settings, preview isolation, and demo exclusion. WhatsApp click event is consent-gated and excludes message query strings. " + containerId + " / " + ga4Id);
 } finally { await browser.close(); }

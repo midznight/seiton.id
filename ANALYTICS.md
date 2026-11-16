@@ -1,6 +1,6 @@
 # Google Analytics 4 (GA4) dan Google Tag Manager
 
-Status diperbarui: 13 November 2026  
+Status diperbarui: 16 November 2026  
 Production: `https://seiton.biz.id`
 
 ## Identitas
@@ -23,6 +23,25 @@ Production: `https://seiton.biz.id`
 
 Pola ini adalah Basic Consent Mode / explicit opt-in: Google tags diblokir sampai pengunjung memberikan izin.
 
+## Event pengukuran
+
+Controller consent mengirim event custom `whatsapp_click` ketika pengunjung mengklik tautan WhatsApp resmi pada website utama, hanya jika:
+
+1. Situs berjalan pada build production dengan hostname yang diizinkan.
+2. Pengunjung telah menyimpan pilihan **Izinkan analitik**.
+3. Tautan tujuan menggunakan HTTPS dan host `wa.me`.
+
+Parameter yang dikirim:
+- `link_domain`: host tujuan (`wa.me`).
+- `link_url`: origin tujuan saja (`https://wa.me`).
+- `outbound`: `true`.
+- `page_path`: path halaman sumber.
+- `page_title`: judul halaman sumber.
+
+Query string tautan WhatsApp sengaja tidak dikirim. Dengan demikian, teks pesan konsultasi yang disisipkan ke URL tidak diteruskan sebagai parameter Analytics.
+
+Makna event ini terbatas pada **klik untuk membuka WhatsApp**, bukan lead yang sudah mengirim pesan, percakapan yang valid, pesanan, atau penjualan. Peristiwa ini tidak otomatis ditandai sebagai key event/conversion di GA4. Admin properti harus memeriksa event pada Realtime/DebugView terlebih dahulu dan memutuskan sendiri apakah klik WhatsApp layak ditandai sebagai key event.
+
 ## Isi container setelah pembersihan
 
 Daftar tag yang diperiksa di GTM:
@@ -32,7 +51,7 @@ Daftar tag yang diperiksa di GTM:
 
 CookieHub dihapus karena website sudah memiliki consent controller sendiri. Microsoft UET tidak lagi terdeteksi pada pengujian production setelah pembersihan.
 
-## Pengujian production
+## Pengujian consent production sebelumnya
 
 Pengujian browser pada 13 November 2026 menghasilkan:
 1. Kunjungan awal: banner consent Seiton.id terlihat; tidak ada request GTM/GA4, CookieHub, atau UET.
@@ -42,7 +61,7 @@ Pengujian browser pada 13 November 2026 menghasilkan:
 5. Setelah publikasi CookieHub dihapus: tidak ada dialog CookieHub atau resource Microsoft UET pada sesi pengujian.
 6. Halaman `/harga/`, `/privasi/`, dan `/ketentuan/` merespons HTTP 200 pada pengujian consent.
 
-Bukti request `page_view` menunjukkan browser berhasil mengirim event ke endpoint GA4. Hal ini belum sama dengan verifikasi tampilan laporan **Realtime** atau **DebugView** di antarmuka akun Google Analytics.
+Bukti request `page_view` menunjukkan browser berhasil mengirim event ke endpoint GA4. Hal ini belum sama dengan verifikasi tampilan laporan **Realtime** atau **DebugView** di antarmuka akun Google Analytics. Event `whatsapp_click` baru ditambahkan pada kode setelah pengujian tersebut; event baru ini perlu diverifikasi kembali setelah deployment production.
 
 ## Retensi data GA4
 
@@ -53,7 +72,7 @@ Administrator properti telah mengubah Data Retention menjadi **14 bulan**. Penga
 Repository dan koneksi Cloudflare/GitHub tidak memiliki akses ke Admin GA4 atau laporan Realtime. Karena itu:
 - Kepemilikan dan role admin properti Google belum diverifikasi secara langsung dari konektor.
 - Nilai retensi 14 bulan didasarkan pada konfirmasi administrator properti.
-- Request GA4 `page_view` sudah diamati di browser, tetapi angka Realtime/DebugView perlu dilihat langsung pada properti Google.
+- Request GA4 `page_view` sudah diamati di browser sebelumnya; event `whatsapp_click` masih memerlukan verifikasi Realtime/DebugView setelah deployment.
 
 ## Prinsip keselamatan
 
