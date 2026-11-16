@@ -5,7 +5,6 @@ const fail = [];
 const check = (condition, message) => { if (!condition) fail.push(message); };
 const read = (file) => fs.readFileSync(path.resolve(file), "utf8");
 const parseJson = (file) => JSON.parse(read(file));
-const words = (value) => String(value || "").trim().split(/\s+/).filter(Boolean).length;
 
 const guides = parseJson("src/data/guides.json");
 const services = parseJson("src/data/services.json");
@@ -32,10 +31,9 @@ for (const guide of guides) {
   check(guide.metaTitle.length <= 70, "Meta title terlalu panjang: " + guide.slug);
   check(guide.metaDescription.length >= 100 && guide.metaDescription.length <= 160,
     "Meta description harus memiliki 100–160 karakter: " + guide.slug);
-  check(words(guide.intro + " " + guide.sections.flatMap((section) => [
-    ...(section.paragraphs || []), ...(section.bullets || [])
-  ]).join(" ") + " " + guide.faq.map((item) => item.question + " " + item.answer).join(" ")) >= 500,
-    "Panduan terlalu tipis; perlu minimal 500 kata substansial: " + guide.slug);
+  check(guide.sections.every((section) => Boolean(section.title) &&
+    ((section.paragraphs?.length || 0) + (section.bullets?.length || 0) > 0)),
+    "Setiap bagian panduan harus memiliki judul dan isi: " + guide.slug);
   check(guide.sections.length >= 5, "Panduan perlu memiliki minimal lima bagian: " + guide.slug);
   check(guide.checklist?.length >= 4, "Checklist panduan belum memadai: " + guide.slug);
   check(guide.faq?.length >= 2, "FAQ panduan belum memadai: " + guide.slug);

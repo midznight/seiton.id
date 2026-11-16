@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
 import services from "../../data/services.json";
+import guides from "../../data/guides.json";
 import { siteUrls } from "../../utils/site-urls.js";
 
 export function getStaticPaths() {
@@ -12,6 +13,7 @@ export function getStaticPaths() {
 }
 
 const { service } = Astro.props;
+const relatedGuides = guides.filter((guide) => guide.relatedServices.includes(service.slug));
 const serviceSchema = {
   "@type": "Service",
   "@id": "https://seiton.biz.id/layanan/" + service.slug + "/#service",
@@ -77,6 +79,29 @@ const demoText = service.slug === "sistem-bot-umkm"
       </aside>
     </div>
   </section>
+
+  {relatedGuides.length ? (
+    <section class="section section-white service-related-guides" aria-labelledby="related-guides-title">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">PANDUAN UMKM</p><h2 id="related-guides-title">Panduan terkait untuk {service.name}</h2></div>
+          <p>Baca panduan praktis sebelum memilih alat, menyiapkan data, atau mengubah proses usaha.</p>
+        </div>
+        <div class="card-grid">
+          {relatedGuides.map((guide) => (
+            <article class="card">
+              <p class="card-kicker">{guide.category}</p>
+              <h3>{guide.title}</h3>
+              <p>{guide.summary}</p>
+              <p class="guide-card-meta">{guide.readingMinutes} menit baca</p>
+              <a href={"/panduan/" + guide.slug + "/"}>Baca: {guide.title} →</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ) : null}
+
 </Base>
 <style>
   .service-faq { margin-top: 2rem; }

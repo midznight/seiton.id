@@ -126,6 +126,19 @@ check(homepage.includes("Katalog Digital, Menu QR &amp; Website UMKM"),
 const localPage = read("dist/jasa-website-umkm-jember/index.html");
 check(localPage.includes("UMKM Jember"), "Jember page is missing local intent in built output.");
 
+for (const service of services) {
+  const relatedGuides = guides.filter((guide) => guide.relatedServices.includes(service.slug));
+  if (!relatedGuides.length) continue;
+  const page = read(path.join("dist", "layanan", service.slug, "index.html"));
+  check(page.includes("PANDUAN UMKM"), "Related guide section missing on service page: " + service.slug);
+  for (const guide of relatedGuides) {
+    check(page.includes("/panduan/" + guide.slug + "/"),
+      "Service page is missing its related guide link: " + service.slug + " -> " + guide.slug);
+    check(page.includes(guide.title),
+      "Service page is missing the descriptive title for related guide: " + service.slug + " -> " + guide.slug);
+  }
+}
+
 const demoPages = [
   "dist-demo/index.html",
   "dist-demo/katalog-whatsapp/index.html",

@@ -201,7 +201,16 @@
       "website-katalog",
       "paket-etalase"
     ],
-    "sources": []
+    "sources": [
+      {
+        "name": "Mobile-first Indexing: Panduan untuk Situs Seluler — Google Search Central",
+        "url": "https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing"
+      },
+      {
+        "name": "Web Content Accessibility Guidelines (WCAG) 2.2 — W3C",
+        "url": "https://www.w3.org/TR/WCAG22/"
+      }
+    ]
   },
   {
     "slug": "google-business-profile-umkm",
