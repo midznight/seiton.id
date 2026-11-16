@@ -57,7 +57,7 @@ const pageErrors = [];
 const isPreviewBuild = process.env.CF_PAGES_BRANCH !== "main";
 const staticLegalRoutes = new Set(["/ketentuan/", "/privasi/"]);
 const previewHeaderRules = fs.readFileSync("public/_headers", "utf8");
-const previewPagesHeader = previewHeaderRules.match(/https:\/\/:project\.pages\.dev\/\*([\\s\\S]*?)(?:\\n\\n|$)/);
+const previewPagesHeader = previewHeaderRules.match(/https:\/\/:project\.pages\.dev\/\*([\s\S]*?)(?:\n\n|$)/);
 const previewPagesNoindex = Boolean(previewPagesHeader?.[1].includes("X-Robots-Tag: noindex"));
 try {
   await waitForServer(mainBase);
