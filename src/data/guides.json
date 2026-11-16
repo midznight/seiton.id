@@ -96,7 +96,11 @@
         "answer": "Mulai dari produk yang paling penting dan datanya sudah lengkap. Lebih baik menampilkan daftar yang akurat daripada katalog panjang dengan foto, harga, atau ketersediaan yang belum diperiksa."
       }
     ],
-    "relatedServices": ["katalog-produk", "website-katalog", "paket-etalase"],
+    "relatedServices": [
+      "katalog-produk",
+      "website-katalog",
+      "paket-etalase"
+    ],
     "sources": [
       {
         "name": "Google Search Essentials",
@@ -192,7 +196,11 @@
         "answer": "Tidak selalu. Menu digital dapat menjadi pilihan tambahan, tetapi usaha sebaiknya tetap menyediakan cara lain untuk membantu pelanggan yang tidak dapat menggunakan QR atau mengalami kendala jaringan."
       }
     ],
-    "relatedServices": ["menu-qr", "website-katalog", "paket-etalase"],
+    "relatedServices": [
+      "menu-qr",
+      "website-katalog",
+      "paket-etalase"
+    ],
     "sources": []
   },
   {
@@ -210,7 +218,7 @@
       {
         "title": "1. Periksa kelayakan sebelum membuat profil",
         "paragraphs": [
-          "Pedoman Google menyatakan bahwa bisnis yang memenuhi syarat harus melakukan kontak langsung secara langsung dengan pelanggan selama jam operasional yang dinyatakan. Contohnya adalah toko yang menerima pelanggan di lokasi atau penyedia jasa yang benar-benar mendatangi pelanggan.",
+          "Pedoman Google menyatakan bahwa bisnis yang memenuhi syarat harus berinteraksi langsung dengan pelanggan selama jam operasional yang dinyatakan. Contohnya adalah toko yang menerima pelanggan di lokasi atau penyedia jasa yang benar-benar mendatangi pelanggan.",
           "Bisnis yang sepenuhnya online dan tidak melakukan kontak langsung dengan pelanggan pada umumnya tidak memenuhi kriteria profil bisnis. Jangan membuat alamat atau lokasi fiktif hanya untuk mendapatkan tampilan di Google Maps. Bila ragu, baca pedoman resmi dan periksa kelayakan sebelum mengirim permohonan."
         ]
       },
@@ -286,7 +294,11 @@
         "answer": "Nama profil harus mencerminkan nama bisnis yang digunakan secara nyata. Jangan menambahkan kata kunci atau nama lokasi jika itu bukan bagian dari nama resmi yang digunakan bisnis."
       }
     ],
-    "relatedServices": ["profil-google", "website-profile", "website-katalog"],
+    "relatedServices": [
+      "profil-google",
+      "website-profile",
+      "website-katalog"
+    ],
     "sources": [
       {
         "name": "Pedoman representasi bisnis di Google",
@@ -383,7 +395,11 @@
         "answer": "Pertimbangkan bot saat alur pertanyaan dan pesanan berulang, pencatatan manual mulai sulit dikendalikan, atau pemilik membutuhkan status pesanan dan laporan. Peta proses dahulu agar otomasi tidak sekadar memindahkan kekacauan ke sistem baru."
       }
     ],
-    "relatedServices": ["website-katalog", "sistem-bot-umkm", "paket-combo"],
+    "relatedServices": [
+      "website-katalog",
+      "sistem-bot-umkm",
+      "paket-combo"
+    ],
     "sources": [
       {
         "name": "Google Search Essentials",
