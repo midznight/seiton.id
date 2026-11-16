@@ -148,7 +148,7 @@ try {
     "Kontrol definisi dinamis tidak berpindah ke modul berikutnya.");
 
   check(await page.locator("[data-sim-tab]").count() === 5, "Simulasi beranda harus memiliki lima tab.");
-  const modulePreviewPairs = [["0", "website"], ["1", "katalog"], ["2", "menu"], ["3", "profil"], ["4", "website"]];
+  const modulePreviewPairs = [["0", "katalog"], ["1", "katalog"], ["2", "menu"], ["3", "profil"], ["4", "website"]];
   for (const [moduleIndex, simulationName] of modulePreviewPairs) {
     await page.locator(`[data-module-index="${moduleIndex}"]`).click();
     check(await page.locator(`[data-sim-tab="${simulationName}"]`).getAttribute("aria-selected") === "true",
