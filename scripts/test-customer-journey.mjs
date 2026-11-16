@@ -55,6 +55,7 @@ async function waitForServer(base) {
 const browser = await chromium.launch({ headless: true });
 const pageErrors = [];
 const isPreviewBuild = process.env.CF_PAGES_BRANCH !== "main";
+const expectedDemoBase = isPreviewBuild ? demoBase : new URL(site.brand.demo).origin;
 const staticLegalRoutes = new Set(["/ketentuan/", "/privasi/"]);
 const previewHeaderRules = fs.readFileSync("public/_headers", "utf8");
 const previewPagesHeader = previewHeaderRules.match(/https:\/\/:project\.pages\.dev\/\*([\s\S]*?)(?:\n\n|$)/);
@@ -261,10 +262,10 @@ try {
 
   await page.goto(mainBase + "/contoh/", { waitUntil: "domcontentloaded" });
   const demoLinks = await page.locator(".demo-grid a[href]").evaluateAll((items) => items.map((item) => item.href));
-  check(demoLinks.length === 6 && demoLinks.every((href) => href.startsWith(demoBase + "/")),
+  check(demoLinks.length === 6 && demoLinks.every((href) => href.startsWith(expectedDemoBase + "/")),
     "Kartu demonstrasi harus menuju project demo preview, bukan domain production.");
   await page.goto(mainBase + "/layanan/sistem-bot-umkm/", { waitUntil: "domcontentloaded" });
-  check(await page.locator(".aside-demo-link").getAttribute("href") === demoBase + "/bot-umkm/",
+  check(await page.locator(".aside-demo-link").getAttribute("href") === expectedDemoBase + "/bot-umkm/",
     "Tautan demo pada halaman detail layanan tidak konsisten.");
 
   const demoPage = await browser.newPage({ viewport: { width: 1280, height: 900 } });
