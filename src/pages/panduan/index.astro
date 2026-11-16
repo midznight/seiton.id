@@ -1,0 +1,57 @@
+---
+import Base from "../../layouts/Base.astro";
+import guides from "../../data/guides.json";
+---
+<Base
+  title="Panduan Digital untuk UMKM: Katalog, Website, dan Operasional | Seiton.id"
+  description="Panduan praktis untuk UMKM tentang katalog digital, menu QR, Google Business Profile, website, dan pengelolaan kanal online."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">PUSAT PANDUAN UMKM</p>
+      <h1>Pengetahuan praktis untuk menata usaha secara digital.</h1>
+      <p class="lead">Baca panduan sebelum memilih alat atau layanan. Mulai dari merapikan informasi produk sampai memahami kanal digital yang sesuai dengan proses usaha.</p>
+    </div>
+  </section>
+  <section class="section section-white">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">ARTIKEL PILIHAN</p><h2>Mulai dari kebutuhan yang paling dekat.</h2></div>
+        <p>Setiap panduan berisi langkah dan hal yang perlu diperiksa. Periksa kembali kebijakan platform terkait karena fitur dan ketentuannya dapat berubah.</p>
+      </div>
+      <div class="card-grid guide-directory-grid">
+        {guides.map((guide) => (
+          <article class="card guide-directory-card">
+            <p class="card-kicker">{guide.category}</p>
+            <h3>{guide.title}</h3>
+            <p>{guide.summary}</p>
+            <p class="guide-card-meta">{guide.readingMinutes} menit baca · Diperbarui 16 November 2026</p>
+            <a class="button button-secondary" href={"/panduan/" + guide.slug + "/"}>Baca panduan</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container guide-cta">
+      <div>
+        <p class="eyebrow">BUTUH BANTUAN MENENTUKAN LANGKAH?</p>
+        <h2>Mulai dari kebutuhan usaha, bukan dari banyaknya fitur.</h2>
+        <p>Jelaskan kondisi dan proses yang ingin ditata. Seiton.id membantu memetakan pilihan katalog, website, menu digital, atau sistem pemesanan sesuai ruang lingkup yang disepakati.</p>
+      </div>
+      <div class="actions">
+        <a class="button button-primary" href="/kontak/">Konsultasi dengan Seiton.id</a>
+        <a class="button button-secondary" href="/layanan/">Jelajahi layanan</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .guide-directory-grid { align-items: stretch; }
+  .guide-directory-card { display: flex; flex-direction: column; }
+  .guide-directory-card h3 { line-height: 1.35; }
+  .guide-card-meta { margin-top: auto; padding-top: 1rem; color: #64748b; font-size: .875rem; }
+  .guide-directory-card .button { align-self: flex-start; margin-top: 1rem; }
+  .guide-cta { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(220px, .8fr); gap: 2rem; align-items: center; }
+  @media (max-width: 760px) { .guide-cta { grid-template-columns: 1fr; } }
+</style>
