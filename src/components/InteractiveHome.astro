@@ -1,0 +1,781 @@
+---
+import services from "../data/services.json";
+import site from "../data/site.json";
+import ServiceCard from "./ServiceCard.astro";
+
+const serviceBySlug = Object.fromEntries(services.map((service) => [service.slug, service]));
+const heroModules = [
+  { slug: "paket-etalase", number: "01", benefit: "melihat informasi utama usaha", tone: "orange" },
+  { slug: "katalog-produk", number: "02", benefit: "menemukan pilihan produk", tone: "sage" },
+  { slug: "menu-qr", number: "03", benefit: "membuka menu dari ponsel", tone: "sand" },
+  { slug: "profil-google", number: "04", benefit: "menemukan informasi usaha", tone: "ink" },
+  { slug: "website-katalog", number: "05", benefit: "mengenal usaha melalui satu alamat web", tone: "bone" }
+].map((item) => ({ ...item, service: serviceBySlug[item.slug] })).filter((item) => item.service);
+
+const etalase = serviceBySlug["paket-etalase"];
+const featuredServices = services.filter((service) => service.featured);
+const additionalServices = services.filter((service) => !service.featured);
+const whatsappContact = site.contacts.find((contact) => contact.label === "WhatsApp");
+const whatsappUrl = whatsappContact.url;
+const whatsappNumber = whatsappUrl.split("/").filter(Boolean).pop() || "6288809294868";
+
+const processSteps = [
+  {
+    number: "01",
+    label: "Dengarkan",
+    title: "Kenali kebutuhan usaha",
+    summary: "Ceritakan jenis usaha, masalah yang sedang dihadapi, dan hasil yang ingin dicapai.",
+    owner: "Menjelaskan kebutuhan, alur kerja saat ini, dan materi yang sudah tersedia.",
+    seiton: "Mendengarkan, memetakan kebutuhan, lalu menjelaskan pilihan serta batas ruang lingkup."
+  },
+  {
+    number: "02",
+    label: "Tata",
+    title: "Susun sesuai kesepakatan",
+    summary: "Setelah ruang lingkup, biaya, dan jadwal disetujui, pengerjaan dimulai dengan bahan yang lengkap.",
+    owner: "Menyiapkan foto, logo, daftar produk, harga, informasi usaha, dan akses yang memang diperlukan.",
+    seiton: "Menyusun katalog, halaman, atau alur digital sesuai deliverable yang disepakati."
+  },
+  {
+    number: "03",
+    label: "Serahkan",
+    title: "Periksa hasil dan serah terima",
+    summary: "Hasil diperiksa bersama. Akses dan panduan diserahkan sesuai ruang lingkup pekerjaan.",
+    owner: "Memeriksa hasil, memberi umpan balik, dan memastikan informasi usaha sudah benar.",
+    seiton: "Menyelesaikan revisi yang termasuk kesepakatan, lalu menyerahkan hasil dan panduan."
+  }
+];
+
+const blueprintNodes = [
+  {
+    id: "identitas",
+    number: "01",
+    title: "Identitas usaha",
+    detail: "Nama usaha, jenis usaha, ringkasan, dan cara pelanggan mengenali bisnis."
+  },
+  {
+    id: "produk",
+    number: "02",
+    title: "Produk dan layanan",
+    detail: "Nama produk, foto, deskripsi, kategori, serta harga berdasarkan data dari pemilik usaha."
+  },
+  {
+    id: "operasional",
+    number: "03",
+    title: "Informasi operasional",
+    detail: "Jam buka, alamat atau area layanan, ketentuan pemesanan, dan informasi penting lainnya."
+  },
+  {
+    id: "kontak",
+    number: "04",
+    title: "Kontak usaha",
+    detail: "Nomor WhatsApp, tautan media sosial, dan jalur komunikasi yang benar-benar digunakan."
+  },
+  {
+    id: "kanal",
+    number: "05",
+    title: "Kanal pelanggan",
+    detail: "Katalog, menu QR, profil Google, website, atau kanal pesan sesuai kebutuhan dan ruang lingkup."
+  }
+];
+
+const consultationOptions = [
+  { value: "Paket Etalase", label: "Paket Etalase" },
+  { value: "Katalog WhatsApp Business", label: "Katalog WhatsApp" },
+  { value: "Menu QR", label: "Menu QR" },
+  { value: "Google Business Profile", label: "Profil Google" },
+  { value: "Website Katalog UMKM", label: "Website Katalog" },
+  { value: "Website Profile Usaha", label: "Website Profil" },
+  { value: "Paket Template Operasional", label: "Paket Template" },
+  { value: "Bot Pesanan Telegram", label: "Bot Telegram" },
+  { value: "Sistem Bot UMKM", label: "Sistem Bot UMKM" },
+  { value: "Paket Combo Website + Bot UMKM", label: "Paket Combo" }
+];
+
+const nonEtalaseFeatured = featuredServices.filter((service) => service.slug !== "paket-etalase");
+---
+
+<section class="ih-hero" id="beranda">
+  <div class="container ih-container">
+    <div class="ih-hero-topline">
+      <span class="ih-eyebrow">SOLUSI DIGITAL PRAKTIS UNTUK UMKM</span>
+      <span class="ih-topline-note"><i aria-hidden="true"></i> Berangkat dari kebutuhan usaha</span>
+    </div>
+
+    <div class="ih-hero-layout">
+      <div class="ih-hero-copy">
+        <p class="ih-overline">SEITON.ID · TATA USAHAMU, MUDAHKAN PELANGGAN</p>
+        <h1>Tata usahamu,<br /><span>mudahkan pelanggan.</span></h1>
+        <p class="ih-lead">Bantu pelanggan menemukan produk, membaca informasi usaha, dan menghubungi bisnismu melalui katalog, menu digital, website, serta alur pemesanan yang lebih tertata.</p>
+        <div class="ih-actions">
+          <a class="ih-button ih-button-primary" href="#konsultasi">Konsultasi gratis <span aria-hidden="true">↗</span></a>
+          <a class="ih-button ih-button-secondary" href="#simulasi">Lihat simulasi <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="ih-hero-footnote">Mulai dari solusi yang diperlukan. Kembangkan ketika usaha siap.</p>
+      </div>
+
+      <div class="ih-hero-visual" aria-label="Gambaran layanan Seiton">
+        <div class="ih-visual-board">
+          <div class="ih-board-heading">
+            <span>ETALASE INFORMASI USAHA</span>
+            <span class="ih-board-dot">CONTOH</span>
+          </div>
+          <div class="ih-board-core">
+            <div class="ih-core-symbol" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div>
+              <strong>Informasi lebih tertata.</strong>
+              <small>Produk · Menu · Profil · Kontak</small>
+            </div>
+          </div>
+          <div class="ih-board-branches">
+            <div><span class="ih-branch-mark ih-branch-orange">01</span><b>Katalog produk</b><small>WhatsApp Business</small></div>
+            <div><span class="ih-branch-mark ih-branch-sage">02</span><b>Menu digital</b><small>Melalui kode QR</small></div>
+            <div><span class="ih-branch-mark ih-branch-ink">03</span><b>Profil usaha</b><small>Informasi &amp; lokasi</small></div>
+          </div>
+          <div class="ih-board-footer"><span>Dirancang sesuai kebutuhan usaha</span><span>Seiton.id</span></div>
+        </div>
+        <span class="ih-visual-sticker ih-sticker-one">RAPI<br />DAN JELAS</span>
+        <span class="ih-visual-sticker ih-sticker-two">MUDAH<br />DIBAGIKAN</span>
+      </div>
+    </div>
+
+    <div class="ih-module-workspace">
+      <div class="ih-module-heading">
+        <div>
+          <p class="ih-eyebrow">PILIH MODUL LAYANAN</p>
+          <h2>Bagian usaha yang ingin kamu tata?</h2>
+        </div>
+        <span class="ih-module-hint">Pilih kartu untuk melihat penjelasan</span>
+      </div>
+
+      <div class="ih-module-grid" role="group" aria-label="Pilih modul layanan Seiton">
+        {heroModules.map((module, index) => (
+          <button
+            type="button"
+            class:list={["ih-module-card", "ih-tone-" + module.tone, { "is-selected": index === 0 }]}
+            aria-pressed={index === 0 ? "true" : "false"}
+            data-module-choice
+            data-module-index={index}
+            data-module-name={module.service.name}
+            data-module-description={module.service.description}
+            data-module-url={"/layanan/" + module.slug + "/"}
+            data-module-benefit={module.benefit}
+            data-module-deliverables={JSON.stringify(module.service.deliverables || [])}
+          >
+            <span class="ih-module-number">{module.number}</span>
+            <span class="ih-module-tier">{module.service.slugLabel}</span>
+            <strong>{module.service.name}</strong>
+            <span class="ih-module-arrow" aria-hidden="true">↗</span>
+          </button>
+        ))}
+      </div>
+
+      <div class="ih-module-inspector" aria-live="polite">
+        <div class="ih-inspector-mark" data-module-mark>01</div>
+        <div class="ih-inspector-copy">
+          <span class="ih-inspector-kicker">PENJELASAN MODUL</span>
+          <h3 data-module-title>{heroModules[0]?.service.name}</h3>
+          <p data-module-description-output>{heroModules[0]?.service.description}</p>
+          <ul data-module-deliverables>
+            {(heroModules[0]?.service.deliverables || []).slice(0, 3).map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <a class="ih-inline-link" data-module-link href={"/layanan/" + heroModules[0]?.slug + "/"}>Pelajari layanan <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ih-definition" id="definisi">
+  <div class="container ih-container ih-definition-inner">
+    <p class="ih-eyebrow">INFORMASI YANG LEBIH MUDAH DITEMUKAN</p>
+    <div class="ih-kinetic-sentence" aria-live="polite">
+      <span>Seiton membantu menata</span>
+      <button type="button" class="ih-kinetic-button" data-kinetic-trigger>
+        <span class="ih-kinetic-number" data-kinetic-number>01</span>
+        <span data-kinetic-label>{heroModules[0]?.service.name}</span>
+        <span class="ih-kinetic-refresh" aria-hidden="true">↻</span>
+      </button>
+      <span>agar pelanggan lebih mudah</span>
+      <span class="ih-kinetic-benefit" data-kinetic-benefit>{heroModules[0]?.benefit}</span><span>.</span>
+    </div>
+    <p class="ih-definition-hint">Klik nama layanan untuk melihat contoh kebutuhan lainnya.</p>
+  </div>
+</section>
+
+<section class="ih-simulation-section" id="simulasi">
+  <div class="container ih-container">
+    <div class="ih-section-heading">
+      <div>
+        <p class="ih-eyebrow">COBA LANGSUNG DI SINI</p>
+        <h2>Contoh etalase usaha yang lebih teratur.</h2>
+      </div>
+      <p>Berpindah antar modul untuk melihat gambaran informasi yang dapat disusun. Semua nama usaha, produk, dan percakapan pada bagian ini adalah simulasi.</p>
+    </div>
+
+    <div class="ih-simulation-shell">
+      <div class="ih-sim-topbar">
+        <div class="ih-window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <span>PRATINJAU PENGALAMAN PELANGGAN</span>
+        <span class="ih-sim-status">MODE SIMULASI</span>
+      </div>
+      <div class="ih-sim-layout">
+        <div class="ih-sim-dock" role="tablist" aria-label="Pilih simulasi layanan">
+          <button type="button" role="tab" id="ih-tab-katalog" aria-controls="ih-panel-katalog" aria-selected="true" data-sim-tab="katalog">01 <span>Katalog</span></button>
+          <button type="button" role="tab" id="ih-tab-menu" aria-controls="ih-panel-menu" aria-selected="false" tabindex="-1" data-sim-tab="menu">02 <span>Menu QR</span></button>
+          <button type="button" role="tab" id="ih-tab-profil" aria-controls="ih-panel-profil" aria-selected="false" tabindex="-1" data-sim-tab="profil">03 <span>Profil Google</span></button>
+          <button type="button" role="tab" id="ih-tab-website" aria-controls="ih-panel-website" aria-selected="false" tabindex="-1" data-sim-tab="website">04 <span>Website</span></button>
+          <button type="button" role="tab" id="ih-tab-telegram" aria-controls="ih-panel-telegram" aria-selected="false" tabindex="-1" data-sim-tab="telegram">05 <span>Telegram</span></button>
+        </div>
+
+        <div class="ih-sim-stage">
+          <div class="ih-sim-panel" id="ih-panel-katalog" role="tabpanel" aria-labelledby="ih-tab-katalog" tabindex="0" data-sim-panel="katalog">
+            <div class="ih-sim-panel-heading"><div><span class="ih-preview-label">KATALOG WHATSAPP BUSINESS</span><h3>Produk tersusun dalam katalog.</h3><p>Contoh tampilan daftar produk untuk usaha fiktif.</p></div><span class="ih-preview-chip">01 / 05</span></div>
+            <div class="ih-catalog-preview">
+              <div class="ih-catalog-brand"><span class="ih-catalog-avatar">K</span><span><strong>Kedai Contoh</strong><small>Contoh usaha kuliner</small></span><span class="ih-catalog-dots" aria-hidden="true">•••</span></div>
+              <div class="ih-catalog-products">
+                <article><img src="/assets/site-previews/catalog-roti.webp" alt="Contoh roti dari katalog fiktif" width="480" height="480" loading="lazy" decoding="async" /><strong>Roti pilihan</strong><small>Foto dan deskripsi produk</small></article>
+                <article><img src="/assets/site-previews/catalog-keju.webp" alt="Contoh roti keju dari katalog fiktif" width="480" height="480" loading="lazy" decoding="async" /><strong>Menu favorit</strong><small>Informasi produk yang jelas</small></article>
+                <article><img src="/assets/site-previews/catalog-croissant.webp" alt="Contoh croissant dari katalog fiktif" width="480" height="480" loading="lazy" decoding="async" /><strong>Produk lainnya</strong><small>Kategori sesuai kebutuhan</small></article>
+              </div>
+            </div>
+          </div>
+
+          <div class="ih-sim-panel" id="ih-panel-menu" role="tabpanel" aria-labelledby="ih-tab-menu" tabindex="0" data-sim-panel="menu" hidden>
+            <div class="ih-sim-panel-heading"><div><span class="ih-preview-label">MENU QR</span><h3>Menu digital mudah dibuka.</h3><p>Contoh pelanggan melihat menu melalui tautan atau kode QR.</p></div><span class="ih-preview-chip">02 / 05</span></div>
+            <div class="ih-menu-preview">
+              <div class="ih-menu-sheet">
+                <div class="ih-menu-sheet-top"><span class="ih-menu-logo">K</span><span><b>Kedai Contoh</b><small>Menu digital · data fiktif</small></span></div>
+                <div class="ih-menu-categories"><span class="is-current">Semua</span><span>Makanan</span><span>Minuman</span></div>
+                <div class="ih-menu-row"><img src="/assets/site-previews/menu-teh.webp" alt="Ilustrasi minuman untuk menu contoh" width="480" height="480" loading="lazy" decoding="async" /><span><b>Minuman pilihan</b><small>Nama, deskripsi, dan harga diisi dari data pemilik</small></span><i aria-hidden="true">→</i></div>
+                <div class="ih-menu-row"><img src="/assets/site-previews/combo-paket.webp" alt="Ilustrasi paket menu contoh" width="480" height="480" loading="lazy" decoding="async" /><span><b>Paket menu</b><small>Informasi paket sesuai kebutuhan usaha</small></span><i aria-hidden="true">→</i></div>
+              </div>
+              <div class="ih-qr-card"><span class="ih-qr-placeholder" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><b>Scan untuk melihat menu</b><small>Ilustrasi kode QR, bukan tautan aktif.</small></div>
+            </div>
+          </div>
+
+          <div class="ih-sim-panel" id="ih-panel-profil" role="tabpanel" aria-labelledby="ih-tab-profil" tabindex="0" data-sim-panel="profil" hidden>
+            <div class="ih-sim-panel-heading"><div><span class="ih-preview-label">GOOGLE BUSINESS PROFILE</span><h3>Informasi usaha lebih jelas.</h3><p>Contoh komponen profil yang perlu diperiksa dan ditata.</p></div><span class="ih-preview-chip">03 / 05</span></div>
+            <div class="ih-profile-preview">
+              <div class="ih-profile-cover"><span>INFORMASI USAHA</span><div class="ih-profile-pin" aria-hidden="true">⌖</div></div>
+              <div class="ih-profile-details"><span class="ih-profile-avatar">U</span><h4>Usaha Contoh</h4><p>Informasi lokasi dan kontak usaha</p><div class="ih-profile-facts"><span><b>Lokasi</b><small>Alamat sesuai data pemilik</small></span><span><b>Jam buka</b><small>Jadwal yang dikonfirmasi pemilik</small></span><span><b>Kontak</b><small>Nomor usaha yang aktif</small></span></div><small class="ih-profile-disclaimer">Tampilan ilustratif. Verifikasi, kelayakan, dan hasil Google mengikuti kebijakan Google.</small></div>
+            </div>
+          </div>
+
+          <div class="ih-sim-panel" id="ih-panel-website" role="tabpanel" aria-labelledby="ih-tab-website" tabindex="0" data-sim-panel="website" hidden>
+            <div class="ih-sim-panel-heading"><div><span class="ih-preview-label">WEBSITE KATALOG UMKM</span><h3>Profil dan produk dalam satu alamat.</h3><p>Contoh halaman ringkas yang dapat dibagikan pelanggan.</p></div><span class="ih-preview-chip">04 / 05</span></div>
+            <div class="ih-website-preview">
+              <div class="ih-website-top"><b>Usaha Contoh</b><span>Tentang &nbsp; Produk &nbsp; Kontak</span></div>
+              <div class="ih-website-banner"><span>PRODUK PILIHAN</span><h4>Kenali usaha kami lebih dekat.</h4><small>Contoh halaman website katalog.</small></div>
+              <div class="ih-website-items"><img src="/assets/site-previews/catalog-roti.webp" alt="Contoh foto produk pertama" width="480" height="480" loading="lazy" decoding="async" /><img src="/assets/site-previews/catalog-keju.webp" alt="Contoh foto produk kedua" width="480" height="480" loading="lazy" decoding="async" /><img src="/assets/site-previews/catalog-croissant.webp" alt="Contoh foto produk ketiga" width="480" height="480" loading="lazy" decoding="async" /></div>
+            </div>
+          </div>
+
+          <div class="ih-sim-panel" id="ih-panel-telegram" role="tabpanel" aria-labelledby="ih-tab-telegram" tabindex="0" data-sim-panel="telegram" hidden>
+            <div class="ih-sim-panel-heading"><div><span class="ih-preview-label">BOT PESANAN TELEGRAM</span><h3>Alur pesanan lebih terarah.</h3><p>Contoh percakapan pelanggan dan bot dalam simulasi.</p></div><span class="ih-preview-chip">05 / 05</span></div>
+            <div class="ih-telegram-preview">
+              <div class="ih-telegram-heading"><span class="ih-telegram-avatar">T</span><span><b>Bot Pesanan Contoh</b><small>Simulasi alur percakapan</small></span></div>
+              <div class="ih-telegram-chat"><div class="ih-message ih-message-customer">Halo, saya ingin melihat pilihan produk.</div><div class="ih-message ih-message-bot">Silakan pilih katalog untuk melihat informasi produk.</div><div class="ih-message ih-message-customer">Saya ingin membuat pesanan.</div><div class="ih-message ih-message-bot">Baik. Ikuti langkah pemesanan yang tersedia pada bot usaha.</div></div>
+              <div class="ih-telegram-input"><span>Simulasi · tidak mengirim pesan</span><b aria-hidden="true">➤</b></div>
+            </div>
+          </div>
+          <p class="ih-sim-disclaimer">Data dan visual simulasi bersifat fiktif. Ini bukan transaksi, profil Google, atau percakapan pelanggan sungguhan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ih-comparison-section" id="perbandingan">
+  <div class="container ih-container">
+    <div class="ih-section-heading">
+      <div><p class="ih-eyebrow">ILUSTRASI ALUR KOMUNIKASI</p><h2>Dari mencari-cari informasi ke berbagi etalase.</h2></div>
+      <p>Simulasi ini memperlihatkan contoh perbedaan cara menyampaikan informasi. Hasil nyata bergantung pada materi dan proses masing-masing usaha.</p>
+    </div>
+    <div class="ih-comparison-controls" role="group" aria-label="Pilih kondisi simulasi percakapan">
+      <button type="button" data-comparison-mode="before" aria-pressed="false">Sebelum ditata</button>
+      <button type="button" data-comparison-mode="after" aria-pressed="true">Sesudah ditata</button>
+      <button type="button" class="ih-replay-button" data-chat-replay>Putar simulasi ↻</button>
+    </div>
+    <div class="ih-comparison-layout" data-comparison-panel="after">
+      <div class="ih-comparison-summary">
+        <span class="ih-preview-label" data-comparison-label>SESUDAH DITATA · SIMULASI</span>
+        <h3 data-comparison-title>Informasi lebih mudah dibagikan.</h3>
+        <p data-comparison-copy>Pemilik dapat membagikan tautan katalog atau menu yang sudah disusun, sehingga pelanggan bisa memeriksa informasi yang tersedia.</p>
+        <ul data-comparison-points><li>Daftar produk lebih terstruktur.</li><li>Foto dan informasi tidak perlu dicari satu per satu.</li><li>Pelanggan memiliki satu rujukan untuk informasi tersebut.</li></ul>
+      </div>
+      <div class="ih-chat-window">
+        <div class="ih-chat-header"><span class="ih-chat-avatar">U</span><span><b>Usaha Contoh</b><small>Ilustrasi percakapan</small></span><span class="ih-chat-header-meta">SIMULASI</span></div>
+        <div class="ih-chat-messages" data-chat-messages>
+          <div class="ih-chat-bubble ih-customer-message">Halo, boleh minta daftar produk?</div>
+          <div class="ih-chat-bubble ih-business-message">Tentu. Ini tautan etalase kami. Di sana ada daftar produk dan informasinya.</div>
+          <div class="ih-chat-share-card"><span class="ih-share-icon">LINK</span><span><b>Etalase Usaha Contoh</b><small>Produk · Informasi · Kontak</small></span><i aria-hidden="true">↗</i></div>
+          <div class="ih-chat-bubble ih-customer-message">Terima kasih, saya bisa melihat pilihannya sekarang.</div>
+        </div>
+        <div class="ih-chat-footer"><span>Pesan simulasi, bukan chat sungguhan</span><span>•••</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ih-services-section" id="layanan">
+  <div class="container ih-container">
+    <div class="ih-services-shell">
+      <div class="ih-services-glow" aria-hidden="true"></div>
+      <div class="ih-services-intro">
+        <p class="ih-eyebrow">PAKET ETALASE &amp; LAYANAN SEITON</p>
+        <h2>Satu etalase informasi.<br /><span>Solusi sesuai kebutuhan.</span></h2>
+        <p>Mulai dari katalog, menu, dan profil usaha. Tambahkan website atau alur pemesanan ketika memang diperlukan.</p>
+      </div>
+
+      <div class="ih-etalase-package">
+        <div class="ih-package-lead">
+          <span class="ih-package-number">PAKET UTAMA</span>
+          <h3>{etalase?.name || "Paket Etalase"}</h3>
+          <p>{etalase?.short || "Penataan informasi digital untuk usaha."}</p>
+          <a href="/layanan/paket-etalase/" class="ih-button ih-button-light">Pelajari Paket Etalase <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="ih-package-components">
+          <div><span>01</span><b>Katalog WhatsApp Business</b><small>Foto, nama, dan informasi produk.</small></div>
+          <div><span>02</span><b>Menu QR</b><small>Menu digital yang dapat dibuka melalui tautan atau QR.</small></div>
+          <div><span>03</span><b>Google Business Profile</b><small>Pendampingan sesuai kelayakan dan kebijakan Google.</small></div>
+        </div>
+      </div>
+
+      <div class="ih-additional-heading"><span>LAYANAN LAINNYA</span><span>Sesuaikan dengan kebutuhan usaha</span></div>
+      <div class="ih-additional-grid">
+        {additionalServices.map((service, index) => (
+          <a href={"/layanan/" + service.slug + "/"} class="ih-additional-card">
+            <span class="ih-additional-number">{String(index + 4).padStart(2, "0")}</span>
+            <b>{service.name}</b>
+            <small>{service.short}</small>
+            <i aria-hidden="true">↗</i>
+          </a>
+        ))}
+      </div>
+      <div class="ih-featured-links">
+        {nonEtalaseFeatured.map((service) => <ServiceCard service={service} />)}
+      </div>
+      <p class="ih-services-note">Rincian, ketersediaan, harga, dan dependensi pihak ketiga dikonfirmasi melalui halaman Harga atau penawaran tertulis. Tidak semua layanan otomatis tersedia untuk dipesan.</p>
+    </div>
+  </div>
+</section>
+
+<section class="ih-process-section" id="cara-kerja">
+  <div class="container ih-container">
+    <div class="ih-section-heading">
+      <div><p class="ih-eyebrow">ALUR KOLABORASI</p><h2>Tiga langkah, jelas pembagiannya.</h2></div>
+      <p>Periksa setiap tahap untuk mengetahui apa yang perlu disiapkan pemilik usaha dan apa yang dikerjakan Seiton.</p>
+    </div>
+    <div class="ih-process-card">
+      <div class="ih-process-ruler" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="ih-process-nav" role="group" aria-label="Pilih tahap pengerjaan">
+        {processSteps.map((step, index) => (
+          <button type="button" data-process-step={index} aria-pressed={index === 0 ? "true" : "false"} class={index === 0 ? "is-active" : ""}>
+            <span>{step.number}</span><b>{step.label}</b>
+          </button>
+        ))}
+      </div>
+      <input class="ih-process-slider" type="range" min="0" max="2" step="1" value="0" aria-label="Pilih tahap pengerjaan" data-process-slider />
+      <div class="ih-process-detail" aria-live="polite">
+        <div class="ih-process-title">
+          <span class="ih-preview-label" data-process-number>TAHAP 01</span>
+          <h3 data-process-title>{processSteps[0].title}</h3>
+          <p data-process-summary>{processSteps[0].summary}</p>
+        </div>
+        <div class="ih-process-responsibilities">
+          <article><span>01 / BAGIAN PEMILIK USAHA</span><p data-process-owner>{processSteps[0].owner}</p></article>
+          <article><span>02 / BAGIAN SEITON</span><p data-process-seiton>{processSteps[0].seiton}</p></article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ih-blueprint-section" id="anatomi">
+  <div class="container ih-container">
+    <div class="ih-section-heading">
+      <div><p class="ih-eyebrow">PETA INFORMASI USAHA</p><h2>Anatomi sebuah etalase digital.</h2></div>
+      <p>Informasi disiapkan sesuai kanal dan ruang lingkup layanan. Pilih bagian pada diagram untuk melihat bahan yang perlu dirapikan.</p>
+    </div>
+    <div class="ih-blueprint-layout">
+      <div class="ih-blueprint-board">
+        <div class="ih-blueprint-top"><span>ETALASE_BLUEPRINT // INFORMASI USAHA</span><span>PILIH KOMPONEN</span></div>
+        <div class="ih-blueprint-core"><span>INTI</span><div><b>Informasi usaha</b><small>Identitas · Produk · Operasional · Kontak</small></div></div>
+        <div class="ih-blueprint-nodes">
+          {blueprintNodes.map((node, index) => (
+            <button type="button" data-blueprint-node={node.id} data-blueprint-title={node.title} data-blueprint-detail={node.detail} aria-pressed={index === 0 ? "true" : "false"} class={index === 0 ? "is-active" : ""}>
+              <span>{node.number}</span><b>{node.title}</b><i aria-hidden="true">↗</i>
+            </button>
+          ))}
+        </div>
+        <div class="ih-blueprint-foot"><span>Data disiapkan oleh pemilik usaha</span><span>Penataan sesuai kesepakatan</span></div>
+      </div>
+      <aside class="ih-blueprint-inspector" aria-live="polite">
+        <span class="ih-preview-label">KOMPONEN TERPILIH</span>
+        <span class="ih-blueprint-inspector-number" data-blueprint-number>01</span>
+        <h3 data-blueprint-title-output>Identitas usaha</h3>
+        <p data-blueprint-detail-output>{blueprintNodes[0].detail}</p>
+        <a href="#konsultasi" class="ih-inline-link">Diskusikan kebutuhan ini <span aria-hidden="true">→</span></a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="ih-benefits-section" id="manfaat">
+  <div class="container ih-container">
+    <div class="ih-section-heading">
+      <div><p class="ih-eyebrow">CONTOH MASALAH HARIAN</p><h2>Hal kecil yang bisa dibuat lebih tertata.</h2></div>
+      <p>Ubah setiap kartu untuk membandingkan contoh kondisi informasi sebelum dan setelah ditata. Dampak aktual bergantung pada kebiasaan dan pelaksanaan usaha.</p>
+    </div>
+    <div class="ih-benefit-grid">
+      <article class="ih-benefit-card">
+        <span class="ih-benefit-index">01 / PRODUK</span><h3>Informasi produk</h3>
+        <p class="ih-benefit-before" data-benefit-before>Pelanggan bertanya satu per satu, sementara pemilik mencari foto dan detail dari beberapa tempat.</p>
+        <p class="ih-benefit-after" data-benefit-after hidden>Foto, nama, dan deskripsi disusun dalam katalog agar lebih mudah dilihat dan dibagikan.</p>
+        <button type="button" class="ih-benefit-toggle" data-benefit-toggle aria-pressed="false"><span data-toggle-label>Sebelum ditata</span><i aria-hidden="true">↔</i></button>
+      </article>
+      <article class="ih-benefit-card">
+        <span class="ih-benefit-index">02 / MENU</span><h3>Daftar menu dan pilihan</h3>
+        <p class="ih-benefit-before" data-benefit-before>Daftar menu tersimpan di chat atau lembar yang harus dikirim ulang ketika pelanggan bertanya.</p>
+        <p class="ih-benefit-after" data-benefit-after hidden>Menu digital dapat dibuka melalui tautan atau kode QR, dengan perubahan mengikuti ruang lingkup pengelolaan.</p>
+        <button type="button" class="ih-benefit-toggle" data-benefit-toggle aria-pressed="false"><span data-toggle-label>Sebelum ditata</span><i aria-hidden="true">↔</i></button>
+      </article>
+      <article class="ih-benefit-card">
+        <span class="ih-benefit-index">03 / INFORMASI USAHA</span><h3>Kontak dan jam buka</h3>
+        <p class="ih-benefit-before" data-benefit-before>Informasi jam buka, alamat, dan kontak tersebar di beberapa pesan atau unggahan.</p>
+        <p class="ih-benefit-after" data-benefit-after hidden>Informasi utama dirangkum pada kanal yang sesuai agar pelanggan lebih mudah menemukan rujukannya.</p>
+        <button type="button" class="ih-benefit-toggle" data-benefit-toggle aria-pressed="false"><span data-toggle-label>Sebelum ditata</span><i aria-hidden="true">↔</i></button>
+      </article>
+    </div>
+    <div class="ih-benefit-footer"><span>Contoh kondisi ilustratif</span><button type="button" data-benefits-reset>Atur ulang semua kartu ↻</button></div>
+  </div>
+</section>
+
+<section class="ih-consultation-section" id="konsultasi">
+  <div class="container ih-container">
+    <div class="ih-consultation-shell">
+      <div class="ih-consultation-intro">
+        <p class="ih-eyebrow">KONSULTASI AWAL GRATIS</p>
+        <h2>Mulai dengan menceritakan kebutuhan usahamu.</h2>
+        <p>Pilih jenis usaha dan hal yang ingin dibahas. Draft pesan WhatsApp akan disusun otomatis di perangkat ini agar kamu bisa memeriksanya sebelum dikirim.</p>
+        <div class="ih-consultation-promise"><span aria-hidden="true">✓</span><span>Tidak ada pesan yang dikirim otomatis. Kamu tetap memeriksa dan mengirimnya sendiri.</span></div>
+        <a href="/harga/" class="ih-inline-link ih-price-link">Lihat informasi harga dan ketentuan <span aria-hidden="true">→</span></a>
+      </div>
+
+      <form class="ih-consult-form" id="ih-consult-form" data-wa-number={whatsappNumber}>
+        <div class="ih-form-heading"><span>BUAT DRAFT KONSULTASI</span><small>Isian opsional, kecuali pilihan yang kamu perlukan.</small></div>
+        <label for="ih-business-name">Nama usaha <span>(opsional)</span></label>
+        <input type="text" id="ih-business-name" name="businessName" maxlength="80" placeholder="Contoh: Kedai Kopi Kita" autocomplete="organization" />
+        <label for="ih-business-type">Jenis usaha</label>
+        <select id="ih-business-type" name="businessType">
+          <option value="Belum ditentukan">Pilih jenis usaha</option>
+          <option value="Kuliner / makanan dan minuman">Kuliner / makanan dan minuman</option>
+          <option value="Toko / retail">Toko / retail</option>
+          <option value="Penyedia jasa">Penyedia jasa</option>
+          <option value="Usaha rumahan">Usaha rumahan</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+        <fieldset class="ih-form-services">
+          <legend>Kebutuhan yang ingin didiskusikan</legend>
+          <div class="ih-form-checkboxes">
+            {consultationOptions.map((option, index) => (
+              <label><input type="checkbox" name="requestedService" value={option.value} /><span>{option.label}</span></label>
+            ))}
+          </div>
+        </fieldset>
+        <label for="ih-business-need">Ceritakan singkat kebutuhanmu <span>(opsional)</span></label>
+        <textarea id="ih-business-need" name="businessNeed" rows="3" maxlength="500" placeholder="Contoh: Saya ingin menata daftar produk dan memudahkan pelanggan melihat menu."></textarea>
+        <div class="ih-form-actions">
+          <a class="ih-button ih-button-whatsapp" id="ih-send-whatsapp" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Lanjut melalui WhatsApp <span aria-hidden="true">↗</span></a>
+          <button class="ih-button ih-button-copy" type="button" id="ih-copy-draft">Salin draft pesan</button>
+        </div>
+      </form>
+      <div class="ih-message-preview">
+        <div><span>PRATINJAU PESAN</span><small id="ih-copy-status" aria-live="polite">Draft diperbarui saat kamu mengubah isian.</small></div>
+        <pre id="ih-message-draft">Halo Seiton.id, saya ingin berkonsultasi tentang kebutuhan digital usaha saya.
+
+Jenis usaha: Belum ditentukan
+Kebutuhan: Belum dipilih
+
+Mohon bantu saya memahami pilihan solusi yang sesuai. Terima kasih.</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ih-final-cta">
+  <div class="container ih-container">
+    <div><p class="ih-eyebrow">LANGKAH PERTAMA</p><h2>Usaha yang baik adalah usaha yang terkelola.</h2><p>Mulai dari informasi yang lebih jelas. Kembangkan proses digital sesuai kebutuhan dan kesiapan usaha.</p></div>
+    <div class="ih-final-actions"><a class="ih-button ih-button-light" href="#konsultasi">Siapkan konsultasi <span aria-hidden="true">↗</span></a><a href="/layanan/" class="ih-final-link">Lihat semua layanan →</a></div>
+  </div>
+</section>
+
+<script>
+  const moduleButtons = Array.from(document.querySelectorAll("[data-module-choice]"));
+  const moduleTitle = document.querySelector("[data-module-title]");
+  const moduleDescription = document.querySelector("[data-module-description-output]");
+  const moduleDeliverables = document.querySelector("[data-module-deliverables]");
+  const moduleLink = document.querySelector("[data-module-link]");
+  const moduleMark = document.querySelector("[data-module-mark]");
+  const kineticNumber = document.querySelector("[data-kinetic-number]");
+  const kineticLabel = document.querySelector("[data-kinetic-label]");
+  const kineticBenefit = document.querySelector("[data-kinetic-benefit]");
+
+  const selectModule = (index) => {
+    const button = moduleButtons[index];
+    if (!button) return;
+    moduleButtons.forEach((item) => {
+      const active = item === button;
+      item.classList.toggle("is-selected", active);
+      item.setAttribute("aria-pressed", String(active));
+    });
+    if (moduleTitle) moduleTitle.textContent = button.dataset.moduleName || "";
+    if (moduleDescription) moduleDescription.textContent = button.dataset.moduleDescription || "";
+    if (moduleLink) moduleLink.href = button.dataset.moduleUrl || "/layanan/";
+    if (moduleMark) moduleMark.textContent = String(index + 1).padStart(2, "0");
+    if (kineticNumber) kineticNumber.textContent = String(index + 1).padStart(2, "0");
+    if (kineticLabel) kineticLabel.textContent = button.dataset.moduleName || "";
+    if (kineticBenefit) kineticBenefit.textContent = button.dataset.moduleBenefit || "";
+    if (moduleDeliverables) {
+      let deliverables = [];
+      try { deliverables = JSON.parse(button.dataset.moduleDeliverables || "[]"); } catch {}
+      moduleDeliverables.replaceChildren(...deliverables.slice(0, 3).map((value) => {
+        const li = document.createElement("li");
+        li.textContent = value;
+        return li;
+      }));
+    }
+  };
+
+  moduleButtons.forEach((button, index) => {
+    button.addEventListener("click", () => selectModule(index));
+    button.addEventListener("pointermove", (event) => {
+      if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const rect = button.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      button.style.transform = "perspective(700px) rotateX(" + (-y * 3).toFixed(2) + "deg) rotateY(" + (x * 3).toFixed(2) + "deg) translateY(-2px)";
+    });
+    button.addEventListener("pointerleave", () => { button.style.transform = ""; });
+  });
+
+  const kineticTrigger = document.querySelector("[data-kinetic-trigger]");
+  if (kineticTrigger) {
+    kineticTrigger.addEventListener("click", () => {
+      const activeIndex = moduleButtons.findIndex((button) => button.getAttribute("aria-pressed") === "true");
+      selectModule((activeIndex + 1) % moduleButtons.length);
+    });
+  }
+
+  const simTabs = Array.from(document.querySelectorAll("[data-sim-tab]"));
+  const simPanels = Array.from(document.querySelectorAll("[data-sim-panel]"));
+  const activateSimulation = (name, moveFocus = false) => {
+    simTabs.forEach((tab) => {
+      const active = tab.dataset.simTab === name;
+      tab.setAttribute("aria-selected", String(active));
+      tab.tabIndex = active ? 0 : -1;
+      if (active && moveFocus) tab.focus();
+    });
+    simPanels.forEach((panel) => { panel.hidden = panel.dataset.simPanel !== name; });
+  };
+  simTabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateSimulation(tab.dataset.simTab));
+    tab.addEventListener("keydown", (event) => {
+      let next = index;
+      if (event.key === "ArrowRight") next = (index + 1) % simTabs.length;
+      else if (event.key === "ArrowLeft") next = (index - 1 + simTabs.length) % simTabs.length;
+      else if (event.key === "Home") next = 0;
+      else if (event.key === "End") next = simTabs.length - 1;
+      else return;
+      event.preventDefault();
+      activateSimulation(simTabs[next].dataset.simTab, true);
+    });
+  });
+
+  const comparisonButtons = Array.from(document.querySelectorAll("[data-comparison-mode]"));
+  const comparisonPanel = document.querySelector("[data-comparison-panel]");
+  const comparisonLabel = document.querySelector("[data-comparison-label]");
+  const comparisonTitle = document.querySelector("[data-comparison-title]");
+  const comparisonCopy = document.querySelector("[data-comparison-copy]");
+  const comparisonPoints = document.querySelector("[data-comparison-points]");
+  const beforeSummary = {
+    label: "SEBELUM DITATA · SIMULASI",
+    title: "Informasi dicari satu per satu.",
+    copy: "Pelanggan bertanya melalui chat dan pemilik perlu mencari kembali foto atau informasi yang tersebar.",
+    points: ["Foto dan detail berada di beberapa tempat.", "Jawaban yang sama dapat ditanyakan berulang.", "Pemilik menyusun pesan satu per satu."]
+  };
+  const afterSummary = {
+    label: "SESUDAH DITATA · SIMULASI",
+    title: "Informasi lebih mudah dibagikan.",
+    copy: "Pemilik dapat membagikan tautan katalog atau menu yang sudah disusun, sehingga pelanggan bisa memeriksa informasi yang tersedia.",
+    points: ["Daftar produk lebih terstruktur.", "Foto dan informasi tidak perlu dicari satu per satu.", "Pelanggan memiliki satu rujukan untuk informasi tersebut."]
+  };
+  const setComparisonMode = (mode) => {
+    const after = mode === "after";
+    if (comparisonPanel) comparisonPanel.dataset.comparisonPanel = mode;
+    comparisonButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.comparisonMode === mode)));
+    const summary = after ? afterSummary : beforeSummary;
+    if (comparisonLabel) comparisonLabel.textContent = summary.label;
+    if (comparisonTitle) comparisonTitle.textContent = summary.title;
+    if (comparisonCopy) comparisonCopy.textContent = summary.copy;
+    if (comparisonPoints) {
+      comparisonPoints.replaceChildren(...summary.points.map((point) => {
+        const li = document.createElement("li");
+        li.textContent = point;
+        return li;
+      }));
+    }
+    const messages = document.querySelector("[data-chat-messages]");
+    if (messages) {
+      messages.innerHTML = after
+        ? '<div class="ih-chat-bubble ih-customer-message">Halo, boleh minta daftar produk?</div><div class="ih-chat-bubble ih-business-message">Tentu. Ini tautan etalase kami. Di sana ada daftar produk dan informasinya.</div><div class="ih-chat-share-card"><span class="ih-share-icon">LINK</span><span><b>Etalase Usaha Contoh</b><small>Produk · Informasi · Kontak</small></span><i aria-hidden="true">↗</i></div><div class="ih-chat-bubble ih-customer-message">Terima kasih, saya bisa melihat pilihannya sekarang.</div>'
+        : '<div class="ih-chat-bubble ih-customer-message">Halo, boleh minta daftar produk?</div><div class="ih-chat-bubble ih-business-message">Sebentar ya, saya cari foto dan daftar produknya dulu.</div><div class="ih-chat-bubble ih-customer-message">Sekalian harga dan pilihan lainnya ya.</div><div class="ih-chat-bubble ih-business-message">Baik, saya kirim satu per satu.</div>';
+    }
+  };
+  comparisonButtons.forEach((button) => button.addEventListener("click", () => setComparisonMode(button.dataset.comparisonMode)));
+  const replayButton = document.querySelector("[data-chat-replay]");
+  if (replayButton) {
+    replayButton.addEventListener("click", () => {
+      const messages = document.querySelector("[data-chat-messages]");
+      if (!messages) return;
+      messages.classList.remove("is-replaying");
+      void messages.offsetWidth;
+      messages.classList.add("is-replaying");
+      window.setTimeout(() => messages.classList.remove("is-replaying"), 1200);
+    });
+  }
+
+  const processButtons = Array.from(document.querySelectorAll("[data-process-step]"));
+  const processSlider = document.querySelector("[data-process-slider]");
+  const processFields = {
+    number: document.querySelector("[data-process-number]"),
+    title: document.querySelector("[data-process-title]"),
+    summary: document.querySelector("[data-process-summary]"),
+    owner: document.querySelector("[data-process-owner]"),
+    seiton: document.querySelector("[data-process-seiton]")
+  };
+  const processContent = [
+    {
+      number: "TAHAP 01",
+      title: "Kenali kebutuhan usaha",
+      summary: "Ceritakan jenis usaha, masalah yang sedang dihadapi, dan hasil yang ingin dicapai.",
+      owner: "Menjelaskan kebutuhan, alur kerja saat ini, dan materi yang sudah tersedia.",
+      seiton: "Mendengarkan, memetakan kebutuhan, lalu menjelaskan pilihan serta batas ruang lingkup."
+    },
+    {
+      number: "TAHAP 02",
+      title: "Susun sesuai kesepakatan",
+      summary: "Setelah ruang lingkup, biaya, dan jadwal disetujui, pengerjaan dimulai dengan bahan yang lengkap.",
+      owner: "Menyiapkan foto, logo, daftar produk, harga, informasi usaha, dan akses yang memang diperlukan.",
+      seiton: "Menyusun katalog, halaman, atau alur digital sesuai deliverable yang disepakati."
+    },
+    {
+      number: "TAHAP 03",
+      title: "Periksa hasil dan serah terima",
+      summary: "Hasil diperiksa bersama. Akses dan panduan diserahkan sesuai ruang lingkup pekerjaan.",
+      owner: "Memeriksa hasil, memberi umpan balik, dan memastikan informasi usaha sudah benar.",
+      seiton: "Menyelesaikan revisi yang termasuk kesepakatan, lalu menyerahkan hasil dan panduan."
+    }
+  ];
+  const selectProcessStep = (index) => {
+    const content = processContent[index];
+    if (!content) return;
+    processButtons.forEach((button) => {
+      const active = Number(button.dataset.processStep) === index;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    if (processSlider) processSlider.value = String(index);
+    Object.keys(processFields).forEach((key) => {
+      if (processFields[key]) processFields[key].textContent = content[key];
+    });
+  };
+  processButtons.forEach((button) => button.addEventListener("click", () => selectProcessStep(Number(button.dataset.processStep))));
+  if (processSlider) processSlider.addEventListener("input", () => selectProcessStep(Number(processSlider.value)));
+
+  const blueprintButtons = Array.from(document.querySelectorAll("[data-blueprint-node]"));
+  const blueprintNumber = document.querySelector("[data-blueprint-number]");
+  const blueprintTitle = document.querySelector("[data-blueprint-title-output]");
+  const blueprintDetail = document.querySelector("[data-blueprint-detail-output]");
+  blueprintButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      blueprintButtons.forEach((item) => {
+        const active = item === button;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-pressed", String(active));
+      });
+      if (blueprintNumber) blueprintNumber.textContent = button.querySelector("span")?.textContent || "";
+      if (blueprintTitle) blueprintTitle.textContent = button.dataset.blueprintTitle || "";
+      if (blueprintDetail) blueprintDetail.textContent = button.dataset.blueprintDetail || "";
+    });
+  });
+
+  const benefitToggles = Array.from(document.querySelectorAll("[data-benefit-toggle]"));
+  const setBenefitMode = (toggle, after) => {
+    const card = toggle.closest(".ih-benefit-card");
+    if (!card) return;
+    toggle.setAttribute("aria-pressed", String(after));
+    const label = toggle.querySelector("[data-toggle-label]");
+    const before = card.querySelector("[data-benefit-before]");
+    const afterContent = card.querySelector("[data-benefit-after]");
+    if (label) label.textContent = after ? "Sesudah ditata" : "Sebelum ditata";
+    if (before) before.hidden = after;
+    if (afterContent) afterContent.hidden = !after;
+    card.classList.toggle("is-tidied", after);
+  };
+  benefitToggles.forEach((toggle) => toggle.addEventListener("click", () => {
+    setBenefitMode(toggle, toggle.getAttribute("aria-pressed") !== "true");
+  }));
+  const benefitReset = document.querySelector("[data-benefits-reset]");
+  if (benefitReset) benefitReset.addEventListener("click", () => benefitToggles.forEach((toggle) => setBenefitMode(toggle, false)));
+
+  const consultationForm = document.querySelector("#ih-consult-form");
+  if (consultationForm) {
+    const nameField = consultationForm.querySelector("#ih-business-name");
+    const typeField = consultationForm.querySelector("#ih-business-type");
+    const needField = consultationForm.querySelector("#ih-business-need");
+    const serviceFields = Array.from(consultationForm.querySelectorAll('input[name="requestedService"]'));
+    const draft = document.querySelector("#ih-message-draft");
+    const sendLink = document.querySelector("#ih-send-whatsapp");
+    const copyButton = document.querySelector("#ih-copy-draft");
+    const copyStatus = document.querySelector("#ih-copy-status");
+    const number = consultationForm.dataset.waNumber || "6288809294868";
+
+    const buildDraft = () => {
+      const name = nameField?.value.trim() || "";
+      const type = typeField?.value || "Belum ditentukan";
+      const selected = serviceFields.filter((field) => field.checked).map((field) => field.value);
+      const need = needField?.value.trim() || "";
+      const lines = [
+        "Halo Seiton.id, saya ingin berkonsultasi tentang kebutuhan digital usaha saya.",
+        "",
+        "Nama usaha: " + (name || "Belum diisi"),
+        "Jenis usaha: " + type,
+        "Kebutuhan: " + (selected.length ? selected.join(", ") : "Belum dipilih"),
+        "Catatan: " + (need || "Belum ada catatan"),
+        "",
+        "Mohon bantu saya memahami pilihan solusi yang sesuai. Terima kasih."
+      ];
+      const message = lines.join("\n");
+      if (draft) draft.textContent = message;
+      if (sendLink) sendLink.href = "https://wa.me/" + number + "?text=" + encodeURIComponent(message);
+      if (copyStatus) copyStatus.textContent = "Draft diperbarui. Periksa kembali sebelum dikirim.";
+      return message;
+    };
+    consultationForm.addEventListener("input", buildDraft);
+    consultationForm.addEventListener("change", buildDraft);
+    buildDraft();
+    if (copyButton) {
+      copyButton.addEventListener("click", async () => {
+        const message = buildDraft();
+        try {
+          await navigator.clipboard.writeText(message);
+          if (copyStatus) copyStatus.textContent = "Draft berhasil disalin.";
+        } catch {
+          if (copyStatus) copyStatus.textContent = "Penyalinan otomatis tidak tersedia di browser ini. Pilih teks pada pratinjau untuk menyalinnya.";
+        }
+      });
+    }
+  }
+</script>

@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - rebuild
+      - ui/interactive-homepage-adaptation
   pull_request:
     branches:
       - main
@@ -16,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CF_PAGES: "1"
-      CF_PAGES_BRANCH: "rebuild"
+      CF_PAGES_BRANCH: "${{ github.head_ref || github.ref_name }}"
       SEITON_MAIN_PREVIEW_URL: "http://127.0.0.1:4321"
       SEITON_DEMO_PREVIEW_URL: "http://127.0.0.1:4322"
       MAIN_BASE_URL: "http://127.0.0.1:4321"

@@ -113,25 +113,54 @@ check(fs.existsSync("public/assets/logo-horizontal-transparan.png"), "Logo horiz
 check(read("public/_redirects").includes("/tentang/ /cerita/ 301"), "URL Tentang lama belum diarahkan ke halaman Cerita.");
 
 const homePage = read("src/pages/index.astro");
+const interactiveHome = read("src/components/InteractiveHome.astro");
+const homeStyles = read("src/styles/home-interactive.css");
 const servicesPage = read("src/pages/layanan/index.astro");
 const examplesPage = read("src/pages/contoh/index.astro");
 const uiStyles = read("src/styles/site.css");
 const pageStyles = read("src/styles/pages.css");
 const siteUrls = read("src/utils/site-urls.js");
-check(homePage.includes('class="card-grid service-grid"'), "Grid layanan unggulan beranda belum memakai layout khusus.");
-check(!homePage.includes("showcase-float"), "Label mengambang yang berpotensi menimpa pratinjau harus dihapus.");
-check(!uiStyles.includes("showcase-float"), "CSS label mengambang yang sudah tidak digunakan masih tersisa.");
-check(!uiStyles.includes(".split{") && !uiStyles.includes(".pill{"), "Aturan layout lama yang tidak terpakai masih tersisa.");
+check(homePage.includes('import InteractiveHome from "../components/InteractiveHome.astro";') &&
+  homePage.includes('import "../styles/home-interactive.css";') && homePage.includes("<InteractiveHome />"),
+  "Beranda harus memakai komponen pengalaman interaktif Seiton dan stylesheet khusus.");
+check(interactiveHome.includes('id="beranda"') && interactiveHome.includes('id="definisi"') &&
+  interactiveHome.includes('id="simulasi"') && interactiveHome.includes('id="perbandingan"') &&
+  interactiveHome.includes('id="layanan"') && interactiveHome.includes('id="cara-kerja"') &&
+  interactiveHome.includes('id="anatomi"') && interactiveHome.includes('id="manfaat"') &&
+  interactiveHome.includes('id="konsultasi"'),
+  "Sembilan bagian utama migrasi homepage belum lengkap.");
+check(interactiveHome.includes("data-module-choice") && interactiveHome.includes("data-kinetic-trigger") && !interactiveHome.includes('aria-label="Ganti contoh modul layanan"') &&
+  interactiveHome.includes("data-comparison-mode") && interactiveHome.includes("data-process-slider") &&
+  interactiveHome.includes("data-blueprint-node") && interactiveHome.includes("data-blueprint-title-output") && interactiveHome.includes("data-blueprint-detail-output") && interactiveHome.includes("data-benefit-toggle"),
+  "Kontrol interaktif referensi belum terhubung pada komponen homepage.");
+check(interactiveHome.includes('site.contacts.find((contact) => contact.label === "WhatsApp")') &&
+  interactiveHome.includes('data-wa-number={whatsappNumber}') &&
+  !interactiveHome.includes("6285156553652"),
+  "Generator WhatsApp harus menggunakan kontak resmi dari site.json, bukan nomor contoh.");
+check(interactiveHome.includes('id="ih-send-whatsapp"') &&
+  interactiveHome.includes('target="_blank" rel="noopener noreferrer"') &&
+  interactiveHome.includes("navigator.clipboard.writeText"),
+  "Generator konsultasi harus menyediakan tautan WhatsApp aman serta opsi salin draft.");
+check(!interactiveHome.includes('class="ih-share-icon">S.</span>') && !interactiveHome.includes('class="ih-share-icon">LINK</span></div>'),
+  "Placeholder logo tidak boleh dipakai pada tampilan Seiton.");
+check(!interactiveHome.includes("setInterval(") && !interactiveHome.includes("Math.random()"),
+  "Homepage tidak boleh menampilkan status/progres dekoratif yang berubah secara acak.");
+check(homeStyles.includes(".ih-module-card") && homeStyles.includes(".ih-sim-dock") &&
+  homeStyles.includes("@media(prefers-reduced-motion:reduce)"),
+  "Stylesheet homepage harus menangani komponen interaktif dan reduced motion.");
 check(servicesPage.includes("service-directory-grid"), "Daftar layanan belum memakai grid katalog yang seimbang.");
 check(examplesPage.includes("demo-grid") && (examplesPage.match(/<article class="card">/g) || []).length === 6, "Halaman contoh harus menampilkan enam kartu demo dalam grid.");
 check(!examplesPage.includes('href="/tentang/"'), "Tautan internal masih mengarah ke halaman Tentang lama.");
 check(examplesPage.includes('href="/cerita/"'), "Halaman contoh belum mengarah ke Cerita Seiton.");
 check(uiStyles.includes("--font-ui") && uiStyles.includes("font-family:var(--font-ui)"), "Sistem font utama belum didefinisikan secara konsisten.");
-check(uiStyles.includes(":focus-visible"), "Indikator fokus keyboard belum tersedia.");
-check(homePage.includes('role="tablist" aria-orientation="horizontal"') && homePage.includes("activateTab") && homePage.includes('event.key === "Home"') && homePage.includes('event.key === "End"'), "Interaksi tab pratinjau beranda tidak lengkap.");
-const tabIds = [...homePage.matchAll(/data-showcase-tab="([^"]+)"/g)].map((match) => match[1]);
-const panelIds = [...homePage.matchAll(/data-showcase-panel="([^"]+)"/g)].map((match) => match[1]);
-check(tabIds.length === 3 && [...tabIds].sort().join(",") === [...panelIds].sort().join(","), "Setiap tab pratinjau harus memiliki satu panel yang sesuai.");
+check(uiStyles.includes(":focus-visible") && homeStyles.includes(":focus-visible"), "Indikator fokus keyboard belum tersedia.");
+check(interactiveHome.includes('role="tablist"') && interactiveHome.includes("activateSimulation") &&
+  interactiveHome.includes('event.key === "Home"') && interactiveHome.includes('event.key === "End"'),
+  "Interaksi tab simulasi harus mendukung keyboard.");
+const tabIds = [...interactiveHome.matchAll(/data-sim-tab="([^"]+)"/g)].map((match) => match[1]);
+const panelIds = [...interactiveHome.matchAll(/data-sim-panel="([^"]+)"/g)].map((match) => match[1]);
+check(tabIds.length === 5 && [...tabIds].sort().join(",") === [...panelIds].sort().join(","),
+  "Setiap tab simulasi harus memiliki satu panel yang sesuai.");
 check(uiStyles.includes("font-size:16px"), "Ukuran teks dasar belum memenuhi ukuran baca yang nyaman.");
 check(uiStyles.includes(".service-grid{grid-template-columns:repeat(4"), "Grid layanan unggulan desktop belum memiliki empat kolom.");
 check(uiStyles.includes(".service-directory-grid{grid-template-columns:repeat(2"), "Grid daftar layanan belum memakai dua kolom.");
@@ -201,16 +230,20 @@ check(/noindex\s*\|\|\s*isPreviewBuild\s*\?\s*["\x27]noindex, nofollow["\x27]/.t
 
 
 check(siteUrls.includes('process.env.CF_PAGES_BRANCH !== "main"'), "Pemilihan URL preview harus mengikuti branch Cloudflare Pages.");
-check(siteUrls.includes("https://rebuild.seiton-main-preview.pages.dev") && siteUrls.includes("https://rebuild.seiton-demo-preview.pages.dev"), "Alias preview kedua project belum ditetapkan.");
+check(siteUrls.includes("previewBranch") && siteUrls.includes("replace(/[^a-z0-9-]+/g, \"-\")") && siteUrls.includes(".seiton-main-preview.pages.dev") && siteUrls.includes(".seiton-demo-preview.pages.dev"), "Alias preview kedua project harus mengikuti nama branch yang sedang dibangun.");
 check(read("src/components/Header.astro").includes("siteUrls.main"), "Header demo harus menggunakan URL utama sesuai environment.");
 check(read("src/components/Footer.astro").includes("siteUrls.main"), "Footer demo harus menggunakan URL utama sesuai environment.");
 check(read("src/pages/contoh/index.astro").includes("siteUrls.demo"), "Kartu demo harus menggunakan URL demo sesuai environment.");
 check(detail.includes("siteUrls.demo"), "Tautan demo pada detail layanan harus menggunakan URL sesuai environment.");
 check(read("src/demo/pages/paket-combo/index.astro").includes("siteUrls.main"), "CTA Paket Combo harus menggunakan URL utama sesuai environment.");
 check(baseLayout.includes("isPreviewBuild") && baseLayout.includes("noindex, nofollow"), "Preview harus diberi metadata noindex secara otomatis.");
-const needContactAnchor = homePage.match(/<a class="result-contact"[^>]*>/)?.[0] || "";
-check(needContactAnchor.includes('data-need-contact href=') && needContactAnchor.includes('target="_blank" rel="noopener noreferrer"'), "CTA pemilih kebutuhan harus memakai perilaku tautan yang aman.");
-check((needContactAnchor.match(/target="_blank"/g) || []).length === 1 && (needContactAnchor.match(/rel="noopener noreferrer"/g) || []).length === 1, "CTA pemilih kebutuhan tidak boleh memiliki atribut tautan ganda.");
+const consultationLink = interactiveHome.match(/<a class="ih-button ih-button-whatsapp" id="ih-send-whatsapp"[^>]*>/)?.[0] || "";
+check(consultationLink.includes("href={whatsappUrl}") &&
+  consultationLink.includes('target="_blank" rel="noopener noreferrer"'),
+  "CTA konsultasi harus membuka nomor WhatsApp resmi melalui tautan aman.");
+check((consultationLink.match(/target="_blank"/g) || []).length === 1 &&
+  (consultationLink.match(/rel="noopener noreferrer"/g) || []).length === 1,
+  "CTA konsultasi tidak boleh memiliki atribut tab baru atau rel ganda.");
 check(pricing.includes("new AbortController()") && pricing.includes("clearTimeout(timeoutId)") && pricing.includes("grid.replaceChildren()"), "Loader harga harus memiliki timeout dan mengganti kartu secara atomik.");
 check(fs.existsSync("scripts/test-customer-journey.mjs"), "Pengujian perjalanan pelanggan belum tersedia.");
 check(json("package.json").scripts["test:journey"] === "node scripts/test-customer-journey.mjs", "Perintah test:journey belum terdaftar.");
