@@ -5,7 +5,6 @@ const fail = [];
 const check = (condition, message) => { if (!condition) fail.push(message); };
 const read = (file) => fs.readFileSync(path.resolve(file), "utf8");
 const parseJson = (file) => JSON.parse(read(file));
-const words = (value) => String(value || "").trim().split(/\s+/).filter(Boolean).length;
 
 const guides = parseJson("src/data/guides.json");
 const services = parseJson("src/data/services.json");
