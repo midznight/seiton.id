@@ -56,6 +56,7 @@ const browser = await chromium.launch({ headless: true });
 const pageErrors = [];
 const isPreviewBuild = process.env.CF_PAGES_BRANCH !== "main";
 const expectedDemoBase = isPreviewBuild ? demoBase : new URL(site.brand.demo).origin;
+const expectedMainBase = isPreviewBuild ? mainBase : new URL(site.brand.website).origin;
 const staticLegalRoutes = new Set(["/ketentuan/", "/privasi/"]);
 const previewHeaderRules = fs.readFileSync("public/_headers", "utf8");
 const previewPagesHeader = previewHeaderRules.match(/https:\/\/:project\.pages\.dev\/\*([\s\S]*?)(?:\n\n|$)/);
@@ -263,7 +264,7 @@ try {
   await page.goto(mainBase + "/contoh/", { waitUntil: "domcontentloaded" });
   const demoLinks = await page.locator(".demo-grid a[href]").evaluateAll((items) => items.map((item) => item.href));
   check(demoLinks.length === 6 && demoLinks.every((href) => href.startsWith(expectedDemoBase + "/")),
-    "Kartu demonstrasi harus menuju project demo preview, bukan domain production.");
+    "Kartu demonstrasi harus menuju domain demo untuk environment deployment saat ini.");
   await page.goto(mainBase + "/layanan/sistem-bot-umkm/", { waitUntil: "domcontentloaded" });
   check(await page.locator(".aside-demo-link").getAttribute("href") === expectedDemoBase + "/bot-umkm/",
     "Tautan demo pada halaman detail layanan tidak konsisten.");
@@ -337,12 +338,12 @@ try {
   const demoNavHrefs = await demoPage.locator("#primary-nav a").evaluateAll((items) =>
     items.map((item) => item.getAttribute("href"))
   );
-  check(demoNavHrefs.every((href, index) => href === mainBase + expectedNav[index][1]),
-    "Navigasi pada demo harus kembali ke website utama preview.");
+  check(demoNavHrefs.every((href, index) => href === expectedMainBase + expectedNav[index][1]),
+    "Navigasi demo harus kembali ke website utama untuk environment deployment saat ini.");
   const comboResponse = await demoPage.goto(demoBase + "/paket-combo/", { waitUntil: "domcontentloaded" });
   check(Boolean(comboResponse && comboResponse.ok()), "Demo Paket Combo gagal dimuat.");
-  check(await demoPage.locator('a[href="' + mainBase + '/kontak/"]').count() > 0,
-    "CTA Paket Combo masih mengarah ke domain production.");
+  check(await demoPage.locator('a[href="' + expectedMainBase + '/kontak/"]').count() > 0,
+    "CTA Paket Combo harus menuju website utama untuk environment deployment saat ini.");
 
   const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
   mobile.on("pageerror", (error) => pageErrors.push(error.message));
