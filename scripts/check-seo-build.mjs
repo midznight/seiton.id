@@ -105,6 +105,18 @@ for (const pagePath of baseLayoutPaths) {
 }
 
 const homepage = read("dist/index.html");
+const homepageH1 = homepage.match(/<h1\\b[^>]*>([\\s\\S]*?)<\\/h1>/i)?.[1]?.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\\s+/g, " ").trim() || "";
+check(/jasa katalog digital/i.test(homepageH1) && /website umkm/i.test(homepageH1),
+  "Built homepage H1 must clearly identify catalog and website services for UMKM.");
+const homepageImages = [...homepage.matchAll(/<img\\b[^>]*>/gi)].map((match) => match[0]);
+for (const tag of homepageImages) {
+  const alt = tag.match(/\\balt=["']([^"']*)["']/i);
+  check(Boolean(alt), "Every generated homepage img must include an alt attribute.");
+  if (alt && alt[1] && /website katalog umkm/i.test(alt[1])) {
+    check(/roti sobek|roti keju|croissant/i.test(alt[1]),
+      "Website catalog preview alt text should identify the image subject.");
+  }
+}
 check(homepage.includes("Katalog Digital, Menu QR &amp; Website UMKM"),
   "Homepage keyword-aligned title missing in build output.");
 const localPage = read("dist/jasa-website-umkm-jember/index.html");
