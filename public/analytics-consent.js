@@ -43,6 +43,24 @@
     });
     if (granted) loadTagManager();
   }
+  function trackWhatsAppClick(event) {
+    if (!canLoadAnalytics || readConsent() !== "granted") return;
+    const clickedElement = event.target instanceof Element ? event.target : null;
+    const link = clickedElement?.closest("a[href]");
+    if (!link) return;
+    let destination;
+    try { destination = new URL(link.href, window.location.href); } catch { return; }
+    if (destination.protocol !== "https:" || destination.hostname !== "wa.me") return;
+    window.gtag("event", "whatsapp_click", {
+      link_domain: destination.hostname,
+      link_url: destination.origin,
+      outbound: true,
+      page_path: window.location.pathname,
+      page_title: document.title
+    });
+  }
+  document.addEventListener("click", trackWhatsAppClick, true);
+
   const banner = document.createElement("section");
   banner.id = "analytics-consent-banner";
   banner.className = "analytics-consent-banner";
