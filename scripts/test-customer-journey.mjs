@@ -55,6 +55,10 @@ async function waitForServer(base) {
 const browser = await chromium.launch({ headless: true });
 const pageErrors = [];
 const isPreviewBuild = process.env.CF_PAGES_BRANCH !== "main";
+const staticLegalRoutes = new Set(["/ketentuan/", "/privasi/"]);
+const previewHeaderRules = fs.readFileSync("public/_headers", "utf8");
+const previewPagesHeader = previewHeaderRules.match(/https:\/\/:project\.pages\.dev\/\*([\\s\\S]*?)(?:\\n\\n|$)/);
+const previewPagesNoindex = Boolean(previewPagesHeader?.[1].includes("X-Robots-Tag: noindex"));
 try {
   await waitForServer(mainBase);
   await waitForServer(demoBase);
@@ -70,11 +74,21 @@ try {
   for (const route of mainRoutes) {
     const response = await page.goto(mainBase + route, { waitUntil: "domcontentloaded" });
     check(Boolean(response && response.ok()), "Halaman utama gagal dimuat: " + route);
-    const robots = await page.locator('meta[name="robots"]').getAttribute("content");
-    check(isPreviewBuild
-      ? robots === "noindex, nofollow"
-      : Boolean(robots && robots.includes("index") && !robots.includes("noindex")),
-      (isPreviewBuild ? "Halaman preview utama harus noindex: " : "Halaman production utama harus indexable: ") + route);
+    const robotsMeta = page.locator('meta[name="robots"]');
+    const robots = await robotsMeta.count() ? await robotsMeta.getAttribute("content") : null;
+    if (robots === null) {
+      check(staticLegalRoutes.has(route),
+        "Halaman utama tidak memiliki meta robots dan bukan halaman legal statis: " + route);
+      if (isPreviewBuild) {
+        check(previewPagesNoindex,
+          "Halaman legal statis pada preview harus dilindungi X-Robots-Tag: noindex.");
+      }
+    } else {
+      check(isPreviewBuild
+        ? robots === "noindex, nofollow"
+        : Boolean(robots.includes("index") && !robots.includes("noindex")),
+        (isPreviewBuild ? "Halaman preview utama harus noindex: " : "Halaman production utama harus indexable: ") + route);
+    }
     if (route === "/ketentuan/" || route === "/privasi/") {
       const legalNav = await page.locator("#primary-nav a").evaluateAll((items) => items.map((item) => ({
         label: item.textContent.trim(),
@@ -96,8 +110,12 @@ try {
     "Urutan label atau tujuan navigasi utama tidak konsisten.");
 
   check(await page.locator("main h1").count() === 1, "Beranda harus memiliki satu judul utama.");
-  check(await page.locator('meta[name="robots"]').getAttribute("content") === "noindex, nofollow",
-    "Preview utama harus diberi noindex.");
+  const homeRobotsMeta = page.locator('meta[name="robots"]');
+  const homeRobots = await homeRobotsMeta.count() ? await homeRobotsMeta.getAttribute("content") : null;
+  check(isPreviewBuild
+    ? homeRobots === "noindex, nofollow"
+    : Boolean(homeRobots && homeRobots.includes("index") && !homeRobots.includes("noindex")),
+    isPreviewBuild ? "Preview utama harus diberi noindex." : "Homepage production harus indexable.");
   const whatsappCtas = page.locator('#ih-send-whatsapp[target="_blank"][href^="https://wa.me/6288809294868"]');
   check(await whatsappCtas.count() === 1, "Generator konsultasi harus memakai nomor WhatsApp resmi Seiton.");
   const unsafeExternalLinks = await page.locator('a[target="_blank"]').evaluateAll((items) =>
