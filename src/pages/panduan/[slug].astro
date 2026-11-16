@@ -1,0 +1,121 @@
+---
+import Base from "../../layouts/Base.astro";
+import guides from "../../data/guides.json";
+import services from "../../data/services.json";
+
+export function getStaticPaths() {
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide }
+  }));
+}
+
+const { guide } = Astro.props;
+const canonicalUrl = "https://seiton.biz.id/panduan/" + guide.slug + "/";
+const organizationId = "https://seiton.biz.id/#organization";
+const articleSchema = {
+  "@type": "Article",
+  "@id": canonicalUrl + "#article",
+  headline: guide.title,
+  description: guide.metaDescription,
+  datePublished: guide.publishedAt,
+  dateModified: guide.updatedAt,
+  inLanguage: "id-ID",
+  articleSection: guide.category,
+  author: { "@type": "Organization", "@id": organizationId, name: "Seiton.id" },
+  publisher: { "@type": "Organization", "@id": organizationId, name: "Seiton.id" },
+  mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl }
+};
+const relatedServices = services.filter((service) => guide.relatedServices.includes(service.slug));
+const publishedDate = new Date(guide.publishedAt + "T00:00:00");
+const updatedDate = new Date(guide.updatedAt + "T00:00:00");
+const dateLabel = (date) => date.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+---
+<Base title={guide.metaTitle} description={guide.metaDescription} author="Seiton.id" ogType="article" structuredData={articleSchema}>
+  <section class="page-hero guide-hero">
+    <div class="container guide-hero-inner">
+      <p class="eyebrow">{guide.category}</p>
+      <h1>{guide.title}</h1>
+      <p class="lead">{guide.summary}</p>
+      <p class="guide-byline"><span>Oleh Seiton.id</span><span>{guide.readingMinutes} menit baca</span><span>Diperbarui <time datetime={guide.updatedAt}>{dateLabel(updatedDate)}</time></span></p>
+      <a class="guide-back-link" href="/panduan/">← Semua panduan UMKM</a>
+    </div>
+  </section>
+  <section class="section section-white">
+    <div class="container guide-reading-layout">
+      <article class="prose guide-article">
+        <p class="guide-intro">{guide.intro}</p>
+        {guide.sections.map((section) => (
+          <section>
+            <h2>{section.title}</h2>
+            {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+            {section.bullets?.length ? <ul>{section.bullets.map((item) => <li>{item}</li>)}</ul> : null}
+          </section>
+        ))}
+        <section class="guide-checklist" aria-labelledby="guide-checklist-title">
+          <h2 id="guide-checklist-title">Checklist sebelum diterapkan</h2>
+          <ul>{guide.checklist.map((item) => <li>{item}</li>)}</ul>
+        </section>
+        <section class="guide-faq" aria-labelledby="guide-faq-title">
+          <h2 id="guide-faq-title">Pertanyaan yang sering diajukan</h2>
+          {guide.faq.map((item) => (
+            <details>
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </section>
+        {guide.sources?.length ? (
+          <section class="guide-sources" aria-labelledby="guide-sources-title">
+            <h2 id="guide-sources-title">Sumber resmi untuk dibaca lebih lanjut</h2>
+            <ul>{guide.sources.map((source) => <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.name}</a></li>)}</ul>
+            <p class="guide-source-note">Kebijakan dan fitur platform dapat berubah. Gunakan dokumentasi resmi sebagai rujukan terakhir sebelum melakukan pengaturan.</p>
+          </section>
+        ) : null}
+      </article>
+      <aside class="guide-sidebar">
+        <p class="card-kicker">LANGKAH BERIKUTNYA</p>
+        <h2>Perlu menata bagian ini di usahamu?</h2>
+        <p>Bandingkan ruang lingkup layanan dan konsultasikan kebutuhan sebelum menentukan pekerjaan.</p>
+        <a class="button button-primary" href="/kontak/">Konsultasi dengan Seiton.id</a>
+        <a class="guide-sidebar-link" href="/layanan/">Lihat semua layanan →</a>
+      </aside>
+    </div>
+  </section>
+  {relatedServices.length ? (
+    <section class="section">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">LAYANAN TERKAIT</p><h2>Pilihan solusi Seiton.id</h2></div></div>
+        <div class="card-grid">
+          {relatedServices.map((service) => (
+            <article class="card">
+              <p class="card-kicker">{service.slugLabel}</p>
+              <h3>{service.name}</h3>
+              <p>{service.short}</p>
+              <a href={"/layanan/" + service.slug + "/"}>Pelajari layanan →</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ) : null}
+</Base>
+<style>
+  .guide-hero-inner { max-width: 900px; }
+  .guide-byline { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; margin: 1.5rem 0 .75rem; color: #64748b; font-size: .9rem; }
+  .guide-back-link, .guide-sidebar-link { display: inline-block; margin-top: 1rem; font-weight: 650; }
+  .guide-reading-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(220px, .8fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+  .guide-article { max-width: 780px; }
+  .guide-intro { font-size: 1.12rem; line-height: 1.8; }
+  .guide-checklist { margin-top: 2.5rem; padding: 1.5rem; border-left: 4px solid #FF6B35; background: #F7F5EF; border-radius: .5rem; }
+  .guide-faq { margin-top: 2.5rem; }
+  .guide-faq details { padding: 1rem 0; border-bottom: 1px solid #e5e7eb; }
+  .guide-faq summary { cursor: pointer; font-weight: 650; }
+  .guide-faq details p { margin-bottom: 0; }
+  .guide-sources { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #e5e7eb; }
+  .guide-source-note { color: #64748b; font-size: .9rem; }
+  .guide-sidebar { position: sticky; top: 1.5rem; padding: 1.5rem; border: 1px solid #e5e7eb; border-radius: .75rem; background: #fff; }
+  .guide-sidebar h2 { font-size: 1.35rem; line-height: 1.35; }
+  .guide-sidebar .button { margin: .75rem 0; }
+  @media (max-width: 850px) { .guide-reading-layout { grid-template-columns: 1fr; } .guide-sidebar { position: static; } }
+</style>
