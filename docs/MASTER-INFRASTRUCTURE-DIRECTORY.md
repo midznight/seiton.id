@@ -285,7 +285,7 @@ Canonical: https://seiton.biz.id
 Sitemap: https://seiton.biz.id/sitemap.xml  
 Robots: https://seiton.biz.id/robots.txt
 
-Sitemap saat snapshot memuat 20 URL:
+Sitemap memuat 26 URL:
 - /
 - /layanan/
 - /layanan/paket-etalase/
@@ -298,14 +298,20 @@ Sitemap saat snapshot memuat 20 URL:
 - /layanan/bot-telegram/
 - /layanan/sistem-bot-umkm/
 - /layanan/paket-combo/
+- /layanan/setup-ai-gateway-bot/
+- /layanan/setup-portal-otp/
 - /harga/
 - /contoh/
 - /cerita/
 - /kontak/
+- /panduan/
+- /panduan/katalog-digital-umkm/
+- /panduan/menu-digital-qr/
+- /panduan/google-business-profile-umkm/
+- /panduan/website-katalog-atau-marketplace/
+- /jasa-website-umkm-jember/
 - /ketentuan/
 - /privasi/
-- /layanan/setup-ai-gateway-bot/
-- /layanan/setup-portal-otp/
 
 Rute /tentang/ dan /pendiri/ diarahkan ke /cerita/.
 
@@ -358,7 +364,7 @@ Snapshot commit 15 Nov 2026:
 - Website main: 91258f58be8eacac91dd1482877bbb4adad7cd9b.
 - Backend main: 4395866758b6d7a8707609ea289f1d3da3472e38.
 
-Folder workers/site-admin dalam repository website adalah salinan lama. Source authoritative Site Admin berada di repository backend. Mail Automation Worker juga belum menjadi source lengkap di dua repo utama.
+Folder legacy `workers/` telah dihapus dari repository website (`seiton.id`). Seluruh source authoritative Worker (termasuk Site Admin, Order Bot, OTP Portal, dan Mail Automation) berada di repository backend (`Automation-Commerce`).
 
 ## 12. Checklist sebelum perubahan produksi
 
@@ -383,8 +389,6 @@ Website repo:
 - ANALYTICS.md
 - PERFORMANCE.md
 - docs/P2-CLOSEOUT.md
-- workers/order-bot/README.md
-- workers/site-admin/README.md
 - design-system/seiton-id/MASTER.md
 
 Backend repo:
