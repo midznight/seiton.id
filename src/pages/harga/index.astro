@@ -191,7 +191,7 @@ import WhatsAppCTA from "../../components/WhatsAppCTA.astro";
       unavailableGrid.replaceChildren(unavailableFragment);
       unavailableSection.hidden = unavailableCount === 0;
       addonsNode.replaceChildren(addonFragment);
-      addonsSection.hidden = addonFragment.childElementCount === 0;
+      addonsSection.hidden = addonsNode.childElementCount === 0;
       statusNode.hidden = true;
       statusNode.removeAttribute("data-state");
       if (errorActions) errorActions.hidden = true;

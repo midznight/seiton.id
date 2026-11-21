@@ -1,5 +1,13 @@
+# Dependencies and local Astro build outputs
+node_modules/
+dist/
+dist-demo/
+.astro/
+package-lock.json
+
 # Generated responsive WebP variants; rebuilt from the original Google Flow uploads.
 public/assets/optimized-demo-products/
 
-# Generated responsive WebP brand logo; rebuilt from the original PNG.
+# Generated responsive WebP brand logo and site previews; rebuilt at build time.
 public/assets/optimized-brand/
+public/assets/site-previews/
